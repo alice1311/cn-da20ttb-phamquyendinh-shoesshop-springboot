@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.TemporalType;
 
 
@@ -38,7 +39,11 @@ public class Account implements Serializable {
     @Column(name = "birthday", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
+<<<<<<< HEAD
     private LocalDate birthday;
+=======
+    private Date birthday;
+>>>>>>> 3c57e060a8122b106e19109aa8e96b43aeb264ae
 
     @Column(name = "email", length = 50, nullable = false, updatable = false)
     private String email;
@@ -71,6 +76,7 @@ public class Account implements Serializable {
         if (role == null) {
             role = Role.CUSTOMER;
         }
+
 
     }
 
@@ -115,6 +121,67 @@ public class Account implements Serializable {
         this.gender = gender;
         this.createdDate = createdDate;
     }
+
+
+    }
+
+//    public List<Order> getOrders_buy() {
+//        return orders_buy;
+//    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+//    public void setOrders_buy(List<Order> orders_buy) {
+//        this.orders_buy = orders_buy;
+//    }
+//
+//    public List<Order> getOrders_check() {
+//        return orders_check;
+//    }
+//
+//    public void setOrders_check(List<Order> orders_check) {
+//        this.orders_check = orders_check;
+//    }
+
+//    public List<Feedback> getFeedbacks() {
+//        return feedbacks;
+//    }
+//
+//    public void setFeedbacks(List<Feedback> feedbacks) {
+//        this.feedbacks = feedbacks;
+//    }
+
+    public Account(String username, String password, String firstName, String lastName, String email, Role role) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+    }
+
 
     public Account() {
     }

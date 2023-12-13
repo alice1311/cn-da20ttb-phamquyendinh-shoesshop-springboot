@@ -36,6 +36,16 @@ public class ProductTypeController {
                 return dto;
             }
         });
+<<<<<<< HEAD
+=======
+//        for (ProductType productType: entities){
+//            ProductTypeDTO dto = new ProductTypeDTO(
+//                    productType.getId(),
+//                    productType.getName()
+//            );
+//            dtos.add(dto);
+//        }
+>>>>>>> 3c57e060a8122b106e19109aa8e96b43aeb264ae
         return new ResponseEntity<>(dtosPage, HttpStatus.OK);
     }
 

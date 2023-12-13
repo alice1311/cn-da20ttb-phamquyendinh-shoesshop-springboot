@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 3c57e060a8122b106e19109aa8e96b43aeb264ae
 package com.vti.finalexam.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -84,4 +88,10 @@ public class Sale implements Serializable {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+<<<<<<< HEAD
+=======
+=======
+package com.vti.finalexam.entity;public class Sale {
+>>>>>>> origin/master
+>>>>>>> 3c57e060a8122b106e19109aa8e96b43aeb264ae
 }

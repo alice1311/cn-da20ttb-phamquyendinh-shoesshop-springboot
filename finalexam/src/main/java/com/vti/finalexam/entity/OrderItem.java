@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 3c57e060a8122b106e19109aa8e96b43aeb264ae
 package com.vti.finalexam.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -80,4 +84,10 @@ public class OrderItem implements Serializable {
     public void setProduct_detail_order(ProductDetail product_detail_order) {
         this.product_detail_order = product_detail_order;
     }
+<<<<<<< HEAD
+=======
+=======
+package com.vti.finalexam.entity;public class OrderItem {
+>>>>>>> origin/master
+>>>>>>> 3c57e060a8122b106e19109aa8e96b43aeb264ae
 }

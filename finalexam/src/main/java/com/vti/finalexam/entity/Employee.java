@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 3c57e060a8122b106e19109aa8e96b43aeb264ae
 package com.vti.finalexam.entity;
 
 import javax.persistence.*;
@@ -32,4 +36,10 @@ public class Employee extends Account{
     public Employee(List<Order> orders_check) {
         this.orders_check = orders_check;
     }
+<<<<<<< HEAD
+=======
+=======
+package com.vti.finalexam.entity;public class Employee {
+>>>>>>> origin/master
+>>>>>>> 3c57e060a8122b106e19109aa8e96b43aeb264ae
 }
