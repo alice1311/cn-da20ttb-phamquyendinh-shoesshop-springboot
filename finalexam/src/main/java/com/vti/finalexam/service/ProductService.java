@@ -45,8 +45,6 @@ public class ProductService implements IProductService{
                 productFormCreating.getDescription(),
                 productFormCreating.getQuantity_stock(),
                 productFormCreating.getImage_url(),
-                productFormCreating.getColor(),
-                productFormCreating.getSize(),
                 productFormCreating.getPrice(),
                 productType
         );
@@ -61,8 +59,6 @@ public class ProductService implements IProductService{
         product.setDescription(productFormCreating.getDescription());
         product.setQuantity_stock(productFormCreating.getQuantity_stock());
         product.setImage_url(productFormCreating.getImage_url());
-        product.setColor(productFormCreating.getColor());
-        product.setSize(productFormCreating.getSize());
         product.setTypeProduct(productType);
         repository.save(product);
     }
@@ -72,11 +68,11 @@ public class ProductService implements IProductService{
         return repository.getProductById(id);
     }
 
-    @Override
-    public boolean doesProductExist(String name, String color, String size) {
-        Optional<Product> product = repository.findByNameAndColorAndSize(name, color, size);
-        return product.isPresent();
-    }
+//    @Override
+//    public boolean doesProductExist(String name, String color, String size) {
+//        Optional<Product> product = repository.findByNameAndColorAndSize(name, color, size);
+//        return product.isPresent();
+//    }
 
     @Override
     public void deleteProduct(int id) {

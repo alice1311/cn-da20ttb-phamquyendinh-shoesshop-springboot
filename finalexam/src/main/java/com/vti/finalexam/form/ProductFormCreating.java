@@ -5,21 +5,18 @@ public class ProductFormCreating {
     private String description;
     private int quantity_stock;
     private String image_url;
-    private String color;
-    private String size;
     private float price;
     private int type_id;
 
     public ProductFormCreating() {
     }
 
-    public ProductFormCreating(String name, String description, int quantity_stock, String image_url, String color, String size, float price, int type_id) {
+    public ProductFormCreating(String name, String description, int quantity_stock, String image_url, float price, int type_id) {
         this.name = name;
         this.description = description;
         this.quantity_stock = quantity_stock;
         this.image_url = image_url;
-        this.color = color;
-        this.size = size;
+
         this.price = price;
         this.type_id = type_id;
     }
@@ -56,21 +53,6 @@ public class ProductFormCreating {
         this.image_url = image_url;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
 
     public float getPrice() {
         return price;

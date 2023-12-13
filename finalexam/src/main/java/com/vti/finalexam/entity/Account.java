@@ -6,10 +6,14 @@ import org.hibernate.annotations.Formula;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.TemporalType;
 
-@Entity
+
 @Table(name = "`Account`")
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "`role`", discriminatorType = DiscriminatorType.STRING)
 public class Account implements Serializable {
     @Column(name = "id")
     @Id
@@ -28,15 +32,32 @@ public class Account implements Serializable {
     @Column(name = "last_name", length = 50, nullable = false, updatable = false)
     private String lastName;
 
+    @Column(name = "address", length = 200, nullable = false)
+    private String address;
+
+    @Column(name = "birthday", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Date birthday;
+
     @Column(name = "email", length = 50, nullable = false, updatable = false)
     private String email;
 
     @Formula(" concat(first_name, ' ', last_name)")
     private String fullName;
 
-    @Column(name = "`role`")
+    public enum Gender {
+        MALE, FEMALE, UNKNOWN;
+    }
+    @Column(name = "`role`", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "Gender")
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+
 
     @Column(name = "create_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -45,9 +66,61 @@ public class Account implements Serializable {
 
 
 
-    public enum Role {
-        ADMIN, EMPLOYEE, CUSTOMER;
+    @PrePersist
+    public void prePersist() {
+        if (role == null) {
+            role = Role.CUSTOMER;
+        }
+
     }
+
+//    public List<Order> getOrders_buy() {
+//        return orders_buy;
+//    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+//    public void setOrders_buy(List<Order> orders_buy) {
+//        this.orders_buy = orders_buy;
+//    }
+//
+//    public List<Order> getOrders_check() {
+//        return orders_check;
+//    }
+//
+//    public void setOrders_check(List<Order> orders_check) {
+//        this.orders_check = orders_check;
+//    }
+
+//    public List<Feedback> getFeedbacks() {
+//        return feedbacks;
+//    }
+//
+//    public void setFeedbacks(List<Feedback> feedbacks) {
+//        this.feedbacks = feedbacks;
+//    }
 
     public Account(String username, String password, String firstName, String lastName, String email, Role role) {
         this.username = username;
@@ -58,21 +131,7 @@ public class Account implements Serializable {
         this.role = role;
     }
 
-    @PrePersist
-    public void prePersist() {
-        if (role == null) {
-            role = Role.CUSTOMER;
-        }
 
-    }
-
-    public Account(String username, String password, String firstName, String lastName, String email) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
 
     public Account() {
     }
@@ -93,6 +152,9 @@ public class Account implements Serializable {
         this.createdDate = createdDate;
     }
 
+    public enum Role {
+        ADMIN, EMPLOYEE, CUSTOMER;
+    }
     public String getUsername() {
         return username;
     }

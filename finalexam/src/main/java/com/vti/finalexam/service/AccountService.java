@@ -42,7 +42,7 @@ public class AccountService implements IAccountService {
             throw new UsernameNotFoundException(username);
         }
 //        new BCryptPasswordEncoder().encode("123456");
-        return new User(account.getUsername(), account.getPassword(), AuthorityUtils.createAuthorityList("ADMIN"));
+        return new User(account.getUsername(), account.getPassword(), AuthorityUtils.createAuthorityList(account.getRole().toString()));
     }
 
 
