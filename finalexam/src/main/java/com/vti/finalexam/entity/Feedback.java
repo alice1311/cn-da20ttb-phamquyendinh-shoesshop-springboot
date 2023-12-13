@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.vti.finalexam.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -103,4 +104,7 @@ public class Feedback implements Serializable {
 
 
 
+=======
+package com.vti.finalexam.entity;public class Feedback {
+>>>>>>> origin/master
 }

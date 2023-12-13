@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.vti.finalexam.entity;
 
 import lombok.Getter;
@@ -41,4 +42,7 @@ public class Customer extends Account{
 
     public Customer() {
     }
+=======
+package com.vti.finalexam.entity;public class Customer {
+>>>>>>> origin/master
 }

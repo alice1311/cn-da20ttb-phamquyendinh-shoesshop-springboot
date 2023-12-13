@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.vti.finalexam.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -84,4 +85,7 @@ public class Sale implements Serializable {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+=======
+package com.vti.finalexam.entity;public class Sale {
+>>>>>>> origin/master
 }

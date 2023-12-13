@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.vti.finalexam.entity;
 
 import javax.persistence.*;
@@ -11,4 +12,7 @@ public class Admin extends Account{
 
     public Admin() {
     }
+=======
+package com.vti.finalexam.entity;public class Admin {
+>>>>>>> origin/master
 }

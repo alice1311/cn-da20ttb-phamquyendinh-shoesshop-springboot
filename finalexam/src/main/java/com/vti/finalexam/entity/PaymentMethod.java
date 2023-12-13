@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.vti.finalexam.entity;
 
 import javax.persistence.*;
@@ -55,4 +56,7 @@ public class PaymentMethod implements Serializable {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
+=======
+package com.vti.finalexam.entity;public class PaymentMethod {
+>>>>>>> origin/master
 }

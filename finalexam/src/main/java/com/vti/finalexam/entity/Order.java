@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.vti.finalexam.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -112,4 +113,7 @@ public class Order implements Serializable {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
+=======
+package com.vti.finalexam.entity;public class Order {
+>>>>>>> origin/master
 }

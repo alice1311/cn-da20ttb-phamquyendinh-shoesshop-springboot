@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.vti.finalexam.entity;
 
 import org.springframework.security.core.parameters.P;
@@ -33,4 +34,7 @@ public class ProductDetail implements Serializable {
     @OneToMany(mappedBy = "product_detail_order")
     private List<OrderItem> orderItems;
 
+=======
+package com.vti.finalexam.entity;public class ProductDetail {
+>>>>>>> origin/master
 }
