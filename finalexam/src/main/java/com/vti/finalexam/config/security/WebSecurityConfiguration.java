@@ -26,6 +26,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/api/v1/accounts/**").hasAnyAuthority("ADMIN")
+//                    .antMatchers("/api/v1/productTypes").hasAnyAuthority("ADMIN", "EMPLOYEE")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

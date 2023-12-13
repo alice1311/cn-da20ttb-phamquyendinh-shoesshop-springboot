@@ -4,9 +4,15 @@ import com.vti.finalexam.entity.Product;
 import com.vti.finalexam.entity.ProductType;
 import com.vti.finalexam.form.ProductTypeFormCreating;
 import com.vti.finalexam.repository.IProductTypeRepository;
+import com.vti.finalexam.specification.ProductSpecification;
+import com.vti.finalexam.specification.ProductTypeSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 @Service
@@ -15,8 +21,13 @@ public class ProductTypeService implements IProductTypeService{
     @Autowired
     private IProductTypeRepository repository;
     @Override
-    public List<ProductType> getAllProductTypes() {
-        return repository.findAll();
+    public Page<ProductType> getAllProductTypes(Pageable pageable, String search) {
+        Specification<ProductType> where = null;
+        if(!StringUtils.isEmpty(search)){
+            ProductTypeSpecification searchSpecification = new ProductTypeSpecification("name","LIKE", search);
+            where = Specification.where(searchSpecification);
+        }
+        return repository.findAll(Specification.where(where), pageable);
     }
 
     @Override

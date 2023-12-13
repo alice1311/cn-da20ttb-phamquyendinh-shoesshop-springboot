@@ -2,6 +2,9 @@ package com.vti.finalexam.repository;
 
 import com.vti.finalexam.entity.Product;
 import com.vti.finalexam.entity.ProductType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,11 +19,12 @@ public interface IProductTypeRepository extends JpaRepository<ProductType, Integ
 
     ProductType findById(int typeId);
 
-
     public void deleteById(int id);
     ProductType getProductTypeById(int id);
     @Modifying
     @Transactional
     @Query("DELETE FROM ProductType WHERE id IN(:ids)")
     public void deleteByIds(@Param("ids") List<Integer> ids);
+
+    <T> Page<ProductType> findAll(Specification<T> where, Pageable pageable);
 }

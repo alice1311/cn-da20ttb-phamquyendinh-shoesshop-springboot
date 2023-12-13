@@ -10,12 +10,15 @@ import com.vti.finalexam.form.ProductFormCreating;
 import com.vti.finalexam.form.ProductTypeFormCreating;
 import com.vti.finalexam.service.IProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping(value = "api/v1/productTypes")
@@ -25,17 +28,15 @@ public class ProductTypeController {
     private IProductTypeService service;
 
     @GetMapping()
-    public ResponseEntity<?> getAllProductTypes(){
-        List<ProductType> entities = service.getAllProductTypes();
-        List<ProductTypeDTO> dtos = new ArrayList<>();
-        for (ProductType productType: entities){
-            ProductTypeDTO dto = new ProductTypeDTO(
-                    productType.getId(),
-                    productType.getName()
-            );
-            dtos.add(dto);
-        }
-        return new ResponseEntity<List<ProductTypeDTO>>(dtos, HttpStatus.OK);
+    public ResponseEntity<?> getAllProductTypes(Pageable pageable, @RequestParam String search){
+        Page<ProductType> entitiesPage = service.getAllProductTypes(pageable, search);
+        Page<ProductTypeDTO> dtosPage = entitiesPage.map(new Function<ProductType, ProductTypeDTO>(){
+            public ProductTypeDTO apply(ProductType productType){
+                ProductTypeDTO dto = new ProductTypeDTO(productType.getId(), productType.getName());
+                return dto;
+            }
+        });
+        return new ResponseEntity<>(dtosPage, HttpStatus.OK);
     }
 
     @PostMapping()

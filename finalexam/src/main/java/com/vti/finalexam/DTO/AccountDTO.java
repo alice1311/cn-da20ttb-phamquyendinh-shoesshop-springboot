@@ -3,13 +3,14 @@ package com.vti.finalexam.DTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vti.finalexam.entity.Account;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class AccountDTO {
     private String username;
     private String fullName;
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private Date createdDate;
+    private LocalDate createdDate;
     private Account.Role role;
 
     public String getUsername() {
@@ -20,7 +21,7 @@ public class AccountDTO {
         return fullName;
     }
 
-    public Date getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
@@ -28,7 +29,7 @@ public class AccountDTO {
         return role;
     }
 
-    public AccountDTO(String username, String fullName, Date createdDate, Account.Role role) {
+    public AccountDTO(String username, String fullName, LocalDate createdDate, Account.Role role) {
         this.username = username;
         this.fullName = fullName;
         this.createdDate = createdDate;
