@@ -20,7 +20,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer>, Jpa
     public Product getProductById(int id);
 
 
-    Optional<Product> findByNameAndColorAndSize(String name, String color, String size);
+//    Optional<Product> findByNameAndColorAndSize(String name, String color, String size);
 
     public void deleteById(int id);
 

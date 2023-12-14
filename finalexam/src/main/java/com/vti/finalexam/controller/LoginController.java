@@ -24,7 +24,7 @@ public class LoginController {
     public ResponseEntity<?> login(Principal principal){
         String username = principal.getName();
         Account entity = accountService.getAccountByUsernam(username);
-        LoginInfoDTO dto = new LoginInfoDTO((entity.getId()), entity.getFullName());
+        LoginInfoDTO dto = new LoginInfoDTO((entity.getId()), entity.getLastName(), entity.getRole());
                 return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

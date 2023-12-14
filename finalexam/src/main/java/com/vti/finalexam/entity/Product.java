@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import com.vti.finalexam.entity.ProductType;
+import org.hibernate.annotations.Formula;
 
 @Entity
 @Table(name = "`Product`")
@@ -28,31 +29,86 @@ public class Product implements Serializable {
     @Column(name = "image_url", length = 100)
     private String image_url;
 
-    @Column(name = "color", length = 50)
-    private String color;
-
-    @Column(name = "size", length = 50)
-    private String size;
 
     @Column(name = "price", nullable = false)
     private float price;
 
+    @Column(name="saleID", nullable = true)
+    private int sale_id;
+
+    @ManyToOne
+    @JoinColumn(name="saleId", nullable = true)
+    private Sale sale;
 
     @ManyToOne
     @JoinColumn(name = "type_id", nullable = true)
     private ProductType typeProduct;
-    public Product() {
+
+    @OneToMany(mappedBy = "product_feedback")
+    private List<Feedback> feedbacks;
+
+    @OneToMany(mappedBy = "product_detail")
+    private List<ProductDetail> productDetails;
+    @Column(name = "`gender_type`")
+    @Enumerated(EnumType.STRING)
+    private GenderType gender_type;
+
+    public List<ProductDetail> getProductDetails() {
+        return productDetails;
     }
 
-    public Product(String name, String description, int quantity_stock, String image_url, String color, String size, float price, ProductType typeProduct) {
+    public Product(String name, String description, int quantity_stock, String image_url, float price, ProductType typeProduct) {
         this.name = name;
         this.description = description;
         this.quantity_stock = quantity_stock;
         this.image_url = image_url;
-        this.color = color;
-        this.size = size;
         this.price = price;
         this.typeProduct = typeProduct;
+    }
+
+    public GenderType getGender_type() {
+        return gender_type;
+    }
+
+    public void setGender_type(GenderType gender_type) {
+        this.gender_type = gender_type;
+    }
+
+    public void setProductDetails(List<ProductDetail> productDetails) {
+        this.productDetails = productDetails;
+    }
+
+    public enum GenderType{
+        MALE, FEMALE, UNISEX;
+    }
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public Product() {
+    }
+
+
+
+    public int getSale_id() {
+        return sale_id;
+    }
+
+
+    public void setSale_id(int sale_id) {
+        this.sale_id = sale_id;
+    }
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public void setSale(Sale sale) {
+        this.sale = sale;
     }
 
     public int getId() {
@@ -95,21 +151,6 @@ public class Product implements Serializable {
         this.image_url = image_url;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
 
     public float getPrice() {
         return price;

@@ -5,11 +5,15 @@ import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import javax.persistence.TemporalType;
 
-@Entity
+
 @Table(name = "`Account`")
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "`role`", discriminatorType = DiscriminatorType.STRING)
 public class Account implements Serializable {
     @Column(name = "id")
     @Id
@@ -19,24 +23,62 @@ public class Account implements Serializable {
     @Column(name = "username", length = 50, nullable = false, unique = true, updatable = false)
     private String username;
 
+//    public Account(String username, String password, String firstName, String lastName, String address, Role role) {
+//        this.username = username;
+//        this.password = password;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.address = address;
+//        this.role = role;
+//    }
+//
+
+    public Account(String username, String password, String firstName, String lastName, String address, Date birthday, String email, Role role, Gender gender, Date createdDate) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.birthday = birthday;
+        this.email = email;
+        this.role = role;
+        this.gender = gender;
+        this.createdDate = createdDate;
+    }
+
     @Column(name = "`password`", length = 255, nullable = false)
     private String password;
 
-    @Column(name = "first_name", length = 50, nullable = false, updatable = false)
+    @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", length = 50, nullable = false, updatable = false)
+    @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
+
+    @Column(name = "address", length = 200, nullable = false)
+    private String address;
+
+    @Column(name = "birthday", updatable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date birthday;
 
     @Column(name = "email", length = 50, nullable = false, updatable = false)
     private String email;
 
-    @Formula(" concat(first_name, ' ', last_name)")
-    private String fullName;
 
-    @Column(name = "`role`")
+
+    public enum Gender {
+        MALE, FEMALE, UNKNOWN;
+    }
+    @Column(name = "`role`", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "Gender")
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+
 
     @Column(name = "create_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -44,19 +86,6 @@ public class Account implements Serializable {
     private Date createdDate;
 
 
-
-    public enum Role {
-        ADMIN, EMPLOYEE, CUSTOMER;
-    }
-
-    public Account(String username, String password, String firstName, String lastName, String email, Role role) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.role = role;
-    }
 
     @PrePersist
     public void prePersist() {
@@ -66,12 +95,47 @@ public class Account implements Serializable {
 
     }
 
-    public Account(String username, String password, String firstName, String lastName, String email) {
+    public String getAddress() {
+        return address;
+    }
+
+//    public void setCreatedDate(Date createdDate) {
+//        this.createdDate = createdDate;
+//    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+
+    public Account(int id, String username, String password, String firstName, String lastName, String address, Date birthday, String email, Role role, Gender gender, Date createdDate) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.address = address;
+        this.birthday = birthday;
         this.email = email;
+        this.role = role;
+        this.gender = gender;
+        this.createdDate = createdDate;
     }
 
     public Account() {
@@ -93,6 +157,9 @@ public class Account implements Serializable {
         this.createdDate = createdDate;
     }
 
+    public enum Role {
+        ADMIN, EMPLOYEE, CUSTOMER;
+    }
     public String getUsername() {
         return username;
     }
@@ -133,13 +200,7 @@ public class Account implements Serializable {
         this.email = email;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 
     public Role getRole() {
         return role;

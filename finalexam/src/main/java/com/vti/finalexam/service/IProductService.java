@@ -17,7 +17,7 @@ public interface IProductService {
 
      public Product getProductById(int id);
 
-    public boolean doesProductExist(String name, String color, String size);
+//    public boolean doesProductExist(String name, String color, String size);
     public  void deleteProduct(int id);
 
     void deleteProducts(List<Integer> ids);

@@ -28,12 +28,11 @@ public class ProductController {
     private IProductService service;
     @GetMapping()
     public ResponseEntity<?> getAllProducts(Pageable pageable, @RequestParam String search){
-
         Page<Product> entitiesPage = service.getAllProducts(pageable, search);
         Page<ProductDTO> dtoPage = entitiesPage.map(new Function<Product, ProductDTO>() {
             @Override
             public ProductDTO apply(Product product) {
-                ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(),  product.getQuantity_stock(),product.getImage_url(),product.getColor(), product.getSize(), product.getPrice(), product.getTypeProduct().getName());
+                ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(),  product.getQuantity_stock(),product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(),product.getSale().getPercent_sale(), product.getGender_type().toString());
                 return dto;
             }
         });
@@ -61,10 +60,10 @@ public class ProductController {
                 product.getDescription(),
                 product.getQuantity_stock(),
                 product.getImage_url(),
-                product.getColor(),
-                product.getSize(),
                 product.getPrice(),
-                product.getTypeProduct().getName());
+                product.getTypeProduct().getName(),
+                product.getSale().getPercent_sale(),
+                product.getGender_type().toString());
         return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
     }
 
@@ -74,15 +73,15 @@ public class ProductController {
         return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
     }
 
-    @GetMapping("/checkExistence/{name}/{color}/{size}")
-    public boolean checkProductExistence(
-            @PathVariable String name,
-            @PathVariable String color,
-            @PathVariable String size
-    ) {
-        boolean exists = service.doesProductExist(name, color, size);
-        return exists;
-    }
+//    @GetMapping("/checkExistence/{name}/{color}/{size}")
+//    public boolean checkProductExistence(
+//            @PathVariable String name,
+//            @PathVariable String color,
+//            @PathVariable String size
+//    ) {
+//        boolean exists = service.doesProductExist(name, color, size);
+//        return exists;
+//    }
 
     @DeleteMapping()
     public void deleteProducts(@RequestParam(name="ids") List<Integer> ids){
