@@ -15,7 +15,6 @@ public class EmployeeDTO {
     private String address;
     private Date birthday;
     private String email;
-
     private Date createdDate;
     private Account.Gender gender;
 

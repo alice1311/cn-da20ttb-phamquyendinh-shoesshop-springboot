@@ -22,7 +22,6 @@ public class CustomerDTO {
         this.address = address;
         this.birthday = birthday;
         this.email = email;
-
         this.gender = gender;
         this.createdDate = createdDate;
     }
