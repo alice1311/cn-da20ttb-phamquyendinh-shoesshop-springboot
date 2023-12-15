@@ -45,9 +45,15 @@ public class CustomerController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateCustomer(@PathVariable(name = "id") int id, @RequestBody AccountFormUpdating accountFormUpdating){
+    public ResponseEntity<?> updateCustomer(@PathVariable(name = "id") int id, @RequestBody AccountFormUpdating accountFormUpdating) throws ParseException {
         service.updateCustomer(id, accountFormUpdating);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable(name = "id") int id){
+        service.deleteCustomer(id);
+        return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
     }
     @DeleteMapping()
     public void deleteCustomers(@RequestParam(name="ids") List<Integer> ids){

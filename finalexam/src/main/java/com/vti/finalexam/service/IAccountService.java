@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface IAccountService extends UserDetailsService {
@@ -16,7 +17,7 @@ public interface IAccountService extends UserDetailsService {
 
     public Account getAccountByUsernam(String username);
 //    public void createAccount(AccountFormCreating accountFormCreating);
-    public  void updateAccount(int id, AccountFormUpdating accountFormUpdating);
+    public  void updateAccount(int id, AccountFormUpdating accountFormUpdating) throws ParseException;
     public Account getAccountById(int id);
     public Account getAccountByName(String username);
     public  void deleteAccount(int id);

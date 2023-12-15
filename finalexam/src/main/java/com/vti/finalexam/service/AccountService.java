@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import com.vti.finalexam.repository.IAccountRepository;
 import org.springframework.util.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 @Service
 public class AccountService implements IAccountService {
@@ -48,14 +51,16 @@ public class AccountService implements IAccountService {
 //    }
 
     @Override
-    public void updateAccount(int id, AccountFormUpdating accountFormUpdating) {
+    public void updateAccount(int id, AccountFormUpdating accountFormUpdating) throws ParseException {
         Account account = repository.getAccountById(id);
         String password = new BCryptPasswordEncoder().encode((CharSequence) accountFormUpdating.getPassword());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthday = dateFormat.parse(accountFormUpdating.getBirthday());
         account.setPassword(password);
         account.setFirstName(accountFormUpdating.getFirstName());
         account.setLastName(accountFormUpdating.getLastName());
         account.setAddress(accountFormUpdating.getAddress());
-        account.setBirthday(accountFormUpdating.getBirthday());
+        account.setBirthday(birthday);
         account.setEmail(accountFormUpdating.getEmail());
         repository.save(account);
     }

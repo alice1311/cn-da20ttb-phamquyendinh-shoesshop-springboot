@@ -29,4 +29,6 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
         public void deleteByIds(@Param("ids") List<Integer> ids);
 
 
+
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.vti.finalexam.service.AccountService;
 import com.vti.finalexam.service.IAccountService;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -46,7 +47,7 @@ public class AccountController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateAccount(@PathVariable(name = "id") int id, @RequestBody AccountFormUpdating accountFormUpdating){
+    public ResponseEntity<?> updateAccount(@PathVariable(name = "id") int id, @RequestBody AccountFormUpdating accountFormUpdating) throws ParseException {
         service.updateAccount(id, accountFormUpdating);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
     }

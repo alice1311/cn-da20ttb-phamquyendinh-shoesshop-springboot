@@ -10,7 +10,7 @@ public class AccountFormUpdating {
     private String firstName;
     private String lastName;
     private String address;
-    private Date birthday;
+    private String birthday;
     private String email;
 
     public String getPassword() {
@@ -45,11 +45,11 @@ public class AccountFormUpdating {
         this.address = address;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -61,7 +61,7 @@ public class AccountFormUpdating {
         this.email = email;
     }
 
-    public AccountFormUpdating(String password, String firstName, String lastName, String address, Date birthday, String email) {
+    public AccountFormUpdating(String password, String firstName, String lastName, String address, String birthday, String email) {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;

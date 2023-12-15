@@ -23,15 +23,6 @@ public class Account implements Serializable {
     @Column(name = "username", length = 50, nullable = false, unique = true, updatable = false)
     private String username;
 
-//    public Account(String username, String password, String firstName, String lastName, String address, Role role) {
-//        this.username = username;
-//        this.password = password;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.address = address;
-//        this.role = role;
-//    }
-//
 
     public Account(String username, String password, String firstName, String lastName, String address, Date birthday, String email, Role role, Gender gender, Date createdDate) {
         this.username = username;

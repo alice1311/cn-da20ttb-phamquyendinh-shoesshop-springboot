@@ -12,7 +12,6 @@ public class AccountFormCreating {
     private String firstName;
     private String lastName;
     private String address;
-
     private String birthday;
     private String email;
     private Account.Role role;

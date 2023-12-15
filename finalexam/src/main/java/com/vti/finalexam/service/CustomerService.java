@@ -52,22 +52,22 @@ public class CustomerService implements ICustomerService{
         Date createdate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date birthday = dateFormat.parse(accountFormCreating.getBirthday());
-        System.out.println("Converted Date: " +birthday);
-
         String password = new BCryptPasswordEncoder().encode((CharSequence) accountFormCreating.getPassword());
         Customer customer = new Customer(accountFormCreating.getUsername(), password, accountFormCreating.getFirstName(), accountFormCreating.getLastName(), accountFormCreating.getAddress(), birthday,accountFormCreating.getEmail(), Account.Role.CUSTOMER,accountFormCreating.getGender(), createdate);
         repository.save(customer);
     }
 
     @Override
-    public void updateCustomer(int id, AccountFormUpdating accountFormUpdating) {
+    public void updateCustomer(int id, AccountFormUpdating accountFormUpdating) throws ParseException {
         Customer customer = repository.getCustomerById(id);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthday = dateFormat.parse(accountFormUpdating.getBirthday());
         String password = new BCryptPasswordEncoder().encode((CharSequence) accountFormUpdating.getPassword());
         customer.setPassword(password);
         customer.setFirstName(accountFormUpdating.getFirstName());
         customer.setLastName(accountFormUpdating.getLastName());
         customer.setAddress(accountFormUpdating.getAddress());
-        customer.setBirthday(accountFormUpdating.getBirthday());
+        customer.setBirthday(birthday);
         customer.setEmail(accountFormUpdating.getEmail());
         repository.save(customer);
     }
@@ -79,13 +79,11 @@ public class CustomerService implements ICustomerService{
 
     @Override
     public void deleteCustomer(int id) {
-        accountRepository.deleteById(id);
         repository.deleteById(id);
     }
 
     @Override
     public void deleteCustomers(List<Integer> ids) {
-        accountRepository.deleteByIds(ids);
         for(Integer id : ids){
             repository.deleteById(id);
         }
