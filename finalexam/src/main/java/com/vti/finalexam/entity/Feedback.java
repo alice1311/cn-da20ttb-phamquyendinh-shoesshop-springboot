@@ -46,6 +46,14 @@ public class Feedback implements Serializable {
     public Feedback() {
     }
 
+    public Feedback(String comment, Date feedback_date, RATING rating, Customer account_customer, Product product_feedback) {
+        this.comment = comment;
+        this.feedback_date = feedback_date;
+        this.rating = rating;
+        this.account_customer = account_customer;
+        this.product_feedback = product_feedback;
+    }
+
     public int getId() {
         return id;
     }

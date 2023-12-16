@@ -12,7 +12,7 @@ public class PaymentMethod implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "paymentName", length = 100, nullable = false)
+    @Column(name = "paymentName", length = 100, nullable = false, unique = true)
     private String name;
 
     @Column(name = "descriptionPayment", nullable = false, length = 200)
@@ -22,6 +22,11 @@ public class PaymentMethod implements Serializable {
     private List<Order> orders;
 
     public PaymentMethod() {
+    }
+
+    public PaymentMethod(String name, String description_payment) {
+        this.name = name;
+        this.description_payment = description_payment;
     }
 
     public int getId() {

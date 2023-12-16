@@ -1,7 +1,9 @@
 package com.vti.finalexam.service;
 
 import com.vti.finalexam.entity.Account;
+import com.vti.finalexam.entity.Customer;
 import com.vti.finalexam.entity.Feedback;
+import com.vti.finalexam.entity.Product;
 import com.vti.finalexam.form.FeedbackCreating;
 import com.vti.finalexam.repository.IAccountRepository;
 import com.vti.finalexam.repository.IFeedbackRepository;
@@ -27,7 +29,9 @@ public class FeedbackService implements IFeedbackService{
     @Autowired
     private IFeedbackRepository repository;
     @Autowired
-    private IAccountService accountService;
+    private ICustomerService customerService;
+    @Autowired
+    private IProductService productService;
 
     @Override
     public Page<Feedback> getAllFeedbacks(Pageable pageable, String search) {
@@ -41,23 +45,17 @@ public class FeedbackService implements IFeedbackService{
 
 //    @Override
    public void createFeedback(FeedbackCreating feedbackCreating) {
-//        Account account = accountService.getAccountById(feedbackCreating.getCustomer_id());
-////        Account account = new Account(form.getUsername(), password, form.getFirstName(), form.getLastName(), form.getAddress(), form.getRole());
-////        repository.save(account);
-//        Date creating_date = new Date();
-//        Feedback feedback = new Feedback(feedbackCreating.getComment(),creating_date, feedbackCreating.getRating(), feedbackCreating.getCustomer_id(););
-
+        Customer customer = customerService.getCustomerById(feedbackCreating.getCustomer_id());
+        Date creating_date = new Date();
+        Product product = productService.getProductById(feedbackCreating.getProduct_id());
+        Feedback feedback = new Feedback(feedbackCreating.getComment(),creating_date, feedbackCreating.getRating(), customer, product);
+        repository.save(feedback);
     }
 
     @Override
     public Feedback getFeedbackById(int id) {
         return repository.getFeedbackById(id);
     }
-
-//    @Override
-//    public Feedback getFeedbackByIdProduct(int product_id) {
-//        return repository.getFeedbackByIdProduct(product_id);
-//    }
 
     @Override
     public void deleteFeedback(int id) {

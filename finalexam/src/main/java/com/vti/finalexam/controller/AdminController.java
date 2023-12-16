@@ -62,3 +62,4 @@ public class AdminController {
         service.deleteAdmins(ids);
     }
 }
+

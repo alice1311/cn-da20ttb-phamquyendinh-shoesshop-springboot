@@ -13,7 +13,6 @@ import java.util.List;
 public interface IFeedbackService {
     public Page<Feedback> getAllFeedbacks(Pageable pageable, String search);
     public void createFeedback(FeedbackCreating feedbackCreating);
-  //  public  void updateProduct(int id, ProductFormCreating productFormCreating);
 
     public Feedback getFeedbackById(int id);
 
