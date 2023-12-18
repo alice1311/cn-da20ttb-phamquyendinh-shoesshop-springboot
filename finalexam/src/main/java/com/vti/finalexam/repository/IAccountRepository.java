@@ -18,7 +18,6 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
     <T> Page<Account> findAll(Specification<T> where, Pageable pageable);
     public boolean existsByUsername(String username);
 
-
     public Account getAccountById(int id);
 
     public void deleteById(int id);
@@ -27,7 +26,6 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
         @Transactional
         @Query("DELETE FROM Account WHERE id IN(:ids)")
         public void deleteByIds(@Param("ids") List<Integer> ids);
-
 
 
 

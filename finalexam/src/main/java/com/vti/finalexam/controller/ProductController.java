@@ -2,10 +2,13 @@ package com.vti.finalexam.controller;
 
 import com.vti.finalexam.DTO.AccountDTO;
 import com.vti.finalexam.DTO.ProductDTO;
+import com.vti.finalexam.DTO.ProductDetailDTO;
 import com.vti.finalexam.entity.Account;
 import com.vti.finalexam.entity.Product;
+import com.vti.finalexam.entity.ProductDetail;
 import com.vti.finalexam.form.AccountFormCreating;
 import com.vti.finalexam.form.ProductFormCreating;
+import com.vti.finalexam.service.IProductDetailService;
 import com.vti.finalexam.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -26,7 +29,10 @@ import java.util.function.Function;
 public class ProductController {
     @Autowired
     private IProductService service;
-    @GetMapping()
+
+    @Autowired
+    private IProductDetailService productDetailService;
+    @GetMapping(value = "/all")
     public ResponseEntity<?> getAllProducts(Pageable pageable, @RequestParam String search){
         Page<Product> entitiesPage = service.getAllProducts(pageable, search);
         Page<ProductDTO> dtoPage = entitiesPage.map(new Function<Product, ProductDTO>() {
@@ -64,6 +70,17 @@ public class ProductController {
                 product.getSale().getPercent_sale(),
                 product.getGender_type().toString());
         return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
+    }
+    @GetMapping(value = "/productDetail/{id}")
+    public ResponseEntity<?> getProductDetail(@PathVariable(name = "id") int id){
+        Product product = service.getProductById(id);
+        List<ProductDetail> productDetails = product.getProductDetails();
+        ArrayList<ProductDetailDTO> productDetailDTOArrayList = new ArrayList<>();
+        for(ProductDetail productDetail : productDetails){
+            ProductDetailDTO dto = new ProductDetailDTO(productDetail.getQuantity(), productDetail.getImg_url(), productDetail.getColor(), productDetail.getSize(), productDetail.getProduct_detail().getId());
+            productDetailDTOArrayList.add(dto);
+        }
+        return new ResponseEntity<>(productDetailDTOArrayList, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
