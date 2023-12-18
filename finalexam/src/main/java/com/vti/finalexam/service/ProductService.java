@@ -43,7 +43,7 @@ public class ProductService implements IProductService{
         Product product = new Product(
                 productFormCreating.getName(),
                 productFormCreating.getDescription(),
-                productFormCreating.getQuantity_stock(),
+
                 productFormCreating.getImage_url(),
                 productFormCreating.getPrice(),
                 productType
@@ -57,7 +57,7 @@ public class ProductService implements IProductService{
         Product product = repository.getProductById(id);
         product.setName(productFormCreating.getName());
         product.setDescription(productFormCreating.getDescription());
-        product.setQuantity_stock(productFormCreating.getQuantity_stock());
+
         product.setImage_url(productFormCreating.getImage_url());
         product.setTypeProduct(productType);
         repository.save(product);

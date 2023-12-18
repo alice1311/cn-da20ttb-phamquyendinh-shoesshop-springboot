@@ -4,7 +4,6 @@ public class ProductDTO {
     private int id;
     private String name;
     private String description;
-    private int quantity_stock;
     private String image_url;
     private float price;
     private String type_name;
@@ -36,13 +35,7 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public int getQuantity_stock() {
-        return quantity_stock;
-    }
 
-    public void setQuantity_stock(int quantity_stock) {
-        this.quantity_stock = quantity_stock;
-    }
 
     public String getImage_url() {
         return image_url;
@@ -85,11 +78,10 @@ public class ProductDTO {
         this.gender_for = gender_for;
     }
 
-    public ProductDTO(int id, String name, String description, int quantity_stock, String image_url, float price, String type_name, float sale_percent, String gender_for) {
+    public ProductDTO(int id, String name, String description, String image_url, float price, String type_name, float sale_percent, String gender_for) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.quantity_stock = quantity_stock;
         this.image_url = image_url;
         this.price = price;
         this.type_name = type_name;

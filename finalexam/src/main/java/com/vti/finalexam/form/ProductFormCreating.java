@@ -3,7 +3,6 @@ package com.vti.finalexam.form;
 public class ProductFormCreating {
     private String name;
     private String description;
-    private int quantity_stock;
     private String image_url;
     private float price;
     private int type_id;
@@ -11,10 +10,9 @@ public class ProductFormCreating {
     public ProductFormCreating() {
     }
 
-    public ProductFormCreating(String name, String description, int quantity_stock, String image_url, float price, int type_id) {
+    public ProductFormCreating(String name, String description, String image_url, float price, int type_id) {
         this.name = name;
         this.description = description;
-        this.quantity_stock = quantity_stock;
         this.image_url = image_url;
 
         this.price = price;
@@ -37,13 +35,6 @@ public class ProductFormCreating {
         this.description = description;
     }
 
-    public int getQuantity_stock() {
-        return quantity_stock;
-    }
-
-    public void setQuantity_stock(int quantity_stock) {
-        this.quantity_stock = quantity_stock;
-    }
 
     public String getImage_url() {
         return image_url;

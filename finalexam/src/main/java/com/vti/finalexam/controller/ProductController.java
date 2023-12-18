@@ -32,7 +32,7 @@ public class ProductController {
         Page<ProductDTO> dtoPage = entitiesPage.map(new Function<Product, ProductDTO>() {
             @Override
             public ProductDTO apply(Product product) {
-                ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(),  product.getQuantity_stock(),product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(),product.getSale().getPercent_sale(), product.getGender_type().toString());
+                ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(),product.getSale().getPercent_sale(), product.getGender_type().toString());
                 return dto;
             }
         });
@@ -58,7 +58,6 @@ public class ProductController {
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
-                product.getQuantity_stock(),
                 product.getImage_url(),
                 product.getPrice(),
                 product.getTypeProduct().getName(),

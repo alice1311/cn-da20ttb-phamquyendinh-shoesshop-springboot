@@ -84,4 +84,11 @@ public class Sale implements Serializable {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+    public Sale(String sale_info, float percent_sale, Date start_date, Date end_date) {
+        this.sale_info = sale_info;
+        this.percent_sale = percent_sale;
+        this.start_date = start_date;
+        this.end_date = end_date;
+    }
 }

@@ -23,8 +23,6 @@ public class Product implements Serializable {
     @Column(name = "`description`", length = 200)
     private String description;
 
-    @Column(name = "quantity_stock", nullable = false)
-    private int quantity_stock;
 
     @Column(name = "image_url", length = 100)
     private String image_url;
@@ -57,10 +55,10 @@ public class Product implements Serializable {
         return productDetails;
     }
 
-    public Product(String name, String description, int quantity_stock, String image_url, float price, ProductType typeProduct) {
+    public Product(String name, String description, String image_url, float price, ProductType typeProduct) {
         this.name = name;
         this.description = description;
-        this.quantity_stock = quantity_stock;
+
         this.image_url = image_url;
         this.price = price;
         this.typeProduct = typeProduct;
@@ -135,13 +133,7 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public int getQuantity_stock() {
-        return quantity_stock;
-    }
 
-    public void setQuantity_stock(int quantity_stock) {
-        this.quantity_stock = quantity_stock;
-    }
 
     public String getImage_url() {
         return image_url;
