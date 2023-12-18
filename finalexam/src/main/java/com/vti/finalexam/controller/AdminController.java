@@ -61,5 +61,11 @@ public class AdminController {
     public void deleteAdmins(@RequestParam(name="ids") List<Integer> ids){
         service.deleteAdmins(ids);
     }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getAdminById(@PathVariable(name = "id") int id){
+        Admin admin = service.getAdminById(id);
+        AdminDTO dto = new AdminDTO(admin.getUsername(), admin.getAddress(), admin.getBirthday(), admin.getEmail(), admin.getCreatedDate(), admin.getGender());
+        return new ResponseEntity<AdminDTO>(dto, HttpStatus.OK);
+    }
 }
 

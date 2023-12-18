@@ -8,7 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public class FeedbackSpecification implements Specification<Feedback> {
+public class   FeedbackSpecification implements Specification<Feedback> {
     private String field;
     private String operator;
     private Object value;

@@ -2,8 +2,10 @@ package com.vti.finalexam.controller;
 
 import com.vti.finalexam.DTO.AccountDTO;
 import com.vti.finalexam.DTO.CustomerDTO;
+import com.vti.finalexam.DTO.EmployeeDTO;
 import com.vti.finalexam.entity.Account;
 import com.vti.finalexam.entity.Customer;
+import com.vti.finalexam.entity.Employee;
 import com.vti.finalexam.form.AccountFormCreating;
 import com.vti.finalexam.form.updating.AccountFormUpdating;
 import com.vti.finalexam.service.IAccountService;
@@ -58,5 +60,11 @@ public class CustomerController {
     @DeleteMapping()
     public void deleteCustomers(@RequestParam(name="ids") List<Integer> ids){
         service.deleteCustomers(ids);
+    }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getCustomerById(@PathVariable(name = "id") int id){
+        Customer customer = service.getCustomerById(id);
+        CustomerDTO dto = new CustomerDTO(customer.getUsername(), customer.getAddress(), customer.getBirthday(), customer.getEmail(),  customer.getGender(), customer.getCreatedDate());
+        return new ResponseEntity<CustomerDTO>(dto, HttpStatus.OK);
     }
 }

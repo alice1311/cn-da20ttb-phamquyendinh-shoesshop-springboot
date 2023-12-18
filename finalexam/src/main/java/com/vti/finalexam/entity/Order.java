@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "Order")
+@Table(name = "`Order`")
 public class Order implements Serializable {
 
     @Column(name = "orderId")
@@ -24,7 +24,7 @@ public class Order implements Serializable {
     @CreationTimestamp
     private Date oder_date;
 
-    @Column(name = "oderSatus")
+    @Column(name = "oderStatus")
     @Enumerated(EnumType.STRING)
     private OderStatus oderStatus;
 

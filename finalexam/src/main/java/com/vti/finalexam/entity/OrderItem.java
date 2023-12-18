@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "Order")
+@Table(name = "OrderItem")
 public class OrderItem implements Serializable {
     @Column(name = "orderItemId")
     @Id
