@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface ISaleRepository extends JpaRepository<Sale, Integer> {
-    public Sale findBySale_info(String sale_info);
-    public boolean existsByName(String sale_info);
+//    public Sale findBySale_info(String sale_info);
     Sale findById(int typeId);
     public void deleteById(int id);
     Sale getSaleById(int id);

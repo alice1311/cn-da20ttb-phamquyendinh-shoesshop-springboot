@@ -34,6 +34,9 @@ public class OrderItem implements Serializable {
     public OrderItem() {
     }
 
+    public OrderItem(Order order, ProductDetail productDetail, int quantity, float price, float subtotal) {
+    }
+
     public int getId() {
         return id;
     }

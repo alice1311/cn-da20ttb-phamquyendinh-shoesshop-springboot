@@ -28,8 +28,18 @@ public class Order implements Serializable {
     @Enumerated(EnumType.STRING)
     private OderStatus oderStatus;
 
+    public Order(Date oderDate, int customerId, PaymentMethod paymentMethod) {
+    }
+
     public enum OderStatus {
         ADDED_TO_CARD, TO_PAY, TO_RECEIVE, COMPLETED, CANCELED;
+    }
+
+    public Order(float total_amount, Date oder_date, OderStatus oderStatus, Customer customer) {
+        this.total_amount = total_amount;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer = customer;
     }
 
     @ManyToOne
