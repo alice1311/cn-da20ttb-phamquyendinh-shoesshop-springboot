@@ -30,7 +30,7 @@ public class ProductDetailController {
         Page<ProductDetailDTO> dtoPage = entitiesPage.map(new Function<ProductDetail, ProductDetailDTO>() {
             @Override
             public ProductDetailDTO apply(ProductDetail productDetail) {
-                ProductDetailDTO dto = new ProductDetailDTO(productDetail.getQuantity(), productDetail.getImg_url(), productDetail.getColor(), productDetail.getSize(), productDetail.getProduct_detail().getId());
+                ProductDetailDTO dto = new ProductDetailDTO(productDetail.getId(), productDetail.getQuantity(), productDetail.getImg_url(), productDetail.getColor(), productDetail.getSize(), productDetail.getProduct_detail().getId());
                 return dto;
             }
 
@@ -39,7 +39,7 @@ public class ProductDetailController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createProductDeatil(@RequestBody ProductDetailFormCreating formCreating){
+    public ResponseEntity<?> createProductDetail(@RequestBody ProductDetailFormCreating formCreating){
         service.createProductDetail(formCreating);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
@@ -54,6 +54,7 @@ public class ProductDetailController {
     public ResponseEntity<?> getProductDetailById(@PathVariable(name = "id") int id){
         ProductDetail productDetail = service.getProductDetailById(id);
         ProductDetailDTO productDetailDTO = new ProductDetailDTO(
+                productDetail.getId(),
                 productDetail.getQuantity(),
                 productDetail.getImg_url(),
                 productDetail.getColor(),

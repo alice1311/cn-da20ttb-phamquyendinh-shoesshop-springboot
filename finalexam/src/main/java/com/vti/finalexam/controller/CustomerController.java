@@ -34,7 +34,7 @@ public class CustomerController {
         Page<CustomerDTO> dtos = entities.map(new Function<Customer, CustomerDTO>() {
             @Override
             public CustomerDTO apply(Customer customer) {
-                CustomerDTO dto = new CustomerDTO(customer.getUsername(), customer.getAddress(), customer.getBirthday(), customer.getEmail(),  customer.getGender(), customer.getCreatedDate());
+                CustomerDTO dto = new CustomerDTO(customer.getId(), customer.getUsername(), customer.getAddress(), customer.getBirthday(), customer.getEmail(),  customer.getGender(), customer.getCreatedDate());
                 return dto;
             }
         });
@@ -64,7 +64,7 @@ public class CustomerController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getCustomerById(@PathVariable(name = "id") int id){
         Customer customer = service.getCustomerById(id);
-        CustomerDTO dto = new CustomerDTO(customer.getUsername(), customer.getAddress(), customer.getBirthday(), customer.getEmail(),  customer.getGender(), customer.getCreatedDate());
+        CustomerDTO dto = new CustomerDTO(customer.getId(), customer.getUsername(), customer.getAddress(), customer.getBirthday(), customer.getEmail(),  customer.getGender(), customer.getCreatedDate());
         return new ResponseEntity<CustomerDTO>(dto, HttpStatus.OK);
     }
 }

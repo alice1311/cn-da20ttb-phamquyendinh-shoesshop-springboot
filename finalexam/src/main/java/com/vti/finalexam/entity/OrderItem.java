@@ -34,7 +34,12 @@ public class OrderItem implements Serializable {
     public OrderItem() {
     }
 
-    public OrderItem(Order order, ProductDetail productDetail, int quantity, float price, float subtotal) {
+    public OrderItem(float sell_price, float subtotal, int quantity, Order order, ProductDetail product_detail_order) {
+        this.sell_price = sell_price;
+        this.subtotal = subtotal;
+        this.quantity = quantity;
+        this.order = order;
+        this.product_detail_order = product_detail_order;
     }
 
     public int getId() {

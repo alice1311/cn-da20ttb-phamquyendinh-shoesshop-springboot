@@ -32,7 +32,7 @@ public class SaleController {
         Page<SaleDTO> dtosPage = entitiesPage.map(new Function<Sale, SaleDTO>(){
             @Override
             public SaleDTO apply(Sale sale) {
-                SaleDTO dto = new SaleDTO(sale.getSale_info(),sale.getPercent_sale(),sale.getStart_date().toString(),sale.getEnd_date().toString());
+                SaleDTO dto = new SaleDTO(sale.getId(), sale.getSale_info(),sale.getPercent_sale(),sale.getStart_date().toString(),sale.getEnd_date().toString());
                 return dto;
             }
 
@@ -67,6 +67,7 @@ public class SaleController {
     public ResponseEntity<?> getSaleById(@PathVariable(name = "id") int id){
         Sale sale= service.getSaleById(id);
         SaleDTO saleDTO = new SaleDTO(
+                sale.getId(),
                 sale.getSale_info(),
                 sale.getPercent_sale(),
                 sale.getStart_date().toString(),

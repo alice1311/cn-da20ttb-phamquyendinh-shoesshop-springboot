@@ -31,7 +31,7 @@ public class PaymentMethodController {
         Page<PaymentMethodDTO> dtoPage = entitiesPage.map(new Function<PaymentMethod, PaymentMethodDTO>() {
             @Override
             public PaymentMethodDTO apply(PaymentMethod paymentMethod) {
-                PaymentMethodDTO dto = new PaymentMethodDTO(paymentMethod.getName(),paymentMethod.getDescription_payment());
+                PaymentMethodDTO dto = new PaymentMethodDTO(paymentMethod.getId(), paymentMethod.getName(),paymentMethod.getDescription_payment());
                 return dto;
             }
 
@@ -55,6 +55,7 @@ public class PaymentMethodController {
     public ResponseEntity<?> getPaymentMethodById(@PathVariable(name = "id") int id){
         PaymentMethod paymentMethod = service.getPaymentMethodById(id);
         PaymentMethodDTO paymentMethodDTO = new PaymentMethodDTO(
+                paymentMethod.getId(),
                 paymentMethod.getName(),
                 paymentMethod.getDescription_payment());
         return new ResponseEntity<PaymentMethodDTO>(paymentMethodDTO, HttpStatus.OK);

@@ -2,10 +2,7 @@ package com.vti.finalexam.service;
 
 import com.vti.finalexam.entity.*;
 import com.vti.finalexam.form.OrderFormCreating;
-import com.vti.finalexam.repository.ICustomerRepository;
-import com.vti.finalexam.repository.IEmployeeRepository;
-import com.vti.finalexam.repository.IOderRepository;
-import com.vti.finalexam.repository.IPaymentMethodRepository;
+import com.vti.finalexam.repository.*;
 import com.vti.finalexam.specification.OderSpecification;
 import com.vti.finalexam.specification.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +19,15 @@ import java.util.List;
 public class OrderService implements IOrderService{
     @Autowired
     private IOderRepository repository;
-
     @Autowired
     private IPaymentMethodRepository paymentMethodRepository;
     @Autowired
     private ICustomerRepository customerRepository;
     @Autowired
     private IEmployeeRepository employeeRepository;
+
+    @Autowired
+    private IOderItemRepository oderItemRepository;
     @Override
     public Page<Order> getAllOrders(Pageable pageable, String search) {
         Specification<Order> where = null;
@@ -48,9 +47,10 @@ public class OrderService implements IOrderService{
         }
         Date creating_date = new Date();
         Order order = new Order(
-               creating_date,
-                formCreating.getCustomer_id(),
-                paymentMethod
+                formCreating.getTotal_amount(),
+                creating_date,
+                formCreating.getOderStatus(),
+                customer
         );
         repository.save(order);
     }

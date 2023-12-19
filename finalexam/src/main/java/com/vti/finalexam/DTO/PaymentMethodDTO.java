@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 public class PaymentMethodDTO {
+    private int id;
     private String name;
     private String description_payment;
 
@@ -28,7 +29,8 @@ public class PaymentMethodDTO {
         this.description_payment = description_payment;
     }
 
-    public PaymentMethodDTO(String name, String description_payment) {
+    public PaymentMethodDTO(int id,String name, String description_payment) {
+        this.id =id;
         this.name = name;
         this.description_payment = description_payment;
     }

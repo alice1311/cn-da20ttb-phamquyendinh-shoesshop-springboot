@@ -31,6 +31,8 @@ public class Order implements Serializable {
     public Order(Date oderDate, int customerId, PaymentMethod paymentMethod) {
     }
 
+
+
     public enum OderStatus {
         ADDED_TO_CARD, TO_PAY, TO_RECEIVE, COMPLETED, CANCELED;
     }

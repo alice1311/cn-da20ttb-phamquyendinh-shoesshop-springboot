@@ -51,13 +51,13 @@ public class OrderItemService implements IOrderItemService{
         Order order = oderRepository.getOrderById(formCreating.getOrder_id());
         ProductDetail productDetail = productDetailRepository.getDetailById(formCreating.getProduct_detail_id());
         Product product = productDetail.getProduct_detail();
-        float subtotal = formCreating.getQuantity()*product.getPrice();
+        float subtotal = formCreating.getQuantity() * product.getPrice();
         OrderItem orderItem = new OrderItem(
-                order,
-                productDetail,
-                formCreating.getQuantity(),
                 product.getPrice(),
-                subtotal
+                subtotal,
+                formCreating.getQuantity(),
+                order,
+                productDetail
         );
         repository.save(orderItem);
     }

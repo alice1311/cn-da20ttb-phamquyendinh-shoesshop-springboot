@@ -9,14 +9,23 @@ import javax.persistence.*;
 import java.util.Date;
 
 public class FeedbackDTO {
-
+    private int id;
     private String comment;
     private Date feedback_date;
     private Feedback.RATING rating;
     private int customer_id;
     private int product_id;
 
-    public FeedbackDTO(String comment, Date feedback_date, Feedback.RATING rating, int customer_id, int product_id) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public FeedbackDTO(int id, String comment, Date feedback_date, Feedback.RATING rating, int customer_id, int product_id) {
+        this.id =id;
         this.comment = comment;
         this.feedback_date = feedback_date;
         this.rating = rating;

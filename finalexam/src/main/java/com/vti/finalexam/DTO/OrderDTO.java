@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDTO {
+    private int id;
 
     private float total_amount;
 
@@ -69,12 +70,30 @@ public class OrderDTO {
         this.payment_method_id = payment_method_id;
     }
 
-    public OrderDTO(float total_amount, Date oder_date, Order.OderStatus oderStatus, int customer_id, int employee_id, int payment_method_id) {
+    public OrderDTO(int id, float total_amount, Date oder_date, Order.OderStatus oderStatus, int customer_id, int employee_id, int payment_method_id) {
+        this.id =id;
         this.total_amount = total_amount;
         this.oder_date = oder_date;
         this.oderStatus = oderStatus;
         this.customer_id = customer_id;
         this.employee_id = employee_id;
+        this.payment_method_id = payment_method_id;
+    }
+
+    public OrderDTO(int id, float total_amount, Date oder_date, Order.OderStatus oderStatus, int customer_id) {
+        this.id = id;
+        this.total_amount = total_amount;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer_id = customer_id;
+    }
+
+    public OrderDTO(int id, float total_amount, Date oder_date, Order.OderStatus oderStatus, int customer_id, int payment_method_id) {
+        this.id = id;
+        this.total_amount = total_amount;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer_id = customer_id;
         this.payment_method_id = payment_method_id;
     }
 

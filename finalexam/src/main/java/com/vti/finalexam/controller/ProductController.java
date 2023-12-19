@@ -77,7 +77,7 @@ public class ProductController {
         List<ProductDetail> productDetails = product.getProductDetails();
         ArrayList<ProductDetailDTO> productDetailDTOArrayList = new ArrayList<>();
         for(ProductDetail productDetail : productDetails){
-            ProductDetailDTO dto = new ProductDetailDTO(productDetail.getQuantity(), productDetail.getImg_url(), productDetail.getColor(), productDetail.getSize(), productDetail.getProduct_detail().getId());
+            ProductDetailDTO dto = new ProductDetailDTO(product.getId(), productDetail.getQuantity(), productDetail.getImg_url(), productDetail.getColor(), productDetail.getSize(), productDetail.getProduct_detail().getId());
             productDetailDTOArrayList.add(dto);
         }
         return new ResponseEntity<>(productDetailDTOArrayList, HttpStatus.OK);

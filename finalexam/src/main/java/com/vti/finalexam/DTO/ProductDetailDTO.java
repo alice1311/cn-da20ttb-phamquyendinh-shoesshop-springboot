@@ -1,7 +1,7 @@
 package com.vti.finalexam.DTO;
 
 public class ProductDetailDTO {
-
+    private int id;
     private int quantity;
     private String img_url;
     private String color;
@@ -12,12 +12,21 @@ public class ProductDetailDTO {
         return quantity;
     }
 
-    public ProductDetailDTO(int quantity, String img_url, String color, String size, int product_id) {
+    public ProductDetailDTO(int id,int quantity, String img_url, String color, String size, int product_id) {
+       this.id = id;
         this.quantity = quantity;
         this.img_url = img_url;
         this.color = color;
         this.size = size;
         this.product_id = product_id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ProductDetailDTO() {

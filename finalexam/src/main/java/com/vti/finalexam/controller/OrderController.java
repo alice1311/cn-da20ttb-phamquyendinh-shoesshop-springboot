@@ -30,8 +30,17 @@ public class OrderController {
         Page<OrderDTO> dtoPage = entitiesPage.map(new Function<Order, OrderDTO>() {
             @Override
             public OrderDTO apply(Order order) {
-                OrderDTO dto = new OrderDTO(order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId(), order.getEmployee().getId(), order.getPayment_method().getId());
-                return dto;
+                if(order.getOderStatus() == Order.OderStatus.ADDED_TO_CARD){
+                    OrderDTO dto = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId());
+                    return dto;
+                }else if(order.getOderStatus() == Order.OderStatus.TO_PAY){
+                    OrderDTO dto = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId(), order.getPayment_method().getId());
+                    return dto;
+                }else{
+                    OrderDTO dto = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId(), order.getEmployee().getId(), order.getPayment_method().getId());
+                    return dto;
+                }
+
             }
 
         });
@@ -53,7 +62,7 @@ public class OrderController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable(name = "id") int id){
         Order order = service.getOrderById(id);
-        OrderDTO orderDTO = new OrderDTO(order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId(), order.getEmployee().getId(), order.getPayment_method().getId());
+        OrderDTO orderDTO = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId(), order.getEmployee().getId(), order.getPayment_method().getId());
         return new ResponseEntity<OrderDTO>(orderDTO, HttpStatus.OK);
     }
 

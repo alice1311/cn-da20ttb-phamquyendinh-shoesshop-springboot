@@ -5,8 +5,6 @@ public class OrderItemFormCreating {
     private int order_id;
     private int product_detail_id;
 
-
-
     public int getQuantity() {
         return quantity;
     }

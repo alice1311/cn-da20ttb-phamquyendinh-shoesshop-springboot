@@ -34,7 +34,7 @@ public class EmployeeController {
         Page<EmployeeDTO> dtos = entities.map(new Function<Employee, EmployeeDTO>() {
             @Override
             public EmployeeDTO apply(Employee employee) {
-                EmployeeDTO dto = new EmployeeDTO(employee.getUsername(), employee.getAddress(), employee.getBirthday(), employee.getEmail(), employee.getCreatedDate(), employee.getGender());
+                EmployeeDTO dto = new EmployeeDTO(employee.getId(), employee.getUsername(), employee.getAddress(), employee.getBirthday(), employee.getEmail(), employee.getCreatedDate(), employee.getGender());
                 return dto;
             }
 
@@ -65,7 +65,7 @@ public class EmployeeController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getEmployeeById(@PathVariable(name = "id") int id){
         Employee employee = service.getEmployeeById(id);
-        EmployeeDTO dto = new EmployeeDTO(employee.getUsername(), employee.getAddress(), employee.getBirthday(), employee.getEmail(), employee.getCreatedDate(), employee.getGender());
+        EmployeeDTO dto = new EmployeeDTO(employee.getId(), employee.getUsername(), employee.getAddress(), employee.getBirthday(), employee.getEmail(), employee.getCreatedDate(), employee.getGender());
         return new ResponseEntity<EmployeeDTO>(dto, HttpStatus.OK);
     }
 }

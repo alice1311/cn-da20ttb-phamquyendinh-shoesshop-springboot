@@ -30,7 +30,7 @@ public class OrderItemController {
         Page<OderItemDTO> dtoPage = entitiesPage.map(new Function<OrderItem, OderItemDTO>() {
             @Override
             public OderItemDTO apply(OrderItem orderItem) {
-                OderItemDTO dto = new OderItemDTO(orderItem.getSell_price(), orderItem.getSubtotal(), orderItem.getQuantity(),orderItem.getOrder().getId(), orderItem.getProduct_detail_order().getId());
+                OderItemDTO dto = new OderItemDTO(orderItem.getId(),orderItem.getSell_price(), orderItem.getSubtotal(), orderItem.getQuantity(),orderItem.getOrder().getId(), orderItem.getProduct_detail_order().getId());
 
                 return dto;
             }
@@ -54,7 +54,7 @@ public class OrderItemController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getOrderItemById(@PathVariable(name = "id") int id){
        OrderItem orderItem = service.getOrderItemById(id);
-        OderItemDTO dto = new OderItemDTO(orderItem.getSell_price(), orderItem.getSubtotal(), orderItem.getQuantity(),orderItem.getOrder().getId(), orderItem.getProduct_detail_order().getId());
+        OderItemDTO dto = new OderItemDTO(orderItem.getId(), orderItem.getSell_price(), orderItem.getSubtotal(), orderItem.getQuantity(),orderItem.getOrder().getId(), orderItem.getProduct_detail_order().getId());
         return new ResponseEntity<OderItemDTO>(dto, HttpStatus.OK);
     }
 

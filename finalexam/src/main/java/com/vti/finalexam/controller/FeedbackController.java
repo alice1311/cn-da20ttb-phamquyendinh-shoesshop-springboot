@@ -2,6 +2,7 @@ package com.vti.finalexam.controller;
 
 import com.vti.finalexam.DTO.FeedbackDTO;
 import com.vti.finalexam.entity.Feedback;
+import com.vti.finalexam.form.FeedbackCreating;
 import com.vti.finalexam.service.IFeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class FeedbackController {
             Page<FeedbackDTO> dtoPage = entitiesPage.map(new Function<Feedback, FeedbackDTO>() {
                 @Override
                 public FeedbackDTO apply(Feedback feedback) {
-                    FeedbackDTO dto = new FeedbackDTO(feedback.getComment(), feedback.getFeedback_date(), feedback.getRating(), feedback.getAccount_customer().getId(), feedback.getProduct_feedback().getId());
+                    FeedbackDTO dto = new FeedbackDTO(feedback.getId(), feedback.getComment(), feedback.getFeedback_date(), feedback.getRating(), feedback.getAccount_customer().getId(), feedback.getProduct_feedback().getId());
                     return dto;
                 }
             });
@@ -34,12 +35,12 @@ public class FeedbackController {
    }
 
 
-    //    @PostMapping()
-    //    public ResponseEntity<?> createProduct(@RequestBody ProductFormCreating formCreating){
-    //        service.createProduct(formCreating);
-    //        return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
-    //    }
-    //
+        @PostMapping()
+        public ResponseEntity<?> createFeedback(@RequestBody FeedbackCreating formCreating){
+            service.createFeedback(formCreating);
+            return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
+        }
+
 
     //    @PutMapping(value = "/{id}")
     //    public ResponseEntity<?> updateProduct(@PathVariable(name = "id") int id, @RequestBody ProductFormCreating formCreating){
@@ -52,11 +53,11 @@ public class FeedbackController {
         public ResponseEntity<?> getFeedbackById(@PathVariable(name = "id") int id){
             Feedback feedback = service.getFeedbackById(id);
             FeedbackDTO feedbackDTO = new FeedbackDTO(
-                    feedback.getComment(),
-                feedback.getFeedback_date(),
-                feedback.getRating(),
-                feedback.getAccount_customer().getId(),
-                feedback.getProduct_feedback().getId()
+                    feedback.getId(), feedback.getComment(),
+                    feedback.getFeedback_date(),
+                    feedback.getRating(),
+                    feedback.getAccount_customer().getId(),
+                    feedback.getProduct_feedback().getId()
             );
             return new ResponseEntity<FeedbackDTO>(feedbackDTO, HttpStatus.OK);
         }

@@ -6,6 +6,7 @@ import com.vti.finalexam.entity.ProductDetail;
 import javax.persistence.*;
 
 public class OderItemDTO {
+    private int id;
     private float sell_price;
     private float subtotal;
     private int quantity;
@@ -52,7 +53,16 @@ public class OderItemDTO {
         this.product_detail_id = product_detail_id;
     }
 
-    public OderItemDTO(float sell_price, float subtotal, int quantity, int order_id, int product_detail_id) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public OderItemDTO(int id, float sell_price, float subtotal, int quantity, int order_id, int product_detail_id) {
+        this.id = id;
         this.sell_price = sell_price;
         this.subtotal = subtotal;
         this.quantity = quantity;

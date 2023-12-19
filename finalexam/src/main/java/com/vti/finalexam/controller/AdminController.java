@@ -32,7 +32,7 @@ public class AdminController {
         Page<AdminDTO> dtos = entities.map(new Function<Admin, AdminDTO>() {
             @Override
             public AdminDTO apply(Admin admin) {
-                AdminDTO dto = new AdminDTO(admin.getUsername(), admin.getAddress(), admin.getBirthday(), admin.getEmail(), admin.getCreatedDate(), admin.getGender());
+                AdminDTO dto = new AdminDTO(admin.getId(),admin.getUsername(), admin.getAddress(), admin.getBirthday(), admin.getEmail(), admin.getCreatedDate(), admin.getGender());
                 return dto;
             }
 
@@ -64,7 +64,7 @@ public class AdminController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getAdminById(@PathVariable(name = "id") int id){
         Admin admin = service.getAdminById(id);
-        AdminDTO dto = new AdminDTO(admin.getUsername(), admin.getAddress(), admin.getBirthday(), admin.getEmail(), admin.getCreatedDate(), admin.getGender());
+        AdminDTO dto = new AdminDTO(admin.getId(), admin.getUsername(), admin.getAddress(), admin.getBirthday(), admin.getEmail(), admin.getCreatedDate(), admin.getGender());
         return new ResponseEntity<AdminDTO>(dto, HttpStatus.OK);
     }
 }

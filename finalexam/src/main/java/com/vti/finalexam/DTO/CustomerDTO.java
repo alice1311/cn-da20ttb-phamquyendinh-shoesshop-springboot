@@ -6,7 +6,7 @@ import com.vti.finalexam.entity.Account;
 import java.util.Date;
 
 public class CustomerDTO {
-
+    private int id;
     private String username;
     private String address;
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -16,8 +16,16 @@ public class CustomerDTO {
     private Account.Gender gender;
     private Date createdDate;
 
-    public CustomerDTO(String username, String address, Date birthday, String email,  Account.Gender gender, Date createdDate) {
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public CustomerDTO(int id, String username, String address, Date birthday, String email, Account.Gender gender, Date createdDate) {
+        this.id = id;
         this.username = username;
         this.address = address;
         this.birthday = birthday;

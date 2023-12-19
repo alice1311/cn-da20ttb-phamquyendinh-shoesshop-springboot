@@ -5,6 +5,7 @@ import com.vti.finalexam.entity.Account;
 import java.util.Date;
 
 public class AdminDTO {
+    private int id;
 
     private String username;
     private String address;
@@ -13,18 +14,23 @@ public class AdminDTO {
     private Date createdDate;
     private Account.Gender gender;
 
-    public AdminDTO( String username, String address, Date birthday, String email,  Date createdDate, Account.Gender gender) {
-
+    public AdminDTO( int id, String username, String address, Date birthday, String email,  Date createdDate, Account.Gender gender) {
+        this.id=id;
         this.username = username;
         this.address = address;
         this.birthday = birthday;
         this.email = email;
-
         this.createdDate = createdDate;
         this.gender = gender;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

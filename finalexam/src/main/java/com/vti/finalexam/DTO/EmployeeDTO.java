@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 public class EmployeeDTO {
-
+    private int id;
 
     private String username;
     private String address;
@@ -18,8 +18,8 @@ public class EmployeeDTO {
     private Date createdDate;
     private Account.Gender gender;
 
-    public EmployeeDTO(String username, String address, Date birthday, String email, Date createdDate, Account.Gender gender) {
-
+    public EmployeeDTO(int id,String username, String address, Date birthday, String email, Date createdDate, Account.Gender gender) {
+        this.id = id;
         this.username = username;
         this.address = address;
         this.birthday = birthday;
@@ -27,6 +27,14 @@ public class EmployeeDTO {
 
         this.createdDate = createdDate;
         this.gender = gender;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getCreatedDate() {
