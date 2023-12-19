@@ -10,6 +10,15 @@ public class ProductDTO {
     private float sale_percent;
     private String gender_for;
 
+    public ProductDTO(int id, String name, String description, String image_url, float price, String type_name, String gender_for) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.image_url = image_url;
+        this.price = price;
+        this.type_name = type_name;
+        this.gender_for = gender_for;
+    }
 
     public int getId() {
         return id;

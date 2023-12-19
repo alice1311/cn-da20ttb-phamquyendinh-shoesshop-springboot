@@ -31,8 +31,6 @@ public class Product implements Serializable {
     @Column(name = "price", nullable = false)
     private float price;
 
-    @Column(name="saleID", nullable = true)
-    private int sale_id;
 
     @ManyToOne
     @JoinColumn(name="saleId", nullable = true)
@@ -91,14 +89,14 @@ public class Product implements Serializable {
     }
 
 
-
-    public int getSale_id() {
-        return sale_id;
-    }
-
-
-    public void setSale_id(int sale_id) {
-        this.sale_id = sale_id;
+    public Product(String name, String description, String image_url, float price, Sale sale, ProductType typeProduct, GenderType gender_type) {
+        this.name = name;
+        this.description = description;
+        this.image_url = image_url;
+        this.price = price;
+        this.sale = sale;
+        this.typeProduct = typeProduct;
+        this.gender_type = gender_type;
     }
 
     public Sale getSale() {

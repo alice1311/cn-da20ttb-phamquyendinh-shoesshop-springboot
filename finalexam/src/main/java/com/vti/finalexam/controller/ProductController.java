@@ -38,8 +38,15 @@ public class ProductController {
         Page<ProductDTO> dtoPage = entitiesPage.map(new Function<Product, ProductDTO>() {
             @Override
             public ProductDTO apply(Product product) {
-                ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(),product.getSale().getPercent_sale(), product.getGender_type().toString());
-                return dto;
+                if(product.getSale() == null){
+                    ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(), product.getGender_type().toString());
+                    return dto;
+                }else{
+                    ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(),product.getSale().getPercent_sale(), product.getGender_type().toString());
+                    return dto;
+                }
+
+
             }
         });
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);

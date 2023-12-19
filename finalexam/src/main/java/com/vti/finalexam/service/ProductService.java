@@ -2,9 +2,11 @@ package com.vti.finalexam.service;
 
 import com.vti.finalexam.entity.Product;
 import com.vti.finalexam.entity.ProductType;
+import com.vti.finalexam.entity.Sale;
 import com.vti.finalexam.form.ProductFormCreating;
 import com.vti.finalexam.repository.IProductRepository;
 import com.vti.finalexam.repository.IProductTypeRepository;
+import com.vti.finalexam.repository.ISaleRepository;
 import com.vti.finalexam.specification.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,8 @@ public class ProductService implements IProductService{
     private IProductRepository repository;
     @Autowired
     private IProductTypeRepository productTypeRepository;
+    @Autowired
+    private ISaleRepository saleRepository;
     @Override
     public Page<Product> getAllProducts(Pageable pageable, String search) {
         Specification<Product> where = null;
@@ -40,14 +44,19 @@ public class ProductService implements IProductService{
     @Override
     public void createProduct(ProductFormCreating productFormCreating) {
         ProductType productType = productTypeRepository.findById(productFormCreating.getType_id());
+        Sale sale = null;
+        if(0 != productFormCreating.getSale_id()){
+            sale = saleRepository.getSaleById(productFormCreating.getSale_id());
+        }
         Product product = new Product(
-                productFormCreating.getName(),
-                productFormCreating.getDescription(),
-
-                productFormCreating.getImage_url(),
-                productFormCreating.getPrice(),
-                productType
-        );
+                        productFormCreating.getName(),
+                        productFormCreating.getDescription(),
+                        productFormCreating.getImage_url(),
+                        productFormCreating.getPrice(),
+                        sale,
+                        productType,
+                        productFormCreating.getGenderType()
+                        );
         repository.save(product);
     }
 
