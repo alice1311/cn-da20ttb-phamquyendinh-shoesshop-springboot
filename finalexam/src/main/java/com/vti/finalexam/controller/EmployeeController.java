@@ -47,7 +47,7 @@ public class EmployeeController {
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/update/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable(name = "id") int id, @RequestBody AccountFormUpdating accountFormUpdating) throws ParseException {
         service.updateEmployee(id, accountFormUpdating);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);

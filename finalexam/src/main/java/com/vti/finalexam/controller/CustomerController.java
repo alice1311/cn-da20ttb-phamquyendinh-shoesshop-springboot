@@ -40,13 +40,13 @@ public class CustomerController {
         });
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
-     @PostMapping()
+     @PostMapping(value = "/register")
     public ResponseEntity<?> createCustomer(@RequestBody AccountFormCreating formCreating) throws ParseException {
         service.createCustomer(formCreating);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/register/{id}")
     public ResponseEntity<?> updateCustomer(@PathVariable(name = "id") int id, @RequestBody AccountFormUpdating accountFormUpdating) throws ParseException {
         service.updateCustomer(id, accountFormUpdating);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);

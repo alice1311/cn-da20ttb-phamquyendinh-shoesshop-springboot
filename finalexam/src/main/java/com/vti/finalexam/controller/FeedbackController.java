@@ -35,7 +35,7 @@ public class FeedbackController {
    }
 
 
-        @PostMapping()
+        @PostMapping(value = "/customer")
         public ResponseEntity<?> createFeedback(@RequestBody FeedbackCreating formCreating){
             service.createFeedback(formCreating);
             return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);

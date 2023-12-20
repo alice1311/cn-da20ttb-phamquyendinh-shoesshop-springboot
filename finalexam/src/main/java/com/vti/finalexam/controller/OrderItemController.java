@@ -39,13 +39,13 @@ public class OrderItemController {
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping(value = "/create")
     public ResponseEntity<?> createOrderItem(@RequestBody OrderItemFormCreating formCreating){
         service.createOderItem(formCreating);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "update/{id}")
     public ResponseEntity<?> updateOrderItem(@PathVariable(name = "id") int id, @RequestBody OrderItemFormUpdating formUpdating){
         service.updateOderItem(id, formUpdating);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
