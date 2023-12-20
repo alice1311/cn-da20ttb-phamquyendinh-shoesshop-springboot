@@ -6,10 +6,12 @@ import com.vti.finalexam.DTO.ProductDetailDTO;
 import com.vti.finalexam.entity.Account;
 import com.vti.finalexam.entity.Product;
 import com.vti.finalexam.entity.ProductDetail;
+import com.vti.finalexam.entity.ProductType;
 import com.vti.finalexam.form.AccountFormCreating;
 import com.vti.finalexam.form.ProductFormCreating;
 import com.vti.finalexam.service.IProductDetailService;
 import com.vti.finalexam.service.IProductService;
+import com.vti.finalexam.service.IProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
@@ -32,10 +34,28 @@ public class ProductController {
 
     @Autowired
     private IProductDetailService productDetailService;
+    @Autowired
+    private IProductTypeService productTypeService;
 
     @GetMapping(value = "/full")
     public ResponseEntity<?> getProductfull(){
         List<Product> products = service.getFullProduct();
+        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
+        for(Product product : products){
+            if(product.getSale() == null){
+                ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(), product.getGender_type().toString());
+                productDTOS.add(dto);
+            }else{
+                ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(),product.getSale().getPercent_sale(), product.getGender_type().toString());
+                productDTOS.add(dto);
+            }
+        }
+        return new ResponseEntity<>(productDTOS, HttpStatus.OK);
+    }
+    @GetMapping(value = "/type/{id}")
+    public ResponseEntity<?> getProductByType(@PathVariable(name = "id") int id){
+        ProductType productType = productTypeService.getProductTypeById(id);
+        List<Product> products = productType.getProducts();
         ArrayList<ProductDTO> productDTOS = new ArrayList<>();
         for(Product product : products){
             if(product.getSale() == null){

@@ -28,6 +28,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/products/all").permitAll()
                 .antMatchers("/api/v1/products/full").permitAll()
+                .antMatchers("/api/v1/products/type/{id}").permitAll()
                 .antMatchers("api/v1/product/productDetail/{id}").permitAll()
                 .antMatchers("/api/v1/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                 .antMatchers("/api/v1/products").hasAnyAuthority("ADMIN", "EMPLOYEE")
