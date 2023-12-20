@@ -15,6 +15,7 @@ public interface IProductService {
     public void createProduct(ProductFormCreating productFormCreating);
     public  void updateProduct(int id, ProductFormCreating productFormCreating);
 
+    public List<Product> getFullProduct();
      public Product getProductById(int id);
 
 //    public boolean doesProductExist(String name, String color, String size);

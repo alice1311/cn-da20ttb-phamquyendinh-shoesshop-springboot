@@ -31,6 +31,8 @@ public class ProductService implements IProductService{
     private IProductTypeRepository productTypeRepository;
     @Autowired
     private ISaleRepository saleRepository;
+
+
     @Override
     public Page<Product> getAllProducts(Pageable pageable, String search) {
         Specification<Product> where = null;
@@ -70,6 +72,11 @@ public class ProductService implements IProductService{
         product.setImage_url(productFormCreating.getImage_url());
         product.setTypeProduct(productType);
         repository.save(product);
+    }
+
+    @Override
+    public List<Product> getFullProduct() {
+        return repository.findAll();
     }
 
     @Override

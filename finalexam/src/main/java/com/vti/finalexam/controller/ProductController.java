@@ -32,6 +32,22 @@ public class ProductController {
 
     @Autowired
     private IProductDetailService productDetailService;
+
+    @GetMapping(value = "/full")
+    public ResponseEntity<?> getProductfull(){
+        List<Product> products = service.getFullProduct();
+        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
+        for(Product product : products){
+            if(product.getSale() == null){
+                ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(), product.getGender_type().toString());
+                productDTOS.add(dto);
+            }else{
+                ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(),product.getSale().getPercent_sale(), product.getGender_type().toString());
+                productDTOS.add(dto);
+            }
+        }
+        return new ResponseEntity<>(productDTOS, HttpStatus.OK);
+    }
     @GetMapping(value = "/all")
     public ResponseEntity<?> getAllProducts(Pageable pageable, @RequestParam String search){
         Page<Product> entitiesPage = service.getAllProducts(pageable, search);

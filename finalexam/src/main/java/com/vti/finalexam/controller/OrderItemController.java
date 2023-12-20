@@ -51,7 +51,7 @@ public class OrderItemController {
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/delete/{id}")
     public ResponseEntity<?> getOrderItemById(@PathVariable(name = "id") int id){
        OrderItem orderItem = service.getOrderItemById(id);
         OderItemDTO dto = new OderItemDTO(orderItem.getId(), orderItem.getSell_price(), orderItem.getSubtotal(), orderItem.getQuantity(),orderItem.getOrder().getId(), orderItem.getProduct_detail_order().getId());
