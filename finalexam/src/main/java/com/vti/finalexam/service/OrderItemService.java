@@ -51,7 +51,11 @@ public class OrderItemService implements IOrderItemService{
         Order order = oderRepository.getOrderById(formCreating.getOrder_id());
         ProductDetail productDetail = productDetailRepository.getDetailById(formCreating.getProduct_detail_id());
         Product product = productDetail.getProduct_detail();
+        if (order.getOderStatus() == Order.OderStatus.TO_PAY){
+            productDetail.setQuantity(productDetail.getQuantity() - formCreating.getQuantity());
+        }
         float subtotal = formCreating.getQuantity() * product.getPrice();
+        order.setTotal_amount(order.getTotal_amount() + subtotal);
         OrderItem orderItem = new OrderItem(
                 product.getPrice(),
                 subtotal,
@@ -65,11 +69,18 @@ public class OrderItemService implements IOrderItemService{
     @Override
     public void updateOderItem(int id, OrderItemFormUpdating formUpdating) {
         OrderItem orderItem = repository.getOrderItemById(id);
-        orderItem.setQuantity(formUpdating.getQuantity());
+        Order order = orderItem.getOrder();
         ProductDetail productDetail = orderItem.getProduct_detail_order();
+        if (order.getOderStatus() == Order.OderStatus.TO_PAY){
+            productDetail.setQuantity(productDetail.getQuantity() - orderItem.getQuantity());
+            productDetail.setQuantity(productDetail.getQuantity()+ formUpdating.getQuantity());
+        }
+        order.setTotal_amount(order.getTotal_amount()-orderItem.getSubtotal());
+        orderItem.setQuantity(formUpdating.getQuantity());
         Product product = productDetail.getProduct_detail();
         float subtotal = formUpdating.getQuantity()*product.getPrice();
         orderItem.setSubtotal(subtotal);
+        order.setTotal_amount(order.getTotal_amount()+orderItem.getSubtotal());
         orderItem.setSell_price(product.getPrice());
         repository.save(orderItem);
     }

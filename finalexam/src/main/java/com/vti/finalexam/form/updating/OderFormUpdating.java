@@ -6,7 +6,6 @@ import java.util.Date;
 
 public class OderFormUpdating {
 
-    private float total_amount;
 
     private Date oder_date;
 
@@ -16,21 +15,15 @@ public class OderFormUpdating {
 
     private int payment_method_id;
 
-    public OderFormUpdating(float total_amount, Date oder_date, Order.OderStatus oderStatus, int employee_id, int payment_method_id) {
-        this.total_amount = total_amount;
+    public OderFormUpdating( Date oder_date, Order.OderStatus oderStatus, int employee_id, int payment_method_id) {
+
         this.oder_date = oder_date;
         this.oderStatus = oderStatus;
         this.employee_id = employee_id;
         this.payment_method_id = payment_method_id;
     }
 
-    public float getTotal_amount() {
-        return total_amount;
-    }
 
-    public void setTotal_amount(float total_amount) {
-        this.total_amount = total_amount;
-    }
 
     public Date getOder_date() {
         return oder_date;

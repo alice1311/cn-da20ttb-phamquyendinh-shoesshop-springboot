@@ -46,8 +46,8 @@ public class PaymentMethodService implements IPaymentMethodService {
     @Override
     public void updatePaymentMethod(int id, PaymentMethodCreating paymentMethodCreating) {
         PaymentMethod paymentMethod = repository.getPaymentMethodById(id);
-        paymentMethod.setName(paymentMethod.getName());
-        paymentMethod.setDescription_payment(paymentMethod.getDescription_payment());
+        paymentMethod.setName(paymentMethodCreating.getName());
+        paymentMethod.setDescription_payment(paymentMethodCreating.getDescription_payment());
         repository.save(paymentMethod);
     }
 

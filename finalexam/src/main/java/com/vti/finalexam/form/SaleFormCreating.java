@@ -5,6 +5,7 @@ public class SaleFormCreating {
 
     private float percent_sale;
 
+
     private String start_date;
 
     private String end_date;

@@ -1,5 +1,6 @@
 package com.vti.finalexam.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -21,14 +22,14 @@ public class Sale implements Serializable {
     @Column(name = "percentSale", nullable = false)
     private float percent_sale;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "startSale", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
     private Date start_date;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "endSale", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
     private Date end_date;
 
     @OneToMany(mappedBy = "sale")

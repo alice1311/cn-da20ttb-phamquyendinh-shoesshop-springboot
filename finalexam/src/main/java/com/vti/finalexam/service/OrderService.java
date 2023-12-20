@@ -57,6 +57,7 @@ public class OrderService implements IOrderService{
 
     @Override
     public void updateOder(int id, OrderFormCreating formUpdating) {
+        System.out.println(formUpdating.getEmployee_id());
         Employee employee = employeeRepository.getEmployeeById(formUpdating.getEmployee_id());
         Order order = repository.getOrderById(id);
         if(0 != formUpdating.getPayment_method_id()){
@@ -66,7 +67,6 @@ public class OrderService implements IOrderService{
         order.setEmployee(employee);
         order.setOderStatus(formUpdating.getOderStatus());
         order.setOder_date(formUpdating.getOder_date());
-        order.setTotal_amount(formUpdating.getTotal_amount());
         repository.save(order);
     }
 
