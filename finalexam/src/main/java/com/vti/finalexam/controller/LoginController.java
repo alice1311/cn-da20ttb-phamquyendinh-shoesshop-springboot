@@ -15,7 +15,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping(value = "api/v1/login")
-@CrossOrigin("http://127.0.0.1:5500")
+@CrossOrigin("http://localhost:3000")
 public class LoginController {
     @Autowired
     private IAccountService accountService;

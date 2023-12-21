@@ -23,7 +23,7 @@ import java.util.function.Function;
 
 @RestController
 @RequestMapping(value = "api/v1/customers")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CustomerController {
     @Autowired
     private ICustomerService service;

@@ -21,7 +21,7 @@ import java.util.function.Function;
 
 @RestController
 @RequestMapping(value = "api/v1/sales")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SaleController {
     @Autowired
     private ISaleService service;
