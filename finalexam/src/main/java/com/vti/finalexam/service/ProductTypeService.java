@@ -1,10 +1,8 @@
 package com.vti.finalexam.service;
 
-import com.vti.finalexam.entity.Product;
 import com.vti.finalexam.entity.ProductType;
 import com.vti.finalexam.form.ProductTypeFormCreating;
 import com.vti.finalexam.repository.IProductTypeRepository;
-import com.vti.finalexam.specification.ProductSpecification;
 import com.vti.finalexam.specification.ProductTypeSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +26,11 @@ public class ProductTypeService implements IProductTypeService{
             where = Specification.where(searchSpecification);
         }
         return repository.findAll(Specification.where(where), pageable);
+    }
+
+    @Override
+    public List<ProductType> getAllProductTypes() {
+        return repository.findAll();
     }
 
     @Override

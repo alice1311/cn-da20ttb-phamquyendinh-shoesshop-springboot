@@ -2,6 +2,7 @@ package com.vti.finalexam.controller;
 
 import com.vti.finalexam.DTO.AccountDTO;
 import com.vti.finalexam.DTO.ProductDTO;
+import com.vti.finalexam.DTO.ProductDetailDTO;
 import com.vti.finalexam.DTO.ProductTypeDTO;
 import com.vti.finalexam.entity.Account;
 import com.vti.finalexam.entity.Product;
@@ -27,7 +28,7 @@ public class ProductTypeController {
     @Autowired
     private IProductTypeService service;
 
-    @GetMapping()
+    @GetMapping(value="/all")
     public ResponseEntity<?> getAllProductTypes(Pageable pageable, @RequestParam String search){
         Page<ProductType> entitiesPage = service.getAllProductTypes(pageable, search);
         Page<ProductTypeDTO> dtosPage = entitiesPage.map(new Function<ProductType, ProductTypeDTO>(){
@@ -37,6 +38,16 @@ public class ProductTypeController {
             }
         });
         return new ResponseEntity<>(dtosPage, HttpStatus.OK);
+    }
+    @GetMapping(value="/full")
+    public ResponseEntity<?> getFullProductTypes(){
+        List<ProductType> entities = service.getAllProductTypes();
+        ArrayList<ProductTypeDTO> productTypeDTOS = new ArrayList<>();
+        for(ProductType productType: entities){
+            ProductTypeDTO productTypeDTO = new ProductTypeDTO(productType.getId(), productType.getName());
+            productTypeDTOS.add(productTypeDTO);
+        }
+        return new ResponseEntity<>(productTypeDTOS, HttpStatus.OK);
     }
 
     @PostMapping()

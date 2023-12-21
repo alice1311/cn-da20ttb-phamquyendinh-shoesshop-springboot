@@ -27,4 +27,7 @@ public interface IProductTypeRepository extends JpaRepository<ProductType, Integ
     public void deleteByIds(@Param("ids") List<Integer> ids);
 
     <T> Page<ProductType> findAll(Specification<T> where, Pageable pageable);
+
+    @Override
+    List<ProductType> findAll();
 }
