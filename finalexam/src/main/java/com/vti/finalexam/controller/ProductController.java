@@ -103,16 +103,28 @@ public class ProductController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getProductById(@PathVariable(name = "id") int id){
         Product product = service.getProductById(id);
-        ProductDTO productDTO = new ProductDTO(
-                product.getId(),
-                product.getName(),
-                product.getDescription(),
-                product.getImage_url(),
-                product.getPrice(),
-                product.getTypeProduct().getName(),
-                product.getSale().getPercent_sale(),
-                product.getGender_type().toString());
-        return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
+        if(product.getSale() == null){
+            ProductDTO productDTO = new ProductDTO(
+                    product.getId(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getImage_url(),
+                    product.getPrice(),
+                    product.getTypeProduct().getName(),
+                    product.getGender_type().toString());
+            return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
+        }else {
+            ProductDTO productDTO = new ProductDTO(
+                    product.getId(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getImage_url(),
+                    product.getPrice(),
+                    product.getTypeProduct().getName(),
+                    product.getSale().getPercent_sale(),
+                    product.getGender_type().toString());
+            return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
+        }
     }
     @GetMapping(value = "/productDetail/{id}")
     public ResponseEntity<?> getProductDetail(@PathVariable(name = "id") int id){
