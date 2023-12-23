@@ -6,6 +6,7 @@ import com.vti.finalexam.entity.Order;
 import com.vti.finalexam.entity.Product;
 import com.vti.finalexam.form.OrderFormCreating;
 import com.vti.finalexam.form.ProductFormCreating;
+import com.vti.finalexam.service.IOrderItemService;
 import com.vti.finalexam.service.IOrderService;
 import com.vti.finalexam.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ import java.util.function.Function;
 public class OrderController {
     @Autowired
     private IOrderService service;
+
+    @Autowired
+    private IOrderItemService orderItemService;
     @GetMapping()
     public ResponseEntity<?> getAllOrders(Pageable pageable, @RequestParam String search){
         Page<Order> entitiesPage = service.getAllOrders(pageable, search);
@@ -47,11 +51,18 @@ public class OrderController {
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/create")
-    public ResponseEntity<?> createOrder(@RequestBody OrderFormCreating formCreating){
+    @PostMapping(value = "/createOrder")
+    public ResponseEntity<?> createOrder(@RequestBody OrderFormCreating formCreating, @RequestParam(name="ids") List<Integer> ids){
         service.customer_createOder(formCreating);
+        orderItemService.deleteOrderItems(ids);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
+
+//    @PostMapping(value = "/createCart")
+//    public ResponseEntity<?> createOrderCart(@RequestBody OrderFormCreating formCreating){
+//        service.customer_createOderCart(formCreating);
+//        return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
+//    }
 
     @PutMapping(value = "update/{id}")
     public ResponseEntity<?> updateOrder(@PathVariable(name = "id") int id, @RequestBody OrderFormCreating formCreating){

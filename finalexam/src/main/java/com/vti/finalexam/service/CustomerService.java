@@ -2,10 +2,12 @@ package com.vti.finalexam.service;
 
 import com.vti.finalexam.entity.Account;
 import com.vti.finalexam.entity.Customer;
+import com.vti.finalexam.entity.Order;
 import com.vti.finalexam.form.AccountFormCreating;
 import com.vti.finalexam.form.updating.AccountFormUpdating;
 import com.vti.finalexam.repository.IAccountRepository;
 import com.vti.finalexam.repository.ICustomerRepository;
+import com.vti.finalexam.repository.IOderRepository;
 import com.vti.finalexam.specification.AccountSpecification;
 import com.vti.finalexam.specification.CustomerSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class CustomerService implements ICustomerService{
 
     @Autowired
     private IAccountRepository accountRepository;
+
+    @Autowired
+    private IOderRepository oderRepository;
     @Override
     public Page<Customer> getAllCustomers(Pageable pageable, String search) {
         Specification<Customer> where = null;
@@ -54,6 +59,13 @@ public class CustomerService implements ICustomerService{
         Date birthday = dateFormat.parse(accountFormCreating.getBirthday());
         String password = new BCryptPasswordEncoder().encode((CharSequence) accountFormCreating.getPassword());
         Customer customer = new Customer(accountFormCreating.getUsername(), password, accountFormCreating.getFirstName(), accountFormCreating.getLastName(), accountFormCreating.getAddress(), birthday,accountFormCreating.getEmail(), Account.Role.CUSTOMER,accountFormCreating.getGender(), createdate);
+        Date creating_date = new Date();
+        Order order = new Order(
+                creating_date,
+                Order.OderStatus.ADDED_TO_CARD,
+                customer
+        );
+        oderRepository.save(order);
         repository.save(customer);
     }
 

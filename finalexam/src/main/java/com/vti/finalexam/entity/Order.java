@@ -44,6 +44,19 @@ public class Order implements Serializable {
         this.customer = customer;
     }
 
+    public Order(Date oder_date, OderStatus oderStatus, Customer customer) {
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer = customer;
+    }
+
+    public Order(Date oder_date, OderStatus oderStatus, Customer customer, PaymentMethod payment_method) {
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer = customer;
+        this.payment_method = payment_method;
+    }
+
     @ManyToOne
     @JoinColumn(name="customerId", nullable = true)
     private Customer  customer;

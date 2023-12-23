@@ -38,19 +38,17 @@ public class OrderService implements IOrderService{
         return repository.findAll(Specification.where(where), pageable);
     }
 
+
     @Override
     public void customer_createOder(OrderFormCreating formCreating) {
         Customer customer = customerRepository.getCustomerById(formCreating.getCustomer_id());
-        PaymentMethod paymentMethod = null;
-        if(0 != formCreating.getPayment_method_id()){
-            paymentMethod = paymentMethodRepository.getPaymentMethodById(formCreating.getPayment_method_id());
-        }
+        PaymentMethod paymentMethod = paymentMethodRepository.getPaymentMethodById(formCreating.getPayment_method_id());
         Date creating_date = new Date();
         Order order = new Order(
-                formCreating.getTotal_amount(),
                 creating_date,
-                formCreating.getOderStatus(),
-                customer
+                Order.OderStatus.TO_PAY,
+                customer,
+                paymentMethod
         );
         repository.save(order);
     }
