@@ -28,6 +28,9 @@ public class OrderService implements IOrderService{
 
     @Autowired
     private IOderItemRepository oderItemRepository;
+
+    @Autowired
+    private IOrderItemService service;
     @Override
     public Page<Order> getAllOrders(Pageable pageable, String search) {
         Specification<Order> where = null;
@@ -40,7 +43,7 @@ public class OrderService implements IOrderService{
 
 
     @Override
-    public void customer_createOder(OrderFormCreating formCreating) {
+    public void customer_createOder(OrderFormCreating formCreating, List<Integer> ids) {
         Customer customer = customerRepository.getCustomerById(formCreating.getCustomer_id());
         PaymentMethod paymentMethod = paymentMethodRepository.getPaymentMethodById(formCreating.getPayment_method_id());
         Date creating_date = new Date();
@@ -51,6 +54,7 @@ public class OrderService implements IOrderService{
                 paymentMethod
         );
         repository.save(order);
+        service.changeCartToOrder(order.getId(), ids);
     }
 
     @Override
@@ -66,6 +70,7 @@ public class OrderService implements IOrderService{
         order.setOderStatus(formUpdating.getOderStatus());
         order.setOder_date(formUpdating.getOder_date());
         repository.save(order);
+
     }
 
     @Override

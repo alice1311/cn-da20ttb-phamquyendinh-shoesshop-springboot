@@ -53,8 +53,7 @@ public class OrderController {
 
     @PostMapping(value = "/createOrder")
     public ResponseEntity<?> createOrder(@RequestBody OrderFormCreating formCreating, @RequestParam(name="ids") List<Integer> ids){
-        service.customer_createOder(formCreating);
-        orderItemService.deleteOrderItems(ids);
+        service.customer_createOder(formCreating, ids);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
 

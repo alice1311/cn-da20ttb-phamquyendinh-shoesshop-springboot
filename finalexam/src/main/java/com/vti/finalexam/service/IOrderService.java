@@ -12,7 +12,7 @@ import java.util.List;
 public interface IOrderService {
     public Page<Order> getAllOrders(Pageable pageable, String search);
 
-    public void customer_createOder(OrderFormCreating formCreating);
+    public void customer_createOder(OrderFormCreating formCreating, List<Integer> ids);
 
     public  void updateOder(int id, OrderFormCreating formUpdating);
 

@@ -86,6 +86,18 @@ public class OrderItemService implements IOrderItemService{
     }
 
     @Override
+    public void changeCartToOrder(int id_oder, List<Integer> id_oder_items) {
+        Order order = oderRepository.getOrderById(id_oder);
+        float total_amount = 0;
+        for (Integer id_oder_item : id_oder_items){
+            OrderItem orderItem = repository.getOrderItemById(id_oder_item);
+            total_amount = total_amount + orderItem.getSubtotal();
+            orderItem.setOrder(order);
+        }
+        order.setTotal_amount(total_amount);
+    }
+
+    @Override
     public OrderItem getOrderItemById(int id) {
         return repository.getOrderItemById(id);
     }

@@ -14,7 +14,7 @@ public interface IOrderItemService {
     public Page<OrderItem> getAllOrderItems(Pageable pageable, String search);
     public void createOderItem(OrderItemFormCreating formCreating);
     public  void updateOderItem(int id, OrderItemFormUpdating formUpdating);
-
+    public  void changeCartToOrder(int id_oder, List<Integer> id_oder_items);
     public OrderItem getOrderItemById(int id);
 
     public  void deleteOrderItem(int id);
