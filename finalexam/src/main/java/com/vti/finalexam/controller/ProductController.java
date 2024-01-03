@@ -111,6 +111,7 @@ public class ProductController {
                     product.getImage_url(),
                     product.getPrice(),
                     product.getTypeProduct().getName(),
+                    product.getTypeProduct().getId(),
                     product.getGender_type().toString());
             return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
         }else {
@@ -121,7 +122,9 @@ public class ProductController {
                     product.getImage_url(),
                     product.getPrice(),
                     product.getTypeProduct().getName(),
+                    product.getTypeProduct().getId(),
                     product.getSale().getPercent_sale(),
+                    product.getSale().getId(),
                     product.getGender_type().toString());
             return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
         }
