@@ -28,4 +28,6 @@ public interface IProductRepository extends JpaRepository<Product, Integer>, Jpa
     @Transactional
     @Query("DELETE FROM Product WHERE id IN(:ids)")
     public void deleteByIds(@Param("ids")List<Integer> ids);
+
+
 }

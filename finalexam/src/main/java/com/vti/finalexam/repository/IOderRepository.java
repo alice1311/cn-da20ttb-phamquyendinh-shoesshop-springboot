@@ -23,4 +23,5 @@ public interface IOderRepository extends JpaRepository<Order, Integer> {
     public void deleteByIds(@Param("ids") List<Integer> ids);
 
     <T> Page<Order> findAll(Specification<T> where, Pageable pageable);
+
 }

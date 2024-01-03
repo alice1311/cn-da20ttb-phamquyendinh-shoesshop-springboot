@@ -35,7 +35,7 @@ public class OrderController {
             @Override
             public OrderDTO apply(Order order) {
                 if(order.getOderStatus() == Order.OderStatus.ADDED_TO_CARD){
-                    OrderDTO dto = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId());
+                    OrderDTO dto = new OrderDTO(order.getId(),order.getOder_date(),order.getOderStatus(), order.getCustomer().getId());
                     return dto;
                 }else if(order.getOderStatus() == Order.OderStatus.TO_PAY){
                     OrderDTO dto = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId(), order.getPayment_method().getId());
@@ -59,7 +59,7 @@ public class OrderController {
 
 //    @PostMapping(value = "/createCart")
 //    public ResponseEntity<?> createOrderCart(@RequestBody OrderFormCreating formCreating){
-//        service.customer_createOderCart(formCreating);
+//        service.createCart(formCreating);
 //        return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
 //    }
 
@@ -87,4 +87,7 @@ public class OrderController {
     public void deleteOrders(@RequestParam(name="ids") List<Integer> ids){
         service.deleteOrders(ids);
     }
+
+
+
 }

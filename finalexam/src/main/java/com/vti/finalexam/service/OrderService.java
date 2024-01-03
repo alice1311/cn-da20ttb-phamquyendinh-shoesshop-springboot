@@ -57,6 +57,18 @@ public class OrderService implements IOrderService{
         service.changeCartToOrder(order.getId(), ids);
     }
 
+//    @Override
+//    public void createCart(OrderFormCreating formCreating) {
+//        Customer customer = customerRepository.getCustomerById(formCreating.getCustomer_id());
+//        Date creating_date = new Date();
+//        Order order = new Order(
+//                creating_date,
+//                Order.OderStatus.ADDED_TO_CARD,
+//                customer
+//        );
+//        repository.save(order);
+//    }
+
     @Override
     public void updateOder(int id, OrderFormCreating formUpdating) {
         System.out.println(formUpdating.getEmployee_id());
@@ -82,6 +94,11 @@ public class OrderService implements IOrderService{
     public void deleteOrder(int id) {
         repository.deleteById(id);
     }
+
+
+
+
+
 
     @Override
     public void deleteOrders(List<Integer> ids) {
