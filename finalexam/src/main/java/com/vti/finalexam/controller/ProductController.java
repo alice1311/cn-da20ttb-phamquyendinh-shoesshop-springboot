@@ -94,7 +94,7 @@ public class ProductController {
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/update/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable(name = "id") int id, @RequestBody ProductFormCreating formCreating){
      service.updateProduct(id, formCreating);
      return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);

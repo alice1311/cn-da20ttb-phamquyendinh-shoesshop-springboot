@@ -33,7 +33,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/productTypes/full").permitAll()
                 .antMatchers("/api/v1/products/productDetail/{id}").permitAll()
 //                .antMatchers("/api/v1/products/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
-                .antMatchers("/api/v1/products/{id}").hasAnyAuthority("ADMIN", "EMPLOYEE")
+                .antMatchers("/api/v1/products/update/{id}").hasAnyAuthority("ADMIN", "EMPLOYEE")
                 .antMatchers("/api/v1/accounts/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/v1/productTypes/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
                 .antMatchers("api/v1/feedbacks/**").hasAnyAuthority("ADMIN")
