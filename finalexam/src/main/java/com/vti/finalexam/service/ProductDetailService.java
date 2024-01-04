@@ -50,13 +50,11 @@ public class ProductDetailService implements IProductDetailService{
 
     @Override
     public void updateProductDetail(int id, ProductDetailFormCreating formCreating) {
-        Product product = productRepository.getProductById(formCreating.getProduct_id());
         ProductDetail productDetail = repository.getDetailById(id);
         productDetail.setQuantity(formCreating.getQuantity());
         productDetail.setImg_url(formCreating.getImg_url());
         productDetail.setColor(formCreating.getColor());
         productDetail.setSize(formCreating.getSize());
-        productDetail.setProduct_detail(product);
         repository.save(productDetail);
     }
 
