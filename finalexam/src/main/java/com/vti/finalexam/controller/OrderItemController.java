@@ -51,14 +51,14 @@ public class OrderItemController {
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
     }
 
-    @GetMapping(value = "/delete/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<?> getOrderItemById(@PathVariable(name = "id") int id){
        OrderItem orderItem = service.getOrderItemById(id);
         OderItemDTO dto = new OderItemDTO(orderItem.getId(), orderItem.getSell_price(), orderItem.getSubtotal(), orderItem.getQuantity(),orderItem.getOrder().getId(), orderItem.getProduct_detail_order().getId());
         return new ResponseEntity<OderItemDTO>(dto, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "delete/{id}")
     public ResponseEntity<?> deleteOrderItem(@PathVariable(name = "id") int id){
         service.deleteOrderItem(id);
         return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);

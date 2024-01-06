@@ -56,7 +56,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("api/v1/orders/checkCart/{id}").hasAnyAuthority("CUSTOMER")
                 .antMatchers("api/v1/orders/createCart").hasAnyAuthority("CUSTOMER")
                 .antMatchers("api/v1/orders/update").hasAnyAuthority("EMPLOYEE", "CUSTOMER")
-                .antMatchers("api/v1/orderItems/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+//                .antMatchers("api/v1/orderItems/**").hasAnyAuthority("ADMIN", "CUSTOMER")
                 .antMatchers("api/v1/orderItems/create").hasAnyAuthority("CUSTOMER")
                 .antMatchers("api/v1/orderItems/update/{id}").hasAnyAuthority("CUSTOMER")
                 .antMatchers("api/v1/orderItems/delete/{id}").hasAnyAuthority("CUSTOMER")

@@ -98,7 +98,7 @@ public class OrderController {
         for (OrderItem orderItem : orderItems){
             ProductDetail productDetail = orderItem.getProduct_detail_order();
             Product product = productService.getProductById(productDetail.getProduct_detail().getId());
-            CartDTO cartDTO = new CartDTO(orderItem.getId(), productDetail.getImg_url(), orderItem.getQuantity(), orderItem.getSubtotal(), product.getPrice(),productDetail.getSize(), product.getName(), product.getTypeProduct().getName());
+            CartDTO cartDTO = new CartDTO(orderItem.getId(), productDetail.getImg_url(), orderItem.getQuantity(), orderItem.getSubtotal(), product.getPrice(),productDetail.getSize(), product.getName(), product.getTypeProduct().getName(), productDetail.getColor());
             cartDTOS.add(cartDTO);
         }
 

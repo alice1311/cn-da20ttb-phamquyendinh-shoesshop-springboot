@@ -11,12 +11,21 @@ public class CartDTO {
     private String size;
     private String name;
     private String brand;
+    private String color;
     public float getPrice() {
         return price;
     }
 
     public String getSize() {
         return size;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public void setSize(String size) {
@@ -110,5 +119,17 @@ public class CartDTO {
         this.size = size;
         this.name = name;
         this.brand = brand;
+    }
+
+    public CartDTO(int orderItem_id, String imgSrc, int quantity, float subtotal, float price, String size, String name, String brand, String color) {
+        this.orderItem_id = orderItem_id;
+        this.imgSrc = imgSrc;
+        this.quantity = quantity;
+        this.subtotal = subtotal;
+        this.price = price;
+        this.size = size;
+        this.name = name;
+        this.brand = brand;
+        this.color = color;
     }
 }
