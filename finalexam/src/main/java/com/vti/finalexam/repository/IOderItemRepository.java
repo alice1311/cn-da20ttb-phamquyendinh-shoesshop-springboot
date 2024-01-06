@@ -15,6 +15,7 @@ import java.util.List;
 
 public interface IOderItemRepository extends JpaRepository<OrderItem, Integer> {
     public OrderItem getOrderItemById(int id);
+    public List<OrderItem> getOrderItemByOrder(Order order);
     public void deleteById(int id);
     @Modifying
     @Transactional

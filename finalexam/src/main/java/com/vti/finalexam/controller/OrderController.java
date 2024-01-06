@@ -1,14 +1,12 @@
 package com.vti.finalexam.controller;
 
+import com.vti.finalexam.DTO.CartDTO;
 import com.vti.finalexam.DTO.OrderDTO;
 import com.vti.finalexam.DTO.ProductDTO;
-import com.vti.finalexam.entity.Order;
-import com.vti.finalexam.entity.Product;
+import com.vti.finalexam.entity.*;
 import com.vti.finalexam.form.OrderFormCreating;
 import com.vti.finalexam.form.ProductFormCreating;
-import com.vti.finalexam.service.IOrderItemService;
-import com.vti.finalexam.service.IOrderService;
-import com.vti.finalexam.service.IProductService;
+import com.vti.finalexam.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -28,6 +27,15 @@ public class OrderController {
 
     @Autowired
     private IOrderItemService orderItemService;
+
+    @Autowired
+    private ICustomerService customerService;
+
+    @Autowired
+    private IProductDetailService productDetailService;
+
+    @Autowired
+    private IProductService productService;
     @GetMapping()
     public ResponseEntity<?> getAllOrders(Pageable pageable, @RequestParam String search){
         Page<Order> entitiesPage = service.getAllOrders(pageable, search);
@@ -74,6 +82,27 @@ public class OrderController {
         Order order = service.getOrderById(id);
         OrderDTO orderDTO = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId(), order.getEmployee().getId(), order.getPayment_method().getId());
         return new ResponseEntity<OrderDTO>(orderDTO, HttpStatus.OK);
+    }
+    @GetMapping(value = "/getCartByCustomer/{id}")
+    public ResponseEntity<?> getCartByCustomerId(@PathVariable(name = "id") int id){
+        Customer customer = customerService.getCustomerById(id);
+        List<Order> orders = service.getOrderByCustomer(id);
+        int cartId = 0;
+        for (Order order: orders){
+            if(order.getOderStatus() == Order.OderStatus.ADDED_TO_CARD){
+                cartId = order.getId();
+            }
+        }
+        List<OrderItem> orderItems = orderItemService.getOrderItemByOrder(cartId);
+        ArrayList<CartDTO> cartDTOS = new ArrayList<>();
+        for (OrderItem orderItem : orderItems){
+            ProductDetail productDetail = orderItem.getProduct_detail_order();
+            Product product = productService.getProductById(productDetail.getProduct_detail().getId());
+            CartDTO cartDTO = new CartDTO(orderItem.getId(), productDetail.getImg_url(), orderItem.getQuantity(), orderItem.getSubtotal(), product.getPrice(),productDetail.getSize(), product.getName(), product.getTypeProduct().getName());
+            cartDTOS.add(cartDTO);
+        }
+
+        return new ResponseEntity<>(cartDTOS, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

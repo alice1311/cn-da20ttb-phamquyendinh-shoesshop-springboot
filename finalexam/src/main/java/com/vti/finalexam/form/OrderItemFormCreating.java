@@ -2,7 +2,7 @@ package com.vti.finalexam.form;
 
 public class OrderItemFormCreating {
     private int quantity;
-    private int order_id;
+    private int customer_id;
     private int product_detail_id;
 
     public int getQuantity() {
@@ -13,12 +13,12 @@ public class OrderItemFormCreating {
         this.quantity = quantity;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public int getCustomer_id() {
+        return customer_id;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public void setCustomer_id(int order_id) {
+        this.customer_id = order_id;
     }
 
     public int getProduct_detail_id() {
@@ -29,9 +29,9 @@ public class OrderItemFormCreating {
         this.product_detail_id = product_detail_id;
     }
 
-    public OrderItemFormCreating(int quantity, int order_id, int product_detail_id) {
+    public OrderItemFormCreating(int quantity, int customer_id, int product_detail_id) {
         this.quantity = quantity;
-        this.order_id = order_id;
+        this.customer_id = customer_id;
         this.product_detail_id = product_detail_id;
     }
 

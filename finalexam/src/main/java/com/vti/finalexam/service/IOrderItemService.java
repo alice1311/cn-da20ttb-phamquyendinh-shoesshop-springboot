@@ -16,7 +16,7 @@ public interface IOrderItemService {
     public  void updateOderItem(int id, OrderItemFormUpdating formUpdating);
     public  void changeCartToOrder(int id_oder, List<Integer> id_oder_items);
     public OrderItem getOrderItemById(int id);
-
+    public List<OrderItem> getOrderItemByOrder(int id);
     public  void deleteOrderItem(int id);
 
     void deleteOrderItems(List<Integer> ids);

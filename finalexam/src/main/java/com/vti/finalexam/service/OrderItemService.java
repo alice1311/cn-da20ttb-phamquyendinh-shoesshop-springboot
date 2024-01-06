@@ -1,16 +1,10 @@
 package com.vti.finalexam.service;
 
-import com.vti.finalexam.entity.Order;
-import com.vti.finalexam.entity.OrderItem;
-import com.vti.finalexam.entity.Product;
-import com.vti.finalexam.entity.ProductDetail;
+import com.vti.finalexam.entity.*;
 import com.vti.finalexam.form.OrderFormCreating;
 import com.vti.finalexam.form.OrderItemFormCreating;
 import com.vti.finalexam.form.updating.OrderItemFormUpdating;
-import com.vti.finalexam.repository.IOderItemRepository;
-import com.vti.finalexam.repository.IOderRepository;
-import com.vti.finalexam.repository.IProductDetailRepository;
-import com.vti.finalexam.repository.IProductRepository;
+import com.vti.finalexam.repository.*;
 import com.vti.finalexam.specification.OderItemSpecification;
 import com.vti.finalexam.specification.OderSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,6 +31,9 @@ public class OrderItemService implements IOrderItemService{
     @Autowired
     private IProductRepository productRepository;
 
+    @Autowired
+    private ICustomerRepository customerRepository;
+
     @Override
     public Page<OrderItem> getAllOrderItems(Pageable pageable, String search) {
         Specification<OrderItem> where = null;
@@ -48,12 +46,18 @@ public class OrderItemService implements IOrderItemService{
 
     @Override
     public void createOderItem(OrderItemFormCreating formCreating) {
-        Order order = oderRepository.getOrderById(formCreating.getOrder_id());
+        Customer customer = customerRepository.getCustomerById(formCreating.getCustomer_id());
+        ArrayList<Order> orderArrayList = oderRepository.findByCustomer(customer);
+        int order_id;
+        order_id = 0;
+        for(Order order : orderArrayList){
+            if(order.getOderStatus() == Order.OderStatus.ADDED_TO_CARD){
+                order_id = order.getId();
+            }
+        }
         ProductDetail productDetail = productDetailRepository.getDetailById(formCreating.getProduct_detail_id());
         Product product = productDetail.getProduct_detail();
-        if (order.getOderStatus() == Order.OderStatus.TO_PAY){
-            productDetail.setQuantity(productDetail.getQuantity() - formCreating.getQuantity());
-        }
+        Order order = oderRepository.getOrderById(order_id);
         float subtotal = formCreating.getQuantity() * product.getPrice();
         order.setTotal_amount(order.getTotal_amount() + subtotal);
         OrderItem orderItem = new OrderItem(
@@ -100,6 +104,12 @@ public class OrderItemService implements IOrderItemService{
     @Override
     public OrderItem getOrderItemById(int id) {
         return repository.getOrderItemById(id);
+    }
+
+    @Override
+    public List<OrderItem> getOrderItemByOrder(int id) {
+        Order order = oderRepository.getOrderById(id);
+        return repository.getOrderItemByOrder(order);
     }
 
     @Override

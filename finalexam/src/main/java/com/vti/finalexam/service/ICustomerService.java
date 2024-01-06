@@ -18,4 +18,5 @@ public interface ICustomerService {
     public Customer getCustomerById(int id);
     public  void deleteCustomer(int id);
     void deleteCustomers(List<Integer> ids);
+
 }

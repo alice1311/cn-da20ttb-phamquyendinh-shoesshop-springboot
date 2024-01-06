@@ -68,7 +68,6 @@ public class ProductService implements IProductService{
         Product product = repository.getProductById(id);
         product.setName(productFormCreating.getName());
         product.setDescription(productFormCreating.getDescription());
-
         product.setImage_url(productFormCreating.getImage_url());
         product.setTypeProduct(productType);
         repository.save(product);

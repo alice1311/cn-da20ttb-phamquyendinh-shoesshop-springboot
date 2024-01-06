@@ -57,17 +57,17 @@ public class OrderService implements IOrderService{
         service.changeCartToOrder(order.getId(), ids);
     }
 
-//    @Override
-//    public void createCart(OrderFormCreating formCreating) {
-//        Customer customer = customerRepository.getCustomerById(formCreating.getCustomer_id());
-//        Date creating_date = new Date();
-//        Order order = new Order(
-//                creating_date,
-//                Order.OderStatus.ADDED_TO_CARD,
-//                customer
-//        );
-//        repository.save(order);
-//    }
+    @Override
+    public void createCart(OrderFormCreating formCreating) {
+        Customer customer = customerRepository.getCustomerById(formCreating.getCustomer_id());
+        Date creating_date = new Date();
+        Order order = new Order(
+                creating_date,
+                Order.OderStatus.ADDED_TO_CARD,
+                customer
+        );
+        repository.save(order);
+    }
 
     @Override
     public void updateOder(int id, OrderFormCreating formUpdating) {
@@ -88,6 +88,12 @@ public class OrderService implements IOrderService{
     @Override
     public Order getOrderById(int id) {
         return repository.getOrderById(id);
+    }
+
+    @Override
+    public List<Order> getOrderByCustomer(int id) {
+        Customer customer = customerRepository.getCustomerById(id);
+        return repository.getOrderByCustomer(customer);
     }
 
     @Override
