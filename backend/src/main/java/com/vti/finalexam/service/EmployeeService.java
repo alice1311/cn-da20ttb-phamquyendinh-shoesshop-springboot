@@ -45,7 +45,7 @@ public class EmployeeService implements IEmployeeService{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date birthday = dateFormat.parse(accountFormCreating.getBirthday());
         String password = new BCryptPasswordEncoder().encode((CharSequence) accountFormCreating.getPassword());
-        Employee employee = new Employee(accountFormCreating.getUsername(), password, accountFormCreating.getFirstName(), accountFormCreating.getLastName(), accountFormCreating.getAddress(), birthday,accountFormCreating.getEmail(), Account.Role.EMPLOYEE,accountFormCreating.getGender(), createdate);
+        Employee employee = new Employee(accountFormCreating.getUsername(), accountFormCreating.getPhone(), password, accountFormCreating.getFirstName(), accountFormCreating.getLastName(), accountFormCreating.getAddress(), birthday,accountFormCreating.getEmail(), Account.Role.EMPLOYEE,accountFormCreating.getGender(), createdate);
         repository.save(employee);
     }
 

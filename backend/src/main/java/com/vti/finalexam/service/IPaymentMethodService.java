@@ -13,6 +13,7 @@ import java.util.List;
 
 public interface IPaymentMethodService {
     public Page<PaymentMethod> getAllPaymentMethods(Pageable pageable, String search);
+    public List<PaymentMethod> getPaymentMethods();
     public PaymentMethod getPaymentMethodByName(String name);
     public void createPaymentMethod(PaymentMethodCreating formCreating);
     public  void updatePaymentMethod(int id, PaymentMethodCreating paymentMethodCreating);

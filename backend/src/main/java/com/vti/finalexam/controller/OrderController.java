@@ -5,6 +5,7 @@ import com.vti.finalexam.DTO.OrderDTO;
 import com.vti.finalexam.DTO.ProductDTO;
 import com.vti.finalexam.entity.*;
 import com.vti.finalexam.form.OrderFormCreating;
+import com.vti.finalexam.form.OrderItemForm;
 import com.vti.finalexam.form.ProductFormCreating;
 import com.vti.finalexam.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,8 @@ public class OrderController {
     }
 
     @PostMapping(value = "/createOrder")
-    public ResponseEntity<?> createOrder(@RequestBody OrderFormCreating formCreating, @RequestParam(name="ids") List<Integer> ids){
-        service.customer_createOder(formCreating, ids);
+    public ResponseEntity<?> createOrder(@RequestBody OrderFormCreating formCreating, @RequestBody List<OrderItemForm> orderItemForms){
+        service.customer_createOder(formCreating, orderItemForms);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
 
@@ -103,6 +104,20 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(cartDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getOrderByCustomer/{id}")
+    public ResponseEntity<?> getOrderByCustomerId(@PathVariable(name = "id") int id){
+        Customer customer = customerService.getCustomerById(id);
+        List<Order> orders = service.getOrderByCustomer(id);
+        ArrayList<OrderDTO> orderDTOS= new ArrayList<>();
+        for(Order order : orders){
+            if(order.getOderStatus() != Order.OderStatus.ADDED_TO_CARD) {
+                OrderDTO orderDTO = new OrderDTO(order.getId(), order.getTotal_amount(), order.getOder_date(), order.getOderStatus(), order.getCustomer().getId(), order.getPayment_method().getId());
+                orderDTOS.add(orderDTO);
+            }
+        }
+        return new ResponseEntity<>(orderDTOS, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

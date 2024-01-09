@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -37,6 +38,17 @@ public class PaymentMethodController {
 
         });
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/all")
+    public ResponseEntity<?> getPaymentMethods(){
+       List<PaymentMethod> paymentMethods = service.getPaymentMethods();
+       ArrayList<PaymentMethodDTO> paymentMethodDTOS = new ArrayList<>();
+       for (PaymentMethod paymentMethod : paymentMethods){
+           PaymentMethodDTO paymentMethodDTO = new PaymentMethodDTO(paymentMethod.getId(), paymentMethod.getName(), paymentMethod.getDescription_payment());
+           paymentMethodDTOS.add(paymentMethodDTO);
+       }
+        return new ResponseEntity<>(paymentMethodDTOS, HttpStatus.OK);
     }
 
     @PostMapping()

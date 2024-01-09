@@ -14,6 +14,7 @@ public class AccountFormCreating {
     private String address;
     private String birthday;
     private String email;
+    private String phone;
     private Account.Role role;
     private Account.Gender gender;
 
@@ -30,7 +31,28 @@ public class AccountFormCreating {
         this.gender = gender;
     }
 
+    public AccountFormCreating(String username, String password, String firstName, String lastName, String address, String birthday, String email, String phone, Account.Role role, Account.Gender gender) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.birthday = birthday;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.gender = gender;
+    }
+
     public AccountFormCreating() {
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getAddress() {

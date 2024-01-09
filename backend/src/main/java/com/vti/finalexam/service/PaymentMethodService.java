@@ -33,6 +33,11 @@ public class PaymentMethodService implements IPaymentMethodService {
     }
 
     @Override
+    public List<PaymentMethod> getPaymentMethods() {
+        return repository.findAll();
+    }
+
+    @Override
     public PaymentMethod getPaymentMethodByName(String name) {
         return repository.findByName(name);
     }

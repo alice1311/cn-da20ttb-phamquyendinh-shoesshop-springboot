@@ -20,6 +20,7 @@ public interface IPaymentMethodRepository extends JpaRepository<PaymentMethod, I
 //    public boolean existsByName(String name);
 
     public PaymentMethod getPaymentMethodById(int id);
+    public List<PaymentMethod> findAll();
 
     public PaymentMethod deleteById(int id);
     @Modifying

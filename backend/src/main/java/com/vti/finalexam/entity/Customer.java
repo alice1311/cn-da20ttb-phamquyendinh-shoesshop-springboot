@@ -15,13 +15,11 @@ public class Customer extends Account{
     @OneToMany(mappedBy = "account_customer")
     private List<Feedback> feedbacks;
 
-    public Customer(String username, String password, String firstName, String lastName, String address, Date birthday, String email, Role role, Gender gender, Date createdDate) {
-        super(username, password, firstName, lastName, address, birthday, email, role, gender, createdDate);
+    public Customer( String username, String phone, String password, String firstName, String lastName, String address, Date birthday, String email, Role role, Gender gender, Date createdDate) {
+        super( username, phone, password, firstName, lastName, address, birthday, email, role, gender, createdDate);
     }
 
-    public Customer(int id, String username, String password, String firstName, String lastName, String address, Date birthday, String email, Role role, Gender gender, Date createdDate) {
-        super(id, username, password, firstName, lastName, address, birthday, email, role, gender, createdDate);
-    }
+
 
     public Customer() {
     }

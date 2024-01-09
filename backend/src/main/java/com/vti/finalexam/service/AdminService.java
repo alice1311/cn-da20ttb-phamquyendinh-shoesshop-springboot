@@ -46,7 +46,8 @@ public class AdminService implements IAdminService{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date birthday = dateFormat.parse(accountFormCreating.getBirthday());
         String password = new BCryptPasswordEncoder().encode((CharSequence) accountFormCreating.getPassword());
-        Admin admin = new Admin(accountFormCreating.getUsername(), password, accountFormCreating.getFirstName(), accountFormCreating.getLastName(), accountFormCreating.getAddress(), birthday,accountFormCreating.getEmail(), Account.Role.ADMIN,accountFormCreating.getGender(), createdate);
+        Admin admin = new Admin(accountFormCreating.getUsername(), accountFormCreating.getPhone(), password, accountFormCreating.getFirstName(), accountFormCreating.getLastName(), accountFormCreating.getAddress(), birthday,accountFormCreating.getEmail(),Account.Role.ADMIN,accountFormCreating.getGender(), createdate);
+
         repository.save(admin);
     }
 

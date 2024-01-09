@@ -19,6 +19,12 @@ public class Order implements Serializable {
     @Column(name = "totalAmount", nullable = false)
     private float total_amount;
 
+    @Column(name = "shipping_address")
+    private String address;
+
+    @Column(name = "recipient_phone")
+    private String phone;
+
     @Column(name = "orderDate", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
@@ -31,7 +37,48 @@ public class Order implements Serializable {
     public Order(Date oderDate, int customerId, PaymentMethod paymentMethod) {
     }
 
+    public Order(float total_amount, String address, String phone, Date oder_date, OderStatus oderStatus, Customer customer, PaymentMethod payment_method) {
+        this.total_amount = total_amount;
+        this.address = address;
+        this.phone = phone;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer = customer;
+        this.payment_method = payment_method;
+    }
 
+    public Order(String address, String phone, Date oder_date, OderStatus oderStatus, Customer customer, PaymentMethod payment_method) {
+        this.address = address;
+        this.phone = phone;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer = customer;
+        this.payment_method = payment_method;
+    }
+
+    public Order(String address, String phone, Date oder_date, OderStatus oderStatus, Customer customer) {
+        this.address = address;
+        this.phone = phone;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer = customer;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public enum OderStatus {
         ADDED_TO_CARD, TO_PAY, TO_RECEIVE, COMPLETED, CANCELED;

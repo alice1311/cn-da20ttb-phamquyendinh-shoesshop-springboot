@@ -15,6 +15,35 @@ public class OrderFormCreating {
 
     private int employee_id;
 
+    private String address;
+    private String phone;
+
+    public OrderFormCreating(float total_amount, Date oder_date, Order.OderStatus oderStatus, int customer_id, String address, String phone, int payment_method_id) {
+        this.total_amount = total_amount;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer_id = customer_id;
+        this.address = address;
+        this.phone = phone;
+        this.payment_method_id = payment_method_id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     private int payment_method_id;
 
     public float getTotal_amount() {

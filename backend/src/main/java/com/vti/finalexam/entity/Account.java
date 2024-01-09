@@ -23,9 +23,13 @@ public class Account implements Serializable {
     @Column(name = "username", length = 50, nullable = false, unique = true, updatable = false)
     private String username;
 
+    @Column(name = "phone", length = 20, nullable = false)
+    private String phone;
 
-    public Account(String username, String password, String firstName, String lastName, String address, Date birthday, String email, Role role, Gender gender, Date createdDate) {
+    public Account(String username, String phone, String password, String firstName, String lastName, String address, Date birthday, String email, Role role, Gender gender, Date createdDate) {
+
         this.username = username;
+        this.phone = phone;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,6 +39,14 @@ public class Account implements Serializable {
         this.role = role;
         this.gender = gender;
         this.createdDate = createdDate;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Column(name = "`password`", length = 255, nullable = false)

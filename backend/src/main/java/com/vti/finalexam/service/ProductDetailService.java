@@ -53,6 +53,15 @@ public class ProductDetailService implements IProductDetailService{
         ProductDetail productDetail = repository.getDetailById(id);
         productDetail.setQuantity(formCreating.getQuantity());
         productDetail.setImg_url(formCreating.getImg_url());
+        Product product = productDetail.getProduct_detail();
+        List<ProductDetail> productDetails = product.getProductDetails();
+        for(ProductDetail productDetail1 : productDetails){
+            if(productDetail1.getColor().equals(formCreating.getColor()) ){
+                productDetail1.setImg_url(formCreating.getImg_url());
+                repository.save(productDetail1);
+            }
+
+        }
         productDetail.setColor(formCreating.getColor());
         productDetail.setSize(formCreating.getSize());
         repository.save(productDetail);
