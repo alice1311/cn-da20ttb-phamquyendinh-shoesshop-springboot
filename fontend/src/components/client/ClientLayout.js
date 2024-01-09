@@ -8,7 +8,7 @@ import ProductDetail from "./ProductDetail/ProductDetail";
 import Home from "./Home/Home";
 import Cart from "./Cart/Cart";
 import Checkout from "./Checkout/Checkout";
-
+import Order from "./Order/Order";
 function ClientLayout() {
     return (
         <div className="ClientLayout">
@@ -19,6 +19,7 @@ function ClientLayout() {
                     <Route path="/product" element={<Sale />} />
                     <Route path="/product/:id" element={<ProductDetail />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/order" element={<Order />} />
                     <Route path="/checkout" element={<Checkout />} />
                 </Routes>
             </div>

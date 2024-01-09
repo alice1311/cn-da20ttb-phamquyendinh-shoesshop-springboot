@@ -4,6 +4,10 @@ import "./Header.css"
 import { useEffect, useState } from "react";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Radio } from 'antd';
+import { DatePicker, Space } from 'antd';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import dayjs from 'dayjs';
 import axios from "axios";
 
 function Header() {
@@ -11,6 +15,7 @@ function Header() {
     const location = useLocation();
     const [searchVisible, setSearchVisible] = useState(false);
     const [isLoginPopup, setIsLoginPopup] = useState(false);
+    const [isRegisterPopup, setIsRegisterPopup] = useState(false);
     const [searchInput, setSearchInput] = useState('');
 
     const [currentUser, setCurrentUser] = useState();
@@ -58,8 +63,13 @@ function Header() {
         <>
             {contextHolder}
             {
-                isLoginPopup && <Login setIsLoginPopup={setIsLoginPopup} success={success} errorMessage={errorMessage} />
+                
+                isLoginPopup && <Login setIsLoginPopup={setIsLoginPopup} setIsRegisterPopup={setIsRegisterPopup} success={success} errorMessage={errorMessage} />
             }
+            {
+                isRegisterPopup && <Register setIsLoginPopup={setIsLoginPopup} setIsRegisterPopup={setIsRegisterPopup} success={success} errorMessage={errorMessage} />
+            }
+
             <div className="Header">
                 {
                     !searchVisible ?
@@ -124,6 +134,7 @@ function Header() {
                                         <Link to="/admin"><button>Quản lý</button></Link>
                                         : ""
                                 }
+                                <Link to="/order"><button>Đơn hàng của bạn</button></Link>
                                 <button onClick={handleLogout}>Đăng xuất</button>
                             </div>
                         </div>
@@ -136,7 +147,7 @@ function Header() {
 
 function Login(props) {
 
-    const { setIsLoginPopup, success, errorMessage } = props;
+    const { setIsLoginPopup, setIsRegisterPopup, isRegisterPopup, success, errorMessage } = props;
 
     const onFinish = async (values) => {
 
@@ -231,10 +242,182 @@ function Login(props) {
                             Đăng nhập
                         </Button>
                     </Form.Item>
-                    Hoặc <a href="">Đăng ký!</a>
+                    Hoặc <a onClick={() => setIsRegisterPopup(!isRegisterPopup)}>Đăng ký!</a>
                 </Form>
             </div>
         </div>
+    )
+}
+
+function Register(props) {
+    const { setIsLoginPopup, success, errorMessage, setIsRegisterPopup } = props;
+    dayjs.extend(customParseFormat);
+    const dateFormat = 'YYYY/MM/DD';
+    const handleOverplayClick = ()=>{
+        setIsLoginPopup(false);
+        setIsRegisterPopup(false);
+    }
+    
+    const onFinish = async (values) => {
+        console.log(values);
+        const newCustomer = {
+            "username": values.username,
+            "password": values.password,
+            "firstName": values.firstName,
+            "lastName": values.lastName,
+            "address": values.address,
+            "birthday": values.birthday.format('YYYY-MM-DD'),
+            "email":values.email,
+            "gender":values.gender
+        }
+        console.log(newCustomer);
+        axios.post('http://localhost:8080/api/v1/customers/register', newCustomer, {
+        })
+            .then(response => {
+                console.log('Đăng ký thành công');
+                success();
+                handleOverplayClick();
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log('Đăng ký không thành công');
+                errorMessage();
+            });
+    
+
+    }
+    return (
+        <div className="Register">
+            <div className="overplay"  onClick={() => handleOverplayClick()}>
+
+            </div>
+            <div className="Register_container">
+                <Form
+                    name="normal_login"
+                    className="login-form"
+                    initialValues={{
+                        remember: true,
+                    }}
+                    onFinish={onFinish}
+                    style={{width: "300px"}}
+                >
+                    <Form.Item>
+                        <h2 style={{ width: '100%', textAlign: "center" }}>Đăng ký tài khoản</h2>
+                    </Form.Item>
+                    <Form.Item
+                        name="username"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập tên đăng nhập!',
+                            },
+                        ]}
+                    >
+                        <Input  placeholder="Tên đăng nhập" size="large" />
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập mật khẩu!',
+                            },
+                        ]}
+                    >
+                        <Input
+                           
+                            type="password"
+                            placeholder="Mật khẩu"
+                            size="large"
+                        />
+                        
+                    </Form.Item>
+                    <Form.Item
+                        name="firstName"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập họ và tên lót!',
+                            },
+                        ]}
+                    >
+                        <Input  placeholder="Họ và tên lót" size="large" />
+                    </Form.Item>
+                    <Form.Item
+                        name="lastName"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập tên!',
+                            },
+                        ]}
+                    >
+                        <Input  placeholder="Tên" size="large" />
+                    </Form.Item>
+                    <Form.Item
+                        name="address"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập địa chỉ!',
+                            },
+                        ]}
+                    >
+                        <Input  placeholder="Địa chỉ" size="large" />
+                    </Form.Item>
+                    <Form.Item
+                        name="birthday"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Chọn ngày sinh!',
+                            },
+                        ]}
+                    >
+                  
+                        <DatePicker name="birthday" defaultValue={dayjs('2015/01/01', dateFormat)} format={dateFormat} />
+                        
+                    
+                    </Form.Item>
+                    <Form.Item
+                        name="email"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập email!',
+                            },
+                            {
+                                type: 'email',
+                                message: 'Email không hợp lệ!',
+                            },
+                        ]}
+                    >
+                        <Input  placeholder="Email" size="large" />
+                    </Form.Item>
+                    <Form.Item
+                        name="gender"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Chọn giới tính!',
+                            },
+                        ]}
+                    >
+                    <Radio.Group>
+                        <Radio value={"FEMALE"}>FEMALE</Radio>
+                        <Radio value={"MALE"}>MALE</Radio>
+                        <Radio value={"UNKNOW"}>UNKNOW</Radio>
+                    </Radio.Group>
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className="login-form-button" size="large" style={{ width: '100%', backgroundColor: "black", color: "white" }}>
+                            Đăng ký
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </div>
+        </div>
+    
     )
 }
 
