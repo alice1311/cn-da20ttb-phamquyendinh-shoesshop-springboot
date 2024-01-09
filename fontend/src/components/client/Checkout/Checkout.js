@@ -9,18 +9,31 @@ function Checkout() {
   const navigate = useNavigate();
   let [orders, selectedItems] = location.state;
   const [productForCheckout, setProductForCheckout] = useState([]);
-
+  const [currentUser, setCurrentUser] = useState();
   const [citys, setCitys] = useState([]);
   const [districts, setDistrict] = useState([]);
   const [wards, setWards] = useState([]);
   const [isCompleteOrder, setIsCompleteOrder] = useState(false);
+  const [isPaymentMethod, setIsPaymentMethod] = useState(false);
   const [selectedCityOption, setSelectedCityOption] = useState(null);
+  const [selectedMethod, setSelectedMethod] = useState(null);
   const [selectedDistrictOption, setSelectedDistrictOption] = useState(null);
   const [selectedWardOption, setSelectedWardOption] = useState(null);
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
+  const [customerNote, setCustomerNote] = useState("");
+  
 
   useEffect(() => {
+    const usertemp = JSON.parse(localStorage.getItem('user'));
+    setCurrentUser(usertemp);
+    setCustomerName(usertemp.fullName);
+    setCustomerEmail(usertemp.email);
+    setCustomerPhone(usertemp?.phone);
+    
     if (orders == null) navigate("/cart");
-
     const newOrdersArr = orders.map((order) => ({
       ...order,
       checked: selectedItems[order.id] || false,
@@ -46,6 +59,27 @@ function Checkout() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+    
+      
+    axios
+    .get(
+      "http://localhost:8080/api/v1/paymentMethods/all"
+    )
+    .then((response) => {
+      const payments_arr = response.data.map((p) => {
+        return {
+          value: p.id,
+          label: p.name
+        };
+      });
+      console.log(response.data);
+      setIsPaymentMethod(payments_arr);
+      
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+    
 
     axios
       .get(
@@ -59,8 +93,11 @@ function Checkout() {
       });
   }, []);
 
+  
+
   const handleOrderCheckout = () => {
-    setIsCompleteOrder(true);
+    // setIsCompleteOrder(true);
+    handleCompleteOrder();
   };
 
   const handleGetTotal = () => {
@@ -86,6 +123,11 @@ function Checkout() {
     setSelectedWardOption(null);
   };
 
+  const handleChangePaymentOption = (selectedPaymentOption) => {
+    setSelectedMethod(selectedPaymentOption);
+    console.log(selectedPaymentOption);
+  };
+
   const handleChangeDistrictOption = (selectedDistrictOption) => {
     setSelectedDistrictOption(selectedDistrictOption);
     let wards_arr = districts.filter((district) => {
@@ -105,6 +147,22 @@ function Checkout() {
 
   const handleChangeWardOption = (selectedWardOption) => {
     setSelectedWardOption(selectedWardOption);
+  };
+  const handleCompleteOrder = () => {
+    console.log(selectedCityOption);
+    console.log(selectedDistrictOption);
+    console.log(productForCheckout);
+    console.log(selectedMethod);
+    console.log(selectedWardOption);
+    console.log(customerPhone);
+    console.log(customerAddress);
+    console.log(customerNote);
+    let fullAddress = customerAddress + ", " + selectedWardOption + ", " + selectedDistrictOption + ", " + selectedCityOption;
+    const newProduct = {
+      "address": fullAddress,
+      "phone": customerPhone,
+      "customer_id": currentUser.id
+    }
   };
 
   return (
@@ -147,16 +205,17 @@ function Checkout() {
             </div>
             <div className="Checkout_left_row">
               <span>Họ và tên</span>
-              <input type="text" placeholder="Nhập họ và tên" />
+              <input type="text" placeholder="Nhập họ và tên" value={customerName}/>
             </div>
             <div className="Checkout_left_row">
               <span>Số điện thoại</span>
-              <input type="text" placeholder="Nhập số điện thoại" />
+              <input type="text" placeholder="Nhập số điện thoại" value={customerPhone} onChange={(e)=>{setCustomerPhone(e.target.value)}}/>
             </div>
             <div className="Checkout_left_row">
               <span>Email</span>
-              <input type="text" placeholder="Nhập email" />
+              <input type="text" placeholder="Nhập email" value={customerEmail}/>
             </div>
+            
             <div className="Checkout_left_row">
               <span>Tỉnh (Thành phố)</span>
               <Select
@@ -225,11 +284,32 @@ function Checkout() {
             </div>
             <div className="Checkout_left_row">
               <span>Số nhà:</span>
-              <textarea type="text" placeholder="Nhập số nhà" />
+              <textarea type="text" placeholder="Nhập số nhà" value={customerAddress} onChange={(e)=>{setCustomerAddress(e.target.value)}}/>
+            </div>
+            <div className="Checkout_left_row">
+              <span>Phương thức thanh toán: </span>
+              <Select
+                options={isPaymentMethod}
+                value={selectedMethod}
+                onChange={handleChangePaymentOption}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 5,
+                  minHeight: "50px",
+                  colors: {
+                    ...theme.colors,
+                    primary25: "rgb(209, 209, 209)",
+                    primary50: "rgb(209, 209, 209)",
+                    primary: "black",
+                  },
+                })}
+                className="select"
+                placeholder="Chọn phương thức thanh toán"
+              />
             </div>
             <div className="Checkout_left_row">
               <span>Ghi chú</span>
-              <textarea type="text" placeholder="Nhập ghi chú cho đơn hàng" />
+              <textarea type="text" placeholder="Nhập ghi chú cho đơn hàng" value={customerNote} onChange={(e)=>{setCustomerNote(e.target.value)}}/>
             </div>
           </div>
           <div className="Checkout_right">

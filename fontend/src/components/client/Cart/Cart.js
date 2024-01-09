@@ -9,7 +9,7 @@ function Cart() {
   const [cartdetails, setCartDetail] = useState([]);
   const userData = JSON.parse(localStorage.getItem("user"));
   const [selectedItems, setSelectedItems] = useState({});
-  
+
   const selectAllItems = (e) => {
     const isChecked = e.target.checked;
     const updatedSelectedItems = {};
@@ -33,6 +33,20 @@ function Cart() {
       type: "error",
       content: "Vui lòng đăng nhập để thực hiện tính năng này!",
     });
+  };
+
+  const handleGetTotal = () => {
+
+    const newOrdersArr = cartdetails.map((order) => ({
+      ...order,
+      checked: selectedItems[order.id] || false,
+    })).filter((order) => order.checked);
+
+    return newOrdersArr.reduce(
+      (total, product) => total + (product.price || 0),
+      0
+    );
+
   };
 
   const handleSendCheckout = () => {
@@ -116,8 +130,8 @@ function Cart() {
       <div className="Cart_right">
         <h3>Hoá đơn tạm tính</h3>
         <div>
-          <h4>Tổng sản phẩm (4)</h4>
-          <span>4.300.000đ</span>
+          <h4>Tổng sản phẩm ({Object.values(selectedItems).reduce((count, value) => count + (value === true ? 1 : 0), 0)})</h4>
+          <span>{handleGetTotal().toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</span>
         </div>
         <div>
           <h4>Phí vận chuyển</h4>
@@ -126,7 +140,7 @@ function Cart() {
         <hr></hr>
         <div className="Cart_right_total">
           <h4>Tổng cộng</h4>
-          <span>4.350.000đ</span>
+          <span>{(handleGetTotal() + 50000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</span>
         </div>
 
         <button onClick={() => handleSendCheckout()}>
@@ -151,46 +165,44 @@ function CartItem(props) {
   } = props;
   const userData = JSON.parse(localStorage.getItem("user"));
   const successMessage3 = () => {
-        messageApi.open({
-            type: 'success',
-            content: 'Xóa sản phẩm thành công',
-        });
-        
-    };
+    messageApi.open({
+      type: "success",
+      content: "Xóa sản phẩm thành công",
+    });
+  };
 
-    const errorMessage3 = () => {
-        messageApi.open({
-            type: 'error',
-            content: 'Xóa sản phẩm thất bại',
-        });
-    };
+  const errorMessage3 = () => {
+    messageApi.open({
+      type: "error",
+      content: "Xóa sản phẩm thất bại",
+    });
+  };
   const deleteCartItem = (iddelete) => {
     console.log(iddelete);
-    axios.delete(`http://localhost:8080/api/v1/orderItems/delete/${iddelete}`, {
-            auth: {
-                username: userData.username,
-                password: userData.password
-            }
-        })
-            .then(response => {
-                successMessage3();  
-                setSelectedItems([]);
-                
-                setTimeout(()=>{
-                    window.location.reload();
-                },500 )
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-                errorMessage3();
-            });
+    axios
+      .delete(`http://localhost:8080/api/v1/orderItems/delete/${iddelete}`, {
+        auth: {
+          username: userData.username,
+          password: userData.password,
+        },
+      })
+      .then((response) => {
+        successMessage3();
+        setSelectedItems([]);
 
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        errorMessage3();
+      });
   };
 
   return (
-    
     <tr className="CartItem">
-        {contextHolder}
+      {contextHolder}
       <td>
         <input
           type="checkbox"
@@ -224,10 +236,10 @@ function CartItem(props) {
           </button>
         </div>
       </td>
-      <td>{shoese.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</td>
+      <td>{shoese.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}đ</td>
       <td>
         <div>
-          <button className="delete"  onClick={() => deleteCartItem(shoese.id)}>
+          <button className="delete" onClick={() => deleteCartItem(shoese.id)}>
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
