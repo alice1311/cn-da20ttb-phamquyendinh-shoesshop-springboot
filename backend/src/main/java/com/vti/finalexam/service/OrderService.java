@@ -1,6 +1,7 @@
 package com.vti.finalexam.service;
 
 import com.vti.finalexam.entity.*;
+import com.vti.finalexam.form.OrderCustomerCreatForm;
 import com.vti.finalexam.form.OrderFormCreating;
 import com.vti.finalexam.form.OrderItemForm;
 import com.vti.finalexam.repository.*;
@@ -47,7 +48,7 @@ public class OrderService implements IOrderService{
 
 
     @Override
-    public void customer_createOder(OrderFormCreating formCreating, List<OrderItemForm> ids) {
+    public void customer_createOder(OrderCustomerCreatForm formCreating) {
         Customer customer = customerRepository.getCustomerById(formCreating.getCustomer_id());
         PaymentMethod paymentMethod = paymentMethodRepository.getPaymentMethodById(formCreating.getPayment_method_id());
         Date creating_date = new Date();
@@ -60,7 +61,7 @@ public class OrderService implements IOrderService{
                 paymentMethod
         );
         repository.save(order);
-        for (OrderItemForm orderItemForm : ids){
+        for (OrderItemForm orderItemForm : formCreating.getOrderItemForms()){
             OrderItem orderItem = oderItemRepository.getOrderItemById(orderItemForm.getId());
             orderItem.setOrder(order);
             orderItem.setQuantity(orderItemForm.getQuantity_item());

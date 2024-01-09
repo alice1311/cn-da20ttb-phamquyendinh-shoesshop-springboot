@@ -3,6 +3,7 @@ package com.vti.finalexam.service;
 import com.vti.finalexam.entity.Order;
 import com.vti.finalexam.entity.OrderItem;
 import com.vti.finalexam.entity.Product;
+import com.vti.finalexam.form.OrderCustomerCreatForm;
 import com.vti.finalexam.form.OrderFormCreating;
 import com.vti.finalexam.form.OrderItemForm;
 import com.vti.finalexam.form.ProductFormCreating;
@@ -16,7 +17,7 @@ import java.util.List;
 public interface IOrderService {
     public Page<Order> getAllOrders(Pageable pageable, String search);
 
-    public void customer_createOder(OrderFormCreating formCreating, List<OrderItemForm> ids);
+    public void customer_createOder(OrderCustomerCreatForm orderCustomerCreatForm);
 
     public void createCart(OrderFormCreating formCreating);
 

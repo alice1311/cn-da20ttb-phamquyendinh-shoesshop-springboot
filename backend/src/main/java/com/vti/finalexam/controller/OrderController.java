@@ -4,6 +4,7 @@ import com.vti.finalexam.DTO.CartDTO;
 import com.vti.finalexam.DTO.OrderDTO;
 import com.vti.finalexam.DTO.ProductDTO;
 import com.vti.finalexam.entity.*;
+import com.vti.finalexam.form.OrderCustomerCreatForm;
 import com.vti.finalexam.form.OrderFormCreating;
 import com.vti.finalexam.form.OrderItemForm;
 import com.vti.finalexam.form.ProductFormCreating;
@@ -61,8 +62,8 @@ public class OrderController {
     }
 
     @PostMapping(value = "/createOrder")
-    public ResponseEntity<?> createOrder(@RequestBody OrderFormCreating formCreating, @RequestBody List<OrderItemForm> orderItemForms){
-        service.customer_createOder(formCreating, orderItemForms);
+    public ResponseEntity<?> createOrder(@RequestBody OrderCustomerCreatForm orderCustomerCreatForm){
+        service.customer_createOder(orderCustomerCreatForm);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
 
