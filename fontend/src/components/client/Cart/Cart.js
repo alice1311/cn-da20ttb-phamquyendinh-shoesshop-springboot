@@ -10,6 +10,17 @@ function Cart() {
   const userData = JSON.parse(localStorage.getItem("user"));
   const [selectedItems, setSelectedItems] = useState({});
 
+  function updateQuantityById(_id,   _value) {
+    const newCartDetails =  cartdetails.map(obj => {
+      if (obj.id === _id) {
+        return { ...obj, quantity: Math.max(obj.quantity + _value, 1)};
+      }
+      return obj;
+    });
+
+    setCartDetail(newCartDetails);
+  }
+
   const selectAllItems = (e) => {
     const isChecked = e.target.checked;
     const updatedSelectedItems = {};
@@ -43,7 +54,7 @@ function Cart() {
     })).filter((order) => order.checked);
 
     return newOrdersArr.reduce(
-      (total, product) => total + (product.price || 0),
+      (total, product) => total + (product.quantity * product.price || 0),
       0
     );
 
@@ -65,6 +76,7 @@ function Cart() {
           },
         })
         .then((response) => {
+          
           const data = response.data.map((pd, index) => {
             return {
               imgSrc: pd.imgSrc,
@@ -74,9 +86,10 @@ function Cart() {
               size: pd.size,
               color: pd.color,
               id: pd.orderItem_id,
+              quantity: pd.quantity
             };
           });
-
+          
           setCartDetail(data);
           console.log(data);
         })
@@ -104,7 +117,7 @@ function Cart() {
                 </th>
                 <th>Sản phẩm</th>
                 <th>Số lượng</th>
-                <th>Tạm tính</th>
+                <th>Đơn giá</th>
                 <th>
                   <i className="fa-solid fa-trash-can"></i>
                 </th>
@@ -114,12 +127,13 @@ function Cart() {
               {cartdetails.map((cartdetail, index) => {
                 return (
                   <CartItem
-                    key={index}
+                    key={cartdetail.id}
                     shoese={cartdetail}
                     handleSelectItem={handleSelectItem}
                     setSelectedItems={setSelectedItems}
                     selectedItems={selectedItems}
                     cartdetails={cartdetails}
+                    updateQuantityById={updateQuantityById}
                   />
                 );
               })}
@@ -153,16 +167,17 @@ function Cart() {
 }
 
 function CartItem(props) {
-  const [countProduct, setCountProduct] = useState(1);
-  const [odrerDetails, setOrderDetail] = useState([]);
-  const [messageApi, contextHolder] = message.useMessage();
   const {
     shoese,
     handleSelectItem,
     setSelectedItems,
     selectedItems,
     cartdetails,
+    updateQuantityById
   } = props;
+  const [odrerDetails, setOrderDetail] = useState([]);
+  const [messageApi, contextHolder] = message.useMessage();
+  const [countProduct, setCountProduct] = useState(shoese.quantity);
   const userData = JSON.parse(localStorage.getItem("user"));
   const successMessage3 = () => {
     messageApi.open({
@@ -226,12 +241,12 @@ function CartItem(props) {
       <td>
         <div>
           <button
-            onClick={() => setCountProduct(Math.max(countProduct - 1, 1))}
+            onClick={() => updateQuantityById(shoese.id, -1)}
           >
             <i className="fa-solid fa-minus"></i>
           </button>
-          <span>{countProduct}</span>
-          <button onClick={() => setCountProduct(countProduct + 1)}>
+          <span>{shoese.quantity}</span>
+          <button onClick={() => updateQuantityById(shoese.id, 1)}>
             <i className="fa-solid fa-plus"></i>
           </button>
         </div>

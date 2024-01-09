@@ -34,6 +34,7 @@ function Order() {
                   size: pd.size,
                   color: pd.color,
                   id: pd.orderItem_id,
+                  quantity: pd.quantity
                 };
               });
     

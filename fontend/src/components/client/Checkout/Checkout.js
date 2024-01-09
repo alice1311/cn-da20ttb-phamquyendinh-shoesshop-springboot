@@ -3,6 +3,7 @@ import "./Checkout.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import axios from "axios";
+import { message, Spin } from "antd";
 
 function Checkout() {
   const location = useLocation();
@@ -24,15 +25,28 @@ function Checkout() {
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerNote, setCustomerNote] = useState("");
-  
+  const [messageApi, contextHolder] = message.useMessage();
+  const successMessage = () => {
+    messageApi.open({
+      type: "success",
+      content: "Thêm sản phẩm thành công",
+    });
+  };
+
+  const errorMessage = () => {
+    messageApi.open({
+      type: "error",
+      content: "Thêm sản phẩm thất bại",
+    });
+  };
 
   useEffect(() => {
-    const usertemp = JSON.parse(localStorage.getItem('user'));
+    const usertemp = JSON.parse(localStorage.getItem("user"));
     setCurrentUser(usertemp);
     setCustomerName(usertemp.fullName);
     setCustomerEmail(usertemp.email);
     setCustomerPhone(usertemp?.phone);
-    
+
     if (orders == null) navigate("/cart");
     const newOrdersArr = orders.map((order) => ({
       ...order,
@@ -59,27 +73,22 @@ function Checkout() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-    
-      
+
     axios
-    .get(
-      "http://localhost:8080/api/v1/paymentMethods/all"
-    )
-    .then((response) => {
-      const payments_arr = response.data.map((p) => {
-        return {
-          value: p.id,
-          label: p.name
-        };
+      .get("http://localhost:8080/api/v1/paymentMethods/all")
+      .then((response) => {
+        const payments_arr = response.data.map((p) => {
+          return {
+            value: p.id,
+            label: p.name,
+          };
+        });
+        console.log(response.data);
+        setIsPaymentMethod(payments_arr);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
-      console.log(response.data);
-      setIsPaymentMethod(payments_arr);
-      
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
-    
 
     axios
       .get(
@@ -93,15 +102,16 @@ function Checkout() {
       });
   }, []);
 
-  
-
   const handleOrderCheckout = () => {
     // setIsCompleteOrder(true);
     handleCompleteOrder();
   };
 
   const handleGetTotal = () => {
-    return productForCheckout.reduce((total, product) => total + (product.price || 0), 0);
+    return productForCheckout.reduce(
+      (total, product) => total + (product.price * product.quantity || 0),
+      0
+    );
   };
 
   const handleChangeCityOption = (selectedCityOption) => {
@@ -149,24 +159,60 @@ function Checkout() {
     setSelectedWardOption(selectedWardOption);
   };
   const handleCompleteOrder = () => {
-    console.log(selectedCityOption);
-    console.log(selectedDistrictOption);
-    console.log(productForCheckout);
-    console.log(selectedMethod);
-    console.log(selectedWardOption);
-    console.log(customerPhone);
-    console.log(customerAddress);
-    console.log(customerNote);
-    let fullAddress = customerAddress + ", " + selectedWardOption + ", " + selectedDistrictOption + ", " + selectedCityOption;
-    const newProduct = {
-      "address": fullAddress,
-      "phone": customerPhone,
-      "customer_id": currentUser.id
-    }
+    // console.log(selectedCityOption);
+    // console.log(selectedDistrictOption);
+    // console.log(productForCheckout);
+    // console.log(selectedMethod);
+    // console.log(selectedWardOption);
+    // console.log(customerPhone);
+    // console.log(customerAddress);
+    // console.log(customerNote);
+    let fullAddress =
+      customerAddress +
+      ", " +
+      selectedWardOption.label +
+      ", " +
+      selectedDistrictOption.label +
+      ", " +
+      selectedCityOption.label;
+
+    const newOrder = {
+      address: fullAddress,
+      phone: customerPhone,
+      customer_id: currentUser.id,
+      payment_method_id: selectedMethod.value,
+      orderItemForms: productForCheckout.map((pdfc) => {
+        return {
+          id: pdfc.id,
+          quantity_item: pdfc.quantity,
+        };
+      }),
+    };
+    console.log(newOrder);
+
+    axios
+      .post("http://localhost:8080/api/v1/orders/createOrder", newOrder, {
+        auth: {
+          username: currentUser.username,
+          password: currentUser.password,
+        },
+      })
+      .then((response) => {
+        console.log("Add product successfully");
+        successMessage();
+        setTimeout(() => {
+          setIsCompleteOrder(true);
+        }, 2000)
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        errorMessage();
+      });
   };
 
   return (
     <div className="Checkout_container">
+      {contextHolder}
       <div className="Checkout_status">
         <div className="Checkout_status_item">
           <i className="fa-solid fa-cart-shopping"></i>
@@ -205,17 +251,32 @@ function Checkout() {
             </div>
             <div className="Checkout_left_row">
               <span>Họ và tên</span>
-              <input type="text" placeholder="Nhập họ và tên" value={customerName}/>
+              <input
+                type="text"
+                placeholder="Nhập họ và tên"
+                value={customerName}
+              />
             </div>
             <div className="Checkout_left_row">
               <span>Số điện thoại</span>
-              <input type="text" placeholder="Nhập số điện thoại" value={customerPhone} onChange={(e)=>{setCustomerPhone(e.target.value)}}/>
+              <input
+                type="text"
+                placeholder="Nhập số điện thoại"
+                value={customerPhone}
+                onChange={(e) => {
+                  setCustomerPhone(e.target.value);
+                }}
+              />
             </div>
             <div className="Checkout_left_row">
               <span>Email</span>
-              <input type="text" placeholder="Nhập email" value={customerEmail}/>
+              <input
+                type="text"
+                placeholder="Nhập email"
+                value={customerEmail}
+              />
             </div>
-            
+
             <div className="Checkout_left_row">
               <span>Tỉnh (Thành phố)</span>
               <Select
@@ -284,7 +345,14 @@ function Checkout() {
             </div>
             <div className="Checkout_left_row">
               <span>Số nhà:</span>
-              <textarea type="text" placeholder="Nhập số nhà" value={customerAddress} onChange={(e)=>{setCustomerAddress(e.target.value)}}/>
+              <textarea
+                type="text"
+                placeholder="Nhập số nhà"
+                value={customerAddress}
+                onChange={(e) => {
+                  setCustomerAddress(e.target.value);
+                }}
+              />
             </div>
             <div className="Checkout_left_row">
               <span>Phương thức thanh toán: </span>
@@ -309,7 +377,14 @@ function Checkout() {
             </div>
             <div className="Checkout_left_row">
               <span>Ghi chú</span>
-              <textarea type="text" placeholder="Nhập ghi chú cho đơn hàng" value={customerNote} onChange={(e)=>{setCustomerNote(e.target.value)}}/>
+              <textarea
+                type="text"
+                placeholder="Nhập ghi chú cho đơn hàng"
+                value={customerNote}
+                onChange={(e) => {
+                  setCustomerNote(e.target.value);
+                }}
+              />
             </div>
           </div>
           <div className="Checkout_right">
@@ -336,20 +411,30 @@ function Checkout() {
                           <h4>{shoese.name}</h4>
                           <div className="CartItem_info_variant">
                             <div className="checkout_variant"></div>
-                            <span>Size 39</span>
-                            <p>x1</p>
+                            <span>Size {shoese.size}</span>
+                            <p>x{shoese.quantity}</p>
                           </div>
                         </div>
                       </div>
                       <div className="table-row-right">
-                        <span>{shoese.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</span>
+                        <span>
+                          {(shoese.price * shoese.quantity)
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                          đ
+                        </span>
                       </div>
                     </div>
                   );
                 })}
               <div className="Checkout_right_table-row">
                 <h4>Tổng sản phẩm</h4>
-                <span>{handleGetTotal().toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</span>
+                <span>
+                  {handleGetTotal()
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                  đ
+                </span>
               </div>
               <div className="Checkout_right_table-row">
                 <h4>Vận chuyển</h4>
@@ -357,7 +442,12 @@ function Checkout() {
               </div>
               <div className="Checkout_right_table-row">
                 <h4>Thành tiền</h4>
-                <h3>{(handleGetTotal() + 50000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</h3>
+                <h3>
+                  {(handleGetTotal() + 50000)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                  đ
+                </h3>
               </div>
               <button onClick={() => handleOrderCheckout()}>Đặt hàng</button>
             </div>
