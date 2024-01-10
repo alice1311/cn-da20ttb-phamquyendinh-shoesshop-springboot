@@ -16,10 +16,11 @@ function Header() {
     const [searchVisible, setSearchVisible] = useState(false);
     const [isLoginPopup, setIsLoginPopup] = useState(false);
     const [isRegisterPopup, setIsRegisterPopup] = useState(false);
+    const [boxUserPopup, setBoxUserPopup] = useState(false);
+    
     const [searchInput, setSearchInput] = useState('');
 
     const [currentUser, setCurrentUser] = useState();
-    const [boxUserPopup, setBoxUserPopup] = useState(false);
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -110,15 +111,14 @@ function Header() {
                     </div>
                 }
                 <div className="Header_option">
-                    <Link onClick={(e) => handleSearchVisible(e)}><i className="fa-solid fa-magnifying-glass"></i></Link>
+                    <div className="HO_main_option" onClick={(e) => handleSearchVisible(e)}><i className="fa-solid fa-magnifying-glass"></i></div>
                     {
                         !currentUser ?
-                            <Link onClick={() => setIsLoginPopup(!isLoginPopup)}><i className="fa-solid fa-user"></i></Link>
-                            : <Link onClick={() => setBoxUserPopup(!boxUserPopup)}><i className="fa-solid fa-user"></i></Link>
+                            <div className="HO_main_option" onClick={() => setIsLoginPopup(!isLoginPopup)}><i className="fa-solid fa-user"></i></div>
+                            : <div className="HO_main_option" onClick={() => setBoxUserPopup(!boxUserPopup)}><i className="fa-solid fa-user"></i></div>
                     }
-                    <Link to="cart" className="Header_cart_icon">
+                    <Link to="cart" className="Header_cart_icon HO_main_option">
                         <i className="fa-solid fa-cart-shopping"></i>
-                        
                     </Link>
                     {
                         boxUserPopup &&
@@ -283,9 +283,9 @@ function Register(props) {
                 console.log('Đăng ký không thành công');
                 errorMessage();
             });
-    
 
     }
+
     return (
         <div className="Register">
             <div className="overplay"  onClick={() => handleOverplayClick()}>

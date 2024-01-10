@@ -29,14 +29,14 @@ function Checkout() {
   const successMessage = () => {
     messageApi.open({
       type: "success",
-      content: "Thêm sản phẩm thành công",
+      content: "Đặt hàng thành công",
     });
   };
 
   const errorMessage = () => {
     messageApi.open({
       type: "error",
-      content: "Thêm sản phẩm thất bại",
+      content: "Đặt hàng thất bại",
     });
   };
 

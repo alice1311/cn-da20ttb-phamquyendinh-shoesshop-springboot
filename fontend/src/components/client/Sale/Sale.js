@@ -7,9 +7,77 @@ import axios from 'axios';
 function Sale() {
 
     const [products, setProducts] = useState([]);
+    const [productsFiltered, setProductsFiltered] = useState([]);
+    const [typeFilter, setTypeFilter] = useState([]);
+    const [colorFilter, setColorFilter] = useState("all");
+    const [sizeFilter, setSizeFilter] = useState("all");
+
+    const fetchData = () => {
+        axios.get('http://localhost:8080/api/v1/productTypes/full')
+            .then(response => {
+
+                let formattedType = response.data.map((_type) => {
+                    return ({
+                        ..._type,
+                        selected: false
+                    })
+                })
+
+                formattedType.unshift({
+                    id: -1,
+                    name: "Tất cả",
+                    selected: true
+                });
+
+                setTypeFilter(formattedType);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+
+    const handleChangeTypeFilter = (_id) => {
+        const newTypeFilter = typeFilter.map(_type => {
+            if (_type.id === _id) {
+                return ({
+                    ..._type,
+                    selected: true
+                })
+            } else {
+                return ({
+                    ..._type,
+                    selected: false
+                })
+            };
+        })
+
+        setTypeFilter(newTypeFilter);
+    }
+
+    useEffect(() => {
+
+        const selectedType = typeFilter.filter((_type) => { return _type.selected === true })[0];
+
+        console.log(selectedType);
+
+        let newProducts = products;
+
+        if (selectedType?.name !== "Tất cả") {
+            newProducts = newProducts.filter((product) => {
+                return (
+                    product.type_name === selectedType.name
+                )
+            })
+        }
+
+        setProductsFiltered(newProducts);
+
+    }, [typeFilter])
 
     useEffect(() => {
         window.scrollTo(0, 0);
+
+        fetchData();
 
         axios.get('http://localhost:8080/api/v1/products/full')
             .then(response => {
@@ -19,7 +87,6 @@ function Sale() {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-
     }, [])
 
     return (
@@ -28,9 +95,13 @@ function Sale() {
                 <div className="filter_type">
                     <span>LOẠI</span>
                     <div>
-                        <button className="active_filter">Tất cả</button>
-                        <button>Giày nam</button>
-                        <button>Giày nữ</button>
+                        {
+                            typeFilter?.map((_type) => {
+                                return (
+                                    <button className={_type.selected ? "active_filter" : ""} key={_type.id} onClick={() => handleChangeTypeFilter(_type.id)}>{_type.name}</button>
+                                )
+                            })
+                        }
                     </div>
                 </div>
                 <div className="filter_color">
@@ -65,26 +136,17 @@ function Sale() {
                         <button>43</button>
                     </div>
                 </div>
-                <div className="filter_price">
-                    <span>GIÁ</span>
-                    <div>
-                        <button className="active_filter">Tất cả</button>
-                        <button>Dưới 500k</button>
-                        <button>Dưới 1 triệu</button>
-                        <button>Dưới 2 triệu</button>
-                    </div>
-                </div>
             </div>
 
             <div className="Shop_right">
                 {
-                    products.map((shoes, index) => {
+                    productsFiltered.map((shoes, index) => {
                         return (
                             <Link className="Shop_right_shoes" key={index} to={`/product/${shoes.id}`}>
                                 <div className="shoes_top">
                                     <div className="shoes_top_img">
-                                    {shoes.sale_percent !==0 && <span className="shoes_tags">-{shoes.sale_percent}%</span>}
-                                        <img src={shoes.image_url} alt="" lazy="true"/>
+                                        {shoes.sale_percent !== 0 && <span className="shoes_tags">-{shoes.sale_percent}%</span>}
+                                        <img src={shoes.image_url} alt="" lazy="true" />
                                     </div>
                                     <div className="shoes_top_info">
                                         <h3>{shoes.name}</h3>

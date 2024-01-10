@@ -69,6 +69,12 @@ button{
     gap: 30px;
 }
 
+/* @media (min-width: 800px) {
+    .Shop_right {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+} */
+
 .Shop_right_shoes{
     display: flex;
     flex-direction: column;
