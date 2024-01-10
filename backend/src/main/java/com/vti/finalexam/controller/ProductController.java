@@ -151,11 +151,10 @@ public class ProductController {
     }
 
     @GetMapping(value = "/filter")
-    public ResponseEntity<?> filterProduct(@RequestBody FilterValue filterValue){
+    public ResponseEntity<?> filterProduct(@RequestParam(required = false) String size,
+                                           @RequestParam(required = false) String color,
+                                           @RequestParam(required = false) Integer type_id){
         List<Product> products = new ArrayList<>();
-        String size = filterValue.getSize();
-        String color = filterValue.getColor();
-        int type_id = filterValue.getTypeid();
         boolean check= false;
        if(size != null && color != null && type_id != 0){
            ProductType productType = productTypeService.getProductTypeById(type_id);
