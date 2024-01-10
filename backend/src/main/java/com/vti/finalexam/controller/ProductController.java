@@ -251,7 +251,9 @@ public class ProductController {
            ProductType productType = productTypeService.getProductTypeById(type_id);
            products = productType.getProducts();
        }
-
+        if(size == null && color == null && type_id== 0){
+            products = service.getFullProduct();
+        }
        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
        for(Product product : products){
            ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(),product.getTypeProduct().getId(), product.getGender_type().toString());
