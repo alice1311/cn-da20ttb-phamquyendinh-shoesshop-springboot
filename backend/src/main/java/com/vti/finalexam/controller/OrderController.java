@@ -1,6 +1,7 @@
 package com.vti.finalexam.controller;
 
 import com.vti.finalexam.DTO.CartDTO;
+import com.vti.finalexam.DTO.CustomerOrderDTO;
 import com.vti.finalexam.DTO.OrderDTO;
 import com.vti.finalexam.DTO.ProductDTO;
 import com.vti.finalexam.entity.*;
@@ -111,14 +112,25 @@ public class OrderController {
     public ResponseEntity<?> getOrderByCustomerId(@PathVariable(name = "id") int id){
         Customer customer = customerService.getCustomerById(id);
         List<Order> orders = service.getOrderByCustomer(id);
-        ArrayList<OrderDTO> orderDTOS= new ArrayList<>();
+        ArrayList<CustomerOrderDTO> customerOrderDTOS = new ArrayList<>();
         for(Order order : orders){
             if(order.getOderStatus() != Order.OderStatus.ADDED_TO_CARD) {
-                OrderDTO orderDTO = new OrderDTO(order.getId(), order.getTotal_amount(), order.getOder_date(), order.getOderStatus(), order.getCustomer().getId(), order.getPayment_method().getId());
-                orderDTOS.add(orderDTO);
+                CustomerOrderDTO customerOrderDTO = new CustomerOrderDTO();
+                customerOrderDTO.setIdOrder(order.getId());
+                customerOrderDTO.setOderStatus(order.getOderStatus());
+                customerOrderDTO.setOrderDate(order.getOder_date());
+                customerOrderDTO.setPaymentName(order.getPayment_method().getName());
+                int totalQuantity = order.getOrderItems().size();
+                customerOrderDTO.setTotalQuantity(totalQuantity);
+                customerOrderDTO.setTotalAmount(order.getTotal_amount());
+                customerOrderDTO.setImg_url(order.getOrderItems().get(0).getProduct_detail_order().getImg_url());
+                customerOrderDTO.setColor(order.getOrderItems().get(0).getProduct_detail_order().getColor());
+                customerOrderDTO.setSubQuantity(order.getOrderItems().get(0).getQuantity());
+                customerOrderDTO.setProductName(order.getOrderItems().get(0).getProduct_detail_order().getProduct_detail().getName());
+                customerOrderDTOS.add(customerOrderDTO);
             }
         }
-        return new ResponseEntity<>(orderDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(customerOrderDTOS, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
