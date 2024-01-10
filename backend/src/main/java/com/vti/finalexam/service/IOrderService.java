@@ -26,6 +26,7 @@ public interface IOrderService {
     public Order getOrderById(int id);
     public List<Order> getOrderByCustomer(int id);
 
+    public void cancelOrder(int id);
     public  void deleteOrder(int id);
 
     void deleteOrders(List<Integer> ids);

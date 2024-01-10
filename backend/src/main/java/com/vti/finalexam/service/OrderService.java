@@ -116,6 +116,13 @@ public class OrderService implements IOrderService{
     }
 
     @Override
+    public void cancelOrder(int id) {
+        Order order = repository.getOrderById(id);
+        order.setOderStatus(Order.OderStatus.CANCELED);
+        repository.save(order);
+    }
+
+    @Override
     public void deleteOrder(int id) {
         repository.deleteById(id);
     }

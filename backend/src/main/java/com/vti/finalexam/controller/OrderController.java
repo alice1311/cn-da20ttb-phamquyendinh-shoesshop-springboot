@@ -74,9 +74,14 @@ public class OrderController {
 //        return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
 //    }
 
-    @PutMapping(value = "update/{id}")
+    @PutMapping(value = "/update/{id}")
     public ResponseEntity<?> updateOrder(@PathVariable(name = "id") int id, @RequestBody OrderFormCreating formCreating){
         service.updateOder(id, formCreating);
+        return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
+    }
+    @PutMapping(value = "/cancel/{id}")
+    public ResponseEntity<?> cancelOrder(@PathVariable(name = "id") int id){
+        service.cancelOrder(id);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
     }
 
