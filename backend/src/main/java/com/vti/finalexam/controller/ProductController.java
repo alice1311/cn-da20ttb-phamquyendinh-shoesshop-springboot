@@ -154,6 +154,9 @@ public class ProductController {
     public ResponseEntity<?> filterProduct(@RequestParam(required = false) String size,
                                            @RequestParam(required = false) String color,
                                            @RequestParam(required = false) Integer type_id){
+        if (type_id == null) {
+            type_id = 0;
+        }
         List<Product> products = new ArrayList<>();
         boolean check= false;
        if(size != null && color != null && type_id != 0){
