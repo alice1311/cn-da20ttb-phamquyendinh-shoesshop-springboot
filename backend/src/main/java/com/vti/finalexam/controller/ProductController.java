@@ -1,6 +1,7 @@
 package com.vti.finalexam.controller;
 
 import com.vti.finalexam.DTO.AccountDTO;
+import com.vti.finalexam.DTO.FilterValue;
 import com.vti.finalexam.DTO.ProductDTO;
 import com.vti.finalexam.DTO.ProductDetailDTO;
 import com.vti.finalexam.entity.Account;
@@ -129,6 +130,152 @@ public class ProductController {
             return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
         }
     }
+
+    @GetMapping(value="/allsize")
+    public List<String> getAllSize(){
+        List<String> sizes = new ArrayList<>();
+        List<Product> products = service.getFullProduct();
+        for(Product product: products){
+            List<ProductDetail> productDetails = product.getProductDetails();
+            for(ProductDetail productDetail : productDetails){
+                sizes.add(productDetail.getSize());
+            }
+        }
+        List<String> uniqueList = new ArrayList<>();
+        for (String element : sizes) {
+            if (!uniqueList.contains(element)) {
+                uniqueList.add(element);
+            }
+        }
+        return uniqueList;
+    }
+
+    @GetMapping(value = "/filter")
+    public ResponseEntity<?> filterProduct(@RequestBody FilterValue filterValue){
+        List<Product> products = new ArrayList<>();
+        String size = filterValue.getSize();
+        String color = filterValue.getColor();
+        int type_id = filterValue.getTypeid();
+        boolean check= false;
+       if(size != null && color != null && type_id != 0){
+           ProductType productType = productTypeService.getProductTypeById(type_id);
+           List<Product> products1s = productType.getProducts();
+           for(Product product : products1s){
+               List<ProductDetail> productDetails = product.getProductDetails();
+               for(ProductDetail productDetail : productDetails){
+                   if(productDetail.getColor().equals(color) && productDetail.getSize().equals(size)){
+                       check = true;
+                       break;
+                   }
+               }
+               if (check){
+                    products.add(product);
+                    check = false;
+               }
+           }
+       }else if(size == null){
+           if(color != null && type_id!= 0){
+               ProductType productType = productTypeService.getProductTypeById(type_id);
+               List<Product> products1s =productType.getProducts();
+               for(Product product : products1s){
+                   List<ProductDetail> productDetails = product.getProductDetails();
+                   for(ProductDetail productDetail : productDetails){
+                       if(productDetail.getColor().equals(color)){
+                           check = true;
+                           break;
+                       }
+                   }
+                   if (check){
+                       products.add(product);
+                       check = false;
+                   }
+               }
+
+           }else if(color == null && type_id!= 0){
+               ProductType productType = productTypeService.getProductTypeById(type_id);
+               products = productType.getProducts();
+           }else if(color != null && type_id == 0){
+               List<Product> products1 = service.getFullProduct();
+               for(Product product : products1){
+                   List<ProductDetail> productDetails = product.getProductDetails();
+                   for(ProductDetail productDetail : productDetails){
+                       if(productDetail.getColor().equals(color)){
+                           check = true;
+                           break;
+                       }
+                   }
+                   if (check){
+                       products.add(product);
+                       check = false;
+                   }
+               }
+           }
+       }else if (color == null){
+           if(type_id == 0){
+               List<Product> products1 = service.getFullProduct();
+               for(Product product : products1){
+                   List<ProductDetail> productDetails = product.getProductDetails();
+                   for(ProductDetail productDetail : productDetails){
+                       if(productDetail.getSize().equals(size)){
+                           check = true;
+                           break;
+                       }
+                   }
+                   if (check){
+                       products.add(product);
+                       check = false;
+                   }
+               }
+           }else if(type_id !=0){
+               ProductType productType = productTypeService.getProductTypeById(type_id);
+               products =productType.getProducts();
+           }
+       }else if (type_id == 0){
+           List<Product> products1 = service.getFullProduct();
+           for(Product product : products1){
+               List<ProductDetail> productDetails = product.getProductDetails();
+               for(ProductDetail productDetail : productDetails){
+                   if(productDetail.getSize().equals(size) && productDetail.getColor().equals(color)){
+                       check = true;
+                       break;
+                   }
+               }
+               if (check){
+                   products.add(product);
+                   check = false;
+               }
+           }
+       }else{
+           ProductType productType = productTypeService.getProductTypeById(type_id);
+           products = productType.getProducts();
+       }
+
+       ArrayList<ProductDTO> productDTOS = new ArrayList<>();
+       for(Product product : products){
+           ProductDTO dto = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getImage_url(),product.getPrice(),product.getTypeProduct().getName(),product.getTypeProduct().getId(), product.getGender_type().toString());
+           productDTOS.add(dto);
+       }
+        return new ResponseEntity<>(productDTOS, HttpStatus.OK);
+    }
+    @GetMapping(value="/allcolor")
+    public List<String> getAllcolor(){
+        List<String> colors = new ArrayList<>();
+        List<Product> products = service.getFullProduct();
+        for(Product product: products){
+            List<ProductDetail> productDetails = product.getProductDetails();
+            for(ProductDetail productDetail : productDetails){
+                colors.add(productDetail.getColor());
+            }
+        }
+        List<String> uniqueList = new ArrayList<>();
+        for (String element : colors) {
+            if (!uniqueList.contains(element)) {
+                uniqueList.add(element);
+            }
+        }
+        return uniqueList;
+    }
+
     @GetMapping(value = "/productDetail/{id}")
     public ResponseEntity<?> getProductDetail(@PathVariable(name = "id") int id){
         Product product = service.getProductById(id);
