@@ -62,7 +62,7 @@ public class OrderController {
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/createOrder")
+    @PostMapping(value = "/create")
     public ResponseEntity<?> createOrder(@RequestBody OrderCustomerCreatForm orderCustomerCreatForm){
         service.customer_createOder(orderCustomerCreatForm);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
@@ -113,7 +113,7 @@ public class OrderController {
         return new ResponseEntity<>(cartDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getOrderByCustomer/{id}")
+    @GetMapping(value = "/status/{id}")
     public ResponseEntity<?> getOrderByCustomerId(@PathVariable(name = "id") int id){
         Customer customer = customerService.getCustomerById(id);
         List<Order> orders = service.getOrderByCustomer(id);

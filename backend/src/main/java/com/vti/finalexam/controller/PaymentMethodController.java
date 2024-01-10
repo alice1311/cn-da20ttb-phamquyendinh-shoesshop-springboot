@@ -51,13 +51,13 @@ public class PaymentMethodController {
         return new ResponseEntity<>(paymentMethodDTOS, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping(value = "/create")
     public ResponseEntity<?> createPaymentMethod(@RequestBody PaymentMethodCreating formCreating){
         service.createPaymentMethod(formCreating);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "update/{id}")
     public ResponseEntity<?> updatePaymentMethod(@PathVariable(name = "id") int id, @RequestBody PaymentMethodCreating formCreating){
         service.updatePaymentMethod(id, formCreating);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
@@ -73,7 +73,7 @@ public class PaymentMethodController {
         return new ResponseEntity<PaymentMethodDTO>(paymentMethodDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "delete/{id}")
     public ResponseEntity<?> deletePaymentMethod(@PathVariable(name = "id") int id){
         service.deletePaymentMethod(id);
         return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);

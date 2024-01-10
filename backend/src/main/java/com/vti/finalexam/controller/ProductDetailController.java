@@ -38,13 +38,13 @@ public class ProductDetailController {
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping(value = "/create")
     public ResponseEntity<?> createProductDetail(@RequestBody ProductDetailFormCreating formCreating){
         service.createProductDetail(formCreating);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "update/{id}")
     public ResponseEntity<?> updateProductDetail(@PathVariable(name = "id") int id, @RequestBody ProductDetailFormCreating formCreating){
         service.updateProductDetail(id, formCreating);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
@@ -64,7 +64,7 @@ public class ProductDetailController {
         return new ResponseEntity<ProductDetailDTO>(productDetailDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "delete/{id}")
     public ResponseEntity<?> deleteProductDeatil(@PathVariable(name = "id") int id){
         service.deleteProductDetail(id);
         return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);

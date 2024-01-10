@@ -40,19 +40,19 @@ public class SaleController {
         return new ResponseEntity<>(dtosPage, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping(value = "/create")
     public ResponseEntity<?> createSale(@RequestBody SaleFormCreating formCreating) throws ParseException {
         service.createSale(formCreating);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
     }
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "delete/{id}")
     public ResponseEntity<?> deleteSale(@PathVariable(name = "id") int id){
         service.deleteSale(id);
         return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
     }
 
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "update/{id}")
     public ResponseEntity<?> updateSale(@PathVariable(name = "id") int id, @RequestBody SaleFormCreating formCreating) throws ParseException {
         service.updateSale(id, formCreating);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);

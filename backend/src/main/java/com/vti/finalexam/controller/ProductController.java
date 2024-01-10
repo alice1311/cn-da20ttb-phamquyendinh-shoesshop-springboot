@@ -89,7 +89,7 @@ public class ProductController {
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping(value = "/create")
     public ResponseEntity<?> createProduct(@RequestBody ProductFormCreating formCreating){
         service.createProduct(formCreating);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);

@@ -41,7 +41,7 @@ public class EmployeeController {
         });
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
-    @PostMapping()
+    @PostMapping(value = "/create")
     public ResponseEntity<?> createEmployee(@RequestBody AccountFormCreating formCreating) throws ParseException {
         service.createEmployee(formCreating);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);

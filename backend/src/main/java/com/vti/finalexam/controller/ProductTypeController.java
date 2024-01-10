@@ -50,7 +50,7 @@ public class ProductTypeController {
         return new ResponseEntity<>(productTypeDTOS, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping(value = "/create")
     public ResponseEntity<?> createProductType(@RequestBody ProductTypeFormCreating formCreating){
         service.createProductType(formCreating);
         return new ResponseEntity<String>("Create successfully", HttpStatus.CREATED);
@@ -62,7 +62,7 @@ public class ProductTypeController {
     }
 
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "update/{id}")
     public ResponseEntity<?> updateProductType(@PathVariable(name = "id") int id, @RequestBody ProductTypeFormCreating formCreating){
         service.updateProductType(id, formCreating);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
@@ -73,7 +73,7 @@ public class ProductTypeController {
         service.deleteProductTypes(ids);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "delete/{id}")
     public ResponseEntity<?> getProductTypeById(@PathVariable(name = "id") int id){
         ProductType productType= service.getProductTypeById(id);
         ProductTypeDTO productTypeDTO = new ProductTypeDTO(
