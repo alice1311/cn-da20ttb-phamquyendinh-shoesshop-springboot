@@ -52,6 +52,7 @@ public class OrderService implements IOrderService{
         Customer customer = customerRepository.getCustomerById(formCreating.getCustomer_id());
         PaymentMethod paymentMethod = paymentMethodRepository.getPaymentMethodById(formCreating.getPayment_method_id());
         Date creating_date = new Date();
+        float total_amout = 0;
         Order order = new Order(
                 formCreating.getAddress(),
                 formCreating.getPhone(),
@@ -68,10 +69,13 @@ public class OrderService implements IOrderService{
             orderItem.setSubtotal(orderItem.getSell_price()*orderItem.getQuantity());
             ProductDetail productDetail = productDetailRepository.getDetailById(orderItem.getProduct_detail_order().getId());
             productDetail.setQuantity(productDetail.getQuantity()-orderItem.getQuantity());
+            total_amout = total_amout + orderItem.getSubtotal();
             oderItemRepository.save(orderItem);
             productDetailRepository.save(productDetail);
-        }
 
+        }
+        order.setTotal_amount(total_amout);
+        repository.save(order);
     }
 
     @Override
