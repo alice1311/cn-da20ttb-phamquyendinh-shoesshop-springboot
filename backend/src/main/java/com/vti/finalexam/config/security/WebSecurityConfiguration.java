@@ -57,35 +57,33 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/sales/create").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/v1/sales/update/{id}").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/v1/sales/delete/{id}").hasAnyAuthority("ADMIN")
-                //
-
-
-                .antMatchers("/api/v1/products/all").permitAll()
-                .antMatchers("/api/v1/products/{id}").permitAll()
-                .antMatchers("/api/v1/products/type/{id}").permitAll()
-                .antMatchers("/api/v1/productDetails/**").permitAll()
-                .antMatchers("/api/v1/products/**").permitAll()
                 .antMatchers("/api/v1/products/filter").permitAll()
                 .antMatchers("/api/v1/products/allsize").permitAll()
                 .antMatchers("/api/v1/products/allcolor").permitAll()
-                .antMatchers("/api/v1/products/update/{id}").hasAnyAuthority("ADMIN", "EMPLOYEE")
-                .antMatchers("/api/v1/productTypes/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
+                .antMatchers("/api/v1/products/all").permitAll()
+                .antMatchers("/api/v1/sales").hasAnyAuthority("ADMIN")
+                .antMatchers("/api/v1/sales/**").hasAnyAuthority("ADMIN")
+                //
+
+
+
+                .antMatchers("/api/v1/products/{id}").permitAll()
+                .antMatchers("/api/v1/products/type/{id}").permitAll()
                 .antMatchers("/api/v1/feedbacks/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/v1/feedbacks/customer").hasAnyAuthority("CUSTOMER")
                 .antMatchers("/api/v1/customers").permitAll()
                 .antMatchers("/api/v1/customers/**").permitAll()
-                .antMatchers("/api/v1/paymentMethods/**").permitAll()
+//                .antMatchers("/api/v1/paymentMethods/**").permitAll()
                 .antMatchers("/api/v1/customers/update/{id}").permitAll()
                 .antMatchers("/api/v1/employees/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/v1/employees/update/{id}").hasAnyAuthority("EMPLOYEE")
-                .antMatchers("/api/v1/sales").hasAnyAuthority("ADMIN")
-                .antMatchers("/api/v1/sales/**").hasAnyAuthority("ADMIN")
+
                 .antMatchers("/api/v1/admins").hasAnyAuthority("ADMIN")
-                .antMatchers("/api/v1/orders/checkCart/{id}").hasAnyAuthority("CUSTOMER")
-                .antMatchers("/api/v1/orders/createCart").hasAnyAuthority("CUSTOMER")
+//                .antMatchers("/api/v1/orders/checkCart/{id}").hasAnyAuthority("CUSTOMER")
+//                .antMatchers("/api/v1/orders/createCart").hasAnyAuthority("CUSTOMER")
                 .antMatchers("/api/v1/orders/update").hasAnyAuthority("EMPLOYEE", "CUSTOMER")
 //                .antMatchers("api/v1/orderItems/**").hasAnyAuthority("ADMIN", "CUSTOMER")
-                .antMatchers("/api/v1/orderItems/update/{id}").hasAnyAuthority("CUSTOMER")
+//                .antMatchers("/api/v1/orderItems/update/{id}").hasAnyAuthority("CUSTOMER")
 //                .antMatchers("api/v1/productDetails/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
 
                 .anyRequest().authenticated()
