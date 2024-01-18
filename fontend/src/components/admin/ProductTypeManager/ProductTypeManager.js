@@ -55,7 +55,7 @@ function ProductTypeManager() {
 
         const adminData = JSON.parse(localStorage.getItem('user'));
 
-        axios.post('http://localhost:8080/api/v1/productTypes', data, {
+        axios.post('http://localhost:8080/api/v1/productTypes/create', data, {
             auth: {
                 username: adminData.username,
                 password: adminData.password

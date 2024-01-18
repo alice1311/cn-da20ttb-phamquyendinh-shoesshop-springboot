@@ -10,10 +10,10 @@ function Cart() {
   const userData = JSON.parse(localStorage.getItem("user"));
   const [selectedItems, setSelectedItems] = useState({});
 
-  function updateQuantityById(_id,   _value) {
-    const newCartDetails =  cartdetails.map(obj => {
+  function updateQuantityById(_id, _value) {
+    const newCartDetails = cartdetails.map(obj => {
       if (obj.id === _id) {
-        return { ...obj, quantity: Math.max(obj.quantity + _value, 1)};
+        return { ...obj, quantity: Math.max(obj.quantity + _value, 1) };
       }
       return obj;
     });
@@ -76,7 +76,7 @@ function Cart() {
           },
         })
         .then((response) => {
-          
+
           const data = response.data.map((pd, index) => {
             return {
               imgSrc: pd.imgSrc,
@@ -89,7 +89,7 @@ function Cart() {
               quantity: pd.quantity
             };
           });
-          
+
           setCartDetail(data);
           console.log(data);
         })
@@ -124,43 +124,53 @@ function Cart() {
               </tr>
             </thead>
             <tbody>
-              {cartdetails.map((cartdetail, index) => {
-                return (
-                  <CartItem
-                    key={cartdetail.id}
-                    shoese={cartdetail}
-                    handleSelectItem={handleSelectItem}
-                    setSelectedItems={setSelectedItems}
-                    selectedItems={selectedItems}
-                    cartdetails={cartdetails}
-                    updateQuantityById={updateQuantityById}
-                  />
-                );
-              })}
+              {
+                cartdetails.length !== 0 ?
+                  cartdetails.map((cartdetail, index) => {
+                    return (
+                      <CartItem
+                        key={cartdetail.id}
+                        shoese={cartdetail}
+                        handleSelectItem={handleSelectItem}
+                        setSelectedItems={setSelectedItems}
+                        selectedItems={selectedItems}
+                        cartdetails={cartdetails}
+                        updateQuantityById={updateQuantityById}
+                      />
+                    );
+                  })
+                  : <tr><td colSpan={5} style={{ textAlign: "center" }}>Hãy thêm sản phẩm vào giỏ</td></tr>
+              }
             </tbody>
           </table>
         </div>
       </div>
       <div className="Cart_right">
-        <h3>Hoá đơn tạm tính</h3>
-        <div>
-          <h4>Tổng sản phẩm ({Object.values(selectedItems).reduce((count, value) => count + (value === true ? 1 : 0), 0)})</h4>
-          <span>{handleGetTotal().toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</span>
-        </div>
-        <div>
-          <h4>Phí vận chuyển</h4>
-          <span>50.000đ</span>
-        </div>
-        <hr></hr>
-        <div className="Cart_right_total">
-          <h4>Tổng cộng</h4>
-          <span>{(handleGetTotal() + 50000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</span>
-        </div>
+        {
+          cartdetails.length !== 0 ?
+            <>
+              <h3>Hoá đơn tạm tính</h3>
+              <div>
+                <h4>Tổng sản phẩm ({Object.values(selectedItems).reduce((count, value) => count + (value === true ? 1 : 0), 0)})</h4>
+                <span>{handleGetTotal().toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</span>
+              </div>
+              <div>
+                <h4>Phí vận chuyển</h4>
+                <span>50.000đ</span>
+              </div>
+              <hr></hr>
+              <div className="Cart_right_total">
+                <h4>Tổng cộng</h4>
+                <span>{(handleGetTotal() + 50000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ</span>
+              </div>
 
-        <button onClick={() => handleSendCheckout()}>
-          <span>Tiến hành đặt hàng</span>
-          <i className="fa-solid fa-arrow-right"></i>
-        </button>
+              <button onClick={() => handleSendCheckout()}>
+                <span>Tiến hành đặt hàng</span>
+                <i className="fa-solid fa-arrow-right"></i>
+              </button>
+            </>
+          : <p>Giỏ hàng trống</p>
+        }
       </div>
     </div>
   );

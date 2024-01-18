@@ -17,69 +17,6 @@ function Home() {
             brand: "NIKE",
             price: "1.160.000",
             old_price: "1.500.000"
-        },
-        {
-            imgSrc: "https://saigonsneaker.com/wp-content/uploads/2020/01/IMG_2217-2-650x650.jpg.webp",
-            name: "Adidas Stan Smith Fairway",
-            brand: "NIKE",
-            price: "1.160.000",
-            old_price: "1.500.000"
-        },
-        {
-            imgSrc: "https://saigonsneaker.com/wp-content/uploads/2019/12/unisex.jpg.webp",
-            name: "Vans Old Skool Classic Black",
-            brand: "VANS",
-            price: "1.160.000",
-            old_price: "1.500.000"
-        },
-        {
-            imgSrc: "https://saigonsneaker.com/wp-content/uploads/2020/01/IMG_2215-2-650x650.jpg.webp",
-            name: "Adidas Superstar Running White",
-            brand: "NIKE",
-            price: "1.160.000",
-            old_price: "1.500.000"
-        },
-        {
-            imgSrc: "https://saigonsneaker.com/wp-content/uploads/2020/11/574-2-700x700.jpg.webp",
-            name: "New Balance 574 Grey Blue",
-            brand: "NIKE",
-            price: "1.160.000",
-            old_price: "1.500.000"
-        },
-        {
-            imgSrc: "https://saigonsneaker.com/wp-content/uploads/2019/11/IMG_1013-700x700.jpg.webp",
-            name: "Air Force 1 Shadow Pale Ivory",
-            brand: "NIKE",
-            price: "1.195.000",
-            old_price: "1.500.000"
-        },
-        {
-            imgSrc: "https://saigonsneaker.com/wp-content/uploads/2019/08/giay-converse-chuck-1.jpg.webp",
-            name: "Converse Chuck 70 Low Top Black (1970s)",
-            brand: "NIKE",
-            price: "1.160.000",
-            old_price: "1.500.000"
-        },
-        {
-            imgSrc: "https://saigonsneaker.com/wp-content/uploads/2020/01/IMG_2217-2-650x650.jpg.webp",
-            name: "Adidas Stan Smith Fairway",
-            brand: "NIKE",
-            price: "1.160.000",
-            old_price: "1.500.000"
-        },
-        {
-            imgSrc: "https://saigonsneaker.com/wp-content/uploads/2019/12/unisex.jpg.webp",
-            name: "Vans Old Skool Classic Black",
-            brand: "VANS",
-            price: "1.160.000",
-            old_price: "1.500.000"
-        },
-        {
-            imgSrc: "https://saigonsneaker.com/wp-content/uploads/2020/01/IMG_2215-2-650x650.jpg.webp",
-            name: "Adidas Superstar Running White",
-            brand: "NIKE",
-            price: "1.160.000",
-            old_price: "1.500.000"
         }
     ]
 
@@ -104,14 +41,9 @@ function Home() {
                 </div>
                 <div className="Home_cover_right">
                     <div>
-                        <p>Sale</p>
-                        <span className="sale_tags">-25%</span>
+                       
                     </div>
-                    <div className="Home_cover_right_price">
-                        <h2>750.000đ</h2>
-                        <span>1.000.000đ</span>
-                    </div>
-                    <button>MUA NGAY</button>
+                    
                 </div>
             </div>
 
@@ -119,10 +51,6 @@ function Home() {
                 <div>
                     <i class="fa-solid fa-truck-fast"></i>
                     <span>Giao hàng toàn quốc</span>
-                </div>
-                <div>
-                    <i class="fa-brands fa-cc-visa"></i>
-                    <span>Thanh toán trực tuyến</span>
                 </div>
                 <div>
                     <i class="fa-solid fa-crown"></i>

@@ -10,7 +10,8 @@ import {
     TeamOutlined,
     BuildOutlined,
     PlusOutlined,
-    BarsOutlined
+    BarsOutlined,
+    FileTextOutlined 
 } from '@ant-design/icons';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -24,6 +25,8 @@ import ProductTypeManager from './ProductTypeManager/ProductTypeManager';
 import { useEffect, useState } from 'react';
 import UpdateProduct from './Product-Manager/UpdateProduct';
 import UpdateProductDetail from './ProductDetailManager/UpdateProductDetailById';
+import MangerOrder from './Order/ManagerOrder';
+import CheckOrder from './Order/CheckOrder';
 
 const { Sider, Content } = Layout;
 
@@ -71,6 +74,14 @@ function AdminLayout() {
                                     <Link to="users/add" >Thêm người dùng</Link>
                                 </Menu.Item>
                             </Menu.SubMenu>
+                            <Menu.SubMenu key="UM2" icon={<FileTextOutlined  />} title="Đơn hàng">
+                                <Menu.Item key="orders" icon={<BarsOutlined />}>
+                                    <Link to="orders">Quản lý đơn hàng</Link>
+                                </Menu.Item>
+                                <Menu.Item key="orders/add" icon={<PlusOutlined />}>
+                                    <Link to="orders/add" >Xác nhận đơn hàng</Link>
+                                </Menu.Item>
+                            </Menu.SubMenu>
                             <Menu.SubMenu key="PM" icon={<BuildOutlined />} title="Sản phẩm">
                                 <Menu.Item key="products/add_product" icon={<PlusOutlined />}>
                                     <Link to="products/add-product" >Thêm sản phẩm</Link>
@@ -105,6 +116,9 @@ function AdminLayout() {
                                 <Route path="/products-detail/:id/add-product-detail" element={<AddProductDetail />} />
                                 <Route path="/products/update/:id" element={<UpdateProduct />} />
                                 <Route path="/productdetails/update/:id" element={<UpdateProductDetail />} />
+                                <Route path="/orders" element={<MangerOrder/>}></Route>
+                                <Route path="/orders/checkOrder/:id" element={<CheckOrder/>}></Route>
+                               
                             </Routes>
                         </Content>
                     </Layout>

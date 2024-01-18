@@ -9,6 +9,8 @@ import Home from "./Home/Home";
 import Cart from "./Cart/Cart";
 import Checkout from "./Checkout/Checkout";
 import Order from "./Order/Order";
+import GenderFill from "./FillterGender/GenderFill";
+import FemaleFilter from "./FillterGender/FemaleFilter";
 function ClientLayout() {
     return (
         <div className="ClientLayout">
@@ -21,6 +23,8 @@ function ClientLayout() {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/order" element={<Order />} />
                     <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/male" element={<GenderFill />} />
+                    <Route path="/female" element={<FemaleFilter />} />
                 </Routes>
             </div>
             <Footer />

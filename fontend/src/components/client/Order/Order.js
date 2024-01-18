@@ -52,12 +52,18 @@ function Order() {
     {
       key: '3',
       label: 'Đã giao',
-      children: 'Content of Tab Pane 1',
+      children: <div className="ContentOfMyOrder">{tabKey === "3" && <COMPLETED />}</div>,
     },
     {
       key: '4',
       label: 'Đã huỷ',
-      children: 'Content of Tab Pane 2',
+      children: <div className="ContentOfMyOrder">{tabKey === "4" && <CANCELED />}</div>,
+    }
+    ,
+    {
+      key: '5',
+      label: 'Đã đánh giá',
+      children: <div className="ContentOfMyOrder">{tabKey === "5" && <FEEDBACK_COMPLETE />}</div>,
     }
   ];
 
@@ -107,7 +113,7 @@ function TO_PAY() {
   };
 
   const handleCancelOrder = (_orderId) => {
-    axios.put(`http://localhost:8080/api/v1/orders/cancel/${_orderId}`, {
+    axios.put(`http://localhost:8080/api/v1/orders/cancel/${_orderId}`, {}, {
       auth: {
         username: userData.username,
         password: userData.password,
@@ -115,6 +121,7 @@ function TO_PAY() {
     })
       .then((response) => {
         console.log(response.data);
+        fetchData();
         successMessage("Huỷ đơn hàng thành công");
       })
       .catch((error) => {
@@ -179,7 +186,6 @@ function TO_PAY() {
         >
           <Button>Huỷ đơn</Button>
         </Popconfirm>
-
       ,
     }
   ];
@@ -188,7 +194,7 @@ function TO_PAY() {
 
     setLoading(true);
 
-    axios.get(`http://localhost:8080/api/v1/orders/getOrderByCustomer/${userData.id}`, {
+    axios.get(`http://localhost:8080/api/v1/orders/status/${userData.id}`, {
       auth: {
         username: userData.username,
         password: userData.password,
@@ -225,10 +231,16 @@ function TO_PAY() {
         console.error("Error fetching data:", error);
       });
   }
-
+  const navigate = useNavigate();
   useEffect(() => {
 
-    fetchData();
+    
+    const userData = JSON.parse(localStorage.getItem('user'));
+        if (userData?.role === "CUSTOMER") {
+            fetchData();
+        } else {
+            navigate("/");
+        }
 
   }, [])
 
@@ -286,7 +298,7 @@ function TO_RECEIVE() {
       title: 'Trạng thái',
       key: 'status',
       dataIndex: 'status',
-      render: (text) => <Tag color="blue">{text.toUpperCase()}</Tag>,
+      render: (text) => <Tag color="orange">{text.toUpperCase()}</Tag>,
     }
   ];
 
@@ -294,7 +306,7 @@ function TO_RECEIVE() {
 
     setLoading(true);
 
-    axios.get(`http://localhost:8080/api/v1/orders/getOrderByCustomer/${userData.id}`, {
+    axios.get(`http://localhost:8080/api/v1/orders/status/${userData.id}`, {
       auth: {
         username: userData.username,
         password: userData.password,
@@ -340,6 +352,335 @@ function TO_RECEIVE() {
 
   return (
     <div className="TO_RECEIVE">
+      <Table columns={columns} dataSource={ordereds} size="large" loading={loading} />
+    </div>
+  )
+
+}
+
+function COMPLETED() {
+
+  const [ordereds, setOrdereds] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const columns = [
+    {
+      title: 'Đơn hàng',
+      dataIndex: 'group',
+      key: 'group',
+      render: (record) =>
+        <Flex align="center" gap={15} >
+          <Image
+            width={60}
+            src={record.img_url}
+            style={{ borderRadius: "5px" }}
+          />
+          <Flex vertical>
+            <h3>{record.productName}</h3>
+            <span>{record.subQuantity} sản phẩm</span>
+          </Flex>
+        </Flex>,
+    },
+    {
+      title: 'Ngày đặt hàng',
+      dataIndex: 'orderDate',
+      key: 'orderDate',
+      render: (text) => convertDateTimeFormat(text)
+    },
+    {
+      title: 'Tổng tiền',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
+      render: (text) => <h3>{text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + "đ"}</h3>
+    },
+    {
+      title: 'Phương thức thanh toán',
+      dataIndex: 'paymentName',
+      key: 'paymentName'
+    },
+    {
+      title: 'Trạng thái',
+      key: 'status',
+      dataIndex: 'status',
+      render: (text) => <Tag color="green">{text.toUpperCase()}</Tag>,
+    },
+    {
+      title: 'Tuỳ chọn',
+      key: 'action',
+      dataIndex: 'action',
+      render: (text) =>
+        <Popconfirm
+          title="Đánh giá đơn hàng này"
+          placement="topRight"
+          description="Bạn muốn đánh giá hàng này?"
+          // onConfirm={() => handleCancelOrder(text)}
+          okText="Đánh giá"
+          cancelText="Quay lại" 
+        >
+          <Button>Đánh giá</Button>
+        </Popconfirm>
+      ,
+    }
+  ];
+
+  const fetchData = async () => {
+
+    setLoading(true);
+
+    axios.get(`http://localhost:8080/api/v1/orders/status/${userData.id}`, {
+      auth: {
+        username: userData.username,
+        password: userData.password,
+      },
+    })
+      .then((response) => {
+
+        console.log(response.data);
+
+        let dataForState = response.data.map((pd) => {
+          return {
+            group: {
+              img_url: pd.img_url,
+              subQuantity: pd.subQuantity,
+              productName: pd.productName
+            },
+            status: pd.oderStatus,
+            totalAmount: pd.totalAmount,
+            key: pd.idOrder,
+            orderDate: pd.orderDate,
+            paymentName: pd.paymentName
+          };
+        });
+
+        dataForState = dataForState.filter(pd => { return pd.status === "COMPLETED" })
+
+        console.log(dataForState);
+
+        setOrdereds(dataForState);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
+
+  useEffect(() => {
+
+    fetchData();
+
+  }, [])
+
+
+  return (
+    <div className="COMPLETED">
+      <Table columns={columns} dataSource={ordereds} size="large" loading={loading} />
+    </div>
+  )
+
+}
+
+function FEEDBACK_COMPLETE() {
+
+  const [ordereds, setOrdereds] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const columns = [
+    {
+      title: 'Đơn hàng',
+      dataIndex: 'group',
+      key: 'group',
+      render: (record) =>
+        <Flex align="center" gap={15} >
+          <Image
+            width={60}
+            src={record.img_url}
+            style={{ borderRadius: "5px" }}
+          />
+          <Flex vertical>
+            <h3>{record.productName}</h3>
+            <span>{record.subQuantity} sản phẩm</span>
+          </Flex>
+        </Flex>,
+    },
+    {
+      title: 'Ngày đặt hàng',
+      dataIndex: 'orderDate',
+      key: 'orderDate',
+      render: (text) => convertDateTimeFormat(text)
+    },
+    {
+      title: 'Tổng tiền',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
+      render: (text) => <h3>{text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + "đ"}</h3>
+    },
+    {
+      title: 'Phương thức thanh toán',
+      dataIndex: 'paymentName',
+      key: 'paymentName'
+    },
+    {
+      title: 'Trạng thái',
+      key: 'status',
+      dataIndex: 'status',
+      render: (text) => <Tag color="green">{text.toUpperCase()}</Tag>,
+    }
+  ];
+
+  const fetchData = async () => {
+
+    setLoading(true);
+
+    axios.get(`http://localhost:8080/api/v1/orders/status/${userData.id}`, {
+      auth: {
+        username: userData.username,
+        password: userData.password,
+      },
+    })
+      .then((response) => {
+
+        console.log(response.data);
+
+        let dataForState = response.data.map((pd) => {
+          return {
+            group: {
+              img_url: pd.img_url,
+              subQuantity: pd.subQuantity,
+              productName: pd.productName
+            },
+            status: pd.oderStatus,
+            totalAmount: pd.totalAmount,
+            key: pd.idOrder,
+            orderDate: pd.orderDate,
+            paymentName: pd.paymentName
+          };
+        });
+
+        dataForState = dataForState.filter(pd => { return pd.status === "COMPLETED" })
+
+        console.log(dataForState);
+
+        setOrdereds(dataForState);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
+
+  useEffect(() => {
+
+    fetchData();
+
+  }, [])
+
+
+  return (
+    <div className="COMPLETED">
+      <Table columns={columns} dataSource={ordereds} size="large" loading={loading} />
+    </div>
+  )
+
+}
+
+function CANCELED() {
+
+  const [ordereds, setOrdereds] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const columns = [
+    {
+      title: 'Đơn hàng',
+      dataIndex: 'group',
+      key: 'group',
+      render: (record) =>
+        <Flex align="center" gap={15} >
+          <Image
+            width={60}
+            src={record.img_url}
+            style={{ borderRadius: "5px" }}
+          />
+          <Flex vertical>
+            <h3>{record.productName}</h3>
+            <span>{record.subQuantity} sản phẩm</span>
+          </Flex>
+        </Flex>,
+    },
+    {
+      title: 'Ngày đặt hàng',
+      dataIndex: 'orderDate',
+      key: 'orderDate',
+      render: (text) => convertDateTimeFormat(text)
+    },
+    {
+      title: 'Tổng tiền',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
+      render: (text) => <h3>{text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + "đ"}</h3>
+    },
+    {
+      title: 'Phương thức thanh toán',
+      dataIndex: 'paymentName',
+      key: 'paymentName'
+    },
+    {
+      title: 'Trạng thái',
+      key: 'status',
+      dataIndex: 'status',
+      render: (text) => <Tag color="red">{text.toUpperCase()}</Tag>,
+    }
+  ];
+
+  const fetchData = async () => {
+
+    setLoading(true);
+
+    axios.get(`http://localhost:8080/api/v1/orders/status/${userData.id}`, {
+      auth: {
+        username: userData.username,
+        password: userData.password,
+      },
+    })
+      .then((response) => {
+
+        console.log(response.data);
+
+        let dataForState = response.data.map((pd) => {
+          return {
+            group: {
+              img_url: pd.img_url,
+              subQuantity: pd.subQuantity,
+              productName: pd.productName
+            },
+            status: pd.oderStatus,
+            totalAmount: pd.totalAmount,
+            key: pd.idOrder,
+            orderDate: pd.orderDate,
+            paymentName: pd.paymentName
+          };
+        });
+
+        dataForState = dataForState.filter(pd => { return pd.status === "CANCELED" })
+
+        console.log(dataForState);
+
+        setOrdereds(dataForState);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
+
+  useEffect(() => {
+
+    fetchData();
+
+  }, [])
+
+
+  return (
+    <div className="CANCELED">
       <Table columns={columns} dataSource={ordereds} size="large" loading={loading} />
     </div>
   )

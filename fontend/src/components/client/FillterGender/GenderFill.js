@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import "./Sale.css"
+import "./male.css"
 import { useEffect, useState } from "react";
 import axios from 'axios';
 
@@ -145,8 +145,10 @@ function Sale() {
 
         axios.get(`http://localhost:8080/api/v1/products/filter?${dataFilterForColor}&${dataFilterForSize}&${dataFilterForType}`)
             .then(response => {
-                // console.log(response.data);
-                setProducts(response.data);
+                console.log(response.data);
+                const filteredData = response.data.filter(item => item.gender_for !== "FEMALE");
+                setProducts(filteredData);
+                
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -161,8 +163,10 @@ function Sale() {
 
         axios.get('http://localhost:8080/api/v1/products/full')
             .then(response => {
-                // console.log(response.data);
-                setProducts(response.data);
+                const filteredData = response.data.filter(item => item.gender_for !== 'FEMALE');
+                setProducts(filteredData);
+                console.log(response.data);
+               
             })
             .catch(error => {
                 console.error('Error fetching data:', error);

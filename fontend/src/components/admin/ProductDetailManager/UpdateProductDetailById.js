@@ -61,7 +61,7 @@ function UpdateProductDetail() {
 
     const handleUpdateProduct = async (data) => {
 
-        axios.put(`http://localhost:8080/api/v1/productDetails/${id}`, data, {
+        axios.put(`http://localhost:8080/api/v1/productDetails/update/${id}`, data, {
             auth: {
                 username: currentUser.username,
                 password: currentUser.password
@@ -151,7 +151,15 @@ function UpdateProductDetail() {
     }, [])
     const getProductByID = () => {
         setLoading(true);
-        axios.get(`http://localhost:8080/api/v1/productDetails/${id}`)
+        axios.get(`http://localhost:8080/api/v1/productDetails/${id}`,{
+            auth: {
+                username: currentUser.username,
+                password: currentUser.password
+            },
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
             .then(response => {
                 console.log(response.data);
                  setProductData(response.data);

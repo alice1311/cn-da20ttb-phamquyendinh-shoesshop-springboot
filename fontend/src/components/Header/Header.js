@@ -56,7 +56,7 @@ function Header() {
     useEffect(() => {
 
         setCurrentUser(JSON.parse(localStorage.getItem('user')));
-        console.log(JSON.parse(localStorage.getItem('user')));
+        // console.log(JSON.parse(localStorage.getItem('user')));
 
     }, [])
 
@@ -167,9 +167,9 @@ function Login(props) {
                     username,
                     
                 }
-                console.log(userData);
+                // console.log(userData);
                 localStorage.setItem('user', JSON.stringify(userData));
-                console.log(JSON.parse(localStorage.getItem('user')));
+                // console.log(JSON.parse(localStorage.getItem('user')));
                 console.log('Đăng nhập thành công');
                 success();
                 setIsLoginPopup(false);
@@ -259,7 +259,7 @@ function Register(props) {
     }
     
     const onFinish = async (values) => {
-        console.log(values);
+        // console.log(values);
         const newCustomer = {
             "username": values.username,
             "password": values.password,
@@ -268,9 +268,10 @@ function Register(props) {
             "address": values.address,
             "birthday": values.birthday.format('YYYY-MM-DD'),
             "email":values.email,
+            "phone":values.phone,
             "gender":values.gender
         }
-        console.log(newCustomer);
+        // console.log(newCustomer);
         axios.post('http://localhost:8080/api/v1/customers/register', newCustomer, {
         })
             .then(response => {
@@ -364,6 +365,17 @@ function Register(props) {
                         ]}
                     >
                         <Input  placeholder="Địa chỉ" size="large" />
+                    </Form.Item>
+                    <Form.Item
+                        name="phone"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập số điện thoại!',
+                            },
+                        ]}
+                    >
+                        <Input  placeholder="Số điện thoại" size="large" />
                     </Form.Item>
                     <Form.Item
                         name="birthday"

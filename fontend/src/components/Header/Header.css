@@ -251,7 +251,7 @@ body:has(.overplay){
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 650px;
+    height: 700px;
     width: 500px;
     background-color: white;
     border-radius: 10px;

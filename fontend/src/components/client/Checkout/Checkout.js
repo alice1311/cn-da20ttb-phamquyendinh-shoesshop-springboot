@@ -191,7 +191,7 @@ function Checkout() {
     console.log(newOrder);
 
     axios
-      .post("http://localhost:8080/api/v1/orders/createOrder", newOrder, {
+      .post("http://localhost:8080/api/v1/orders/create", newOrder, {
         auth: {
           username: currentUser.username,
           password: currentUser.password,
