@@ -1,15 +1,13 @@
 package com.vti.finalexam.controller;
 
-import com.vti.finalexam.DTO.CartDTO;
-import com.vti.finalexam.DTO.CustomerOrderDTO;
-import com.vti.finalexam.DTO.OrderDTO;
-import com.vti.finalexam.DTO.ProductDTO;
+import com.vti.finalexam.DTO.*;
 import com.vti.finalexam.entity.*;
 import com.vti.finalexam.form.OrderCustomerCreatForm;
 import com.vti.finalexam.form.OrderFormCreating;
 import com.vti.finalexam.form.OrderItemForm;
 import com.vti.finalexam.form.ProductFormCreating;
 import com.vti.finalexam.service.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,6 +60,26 @@ public class OrderController {
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getAll")
+    public ResponseEntity<?> getOrders(){
+           ArrayList<Order> orders = service.getAll();
+           ArrayList<OrderDTO> orderDTOS = new ArrayList<>();
+           for(Order order : orders){
+               if(order.getOderStatus() == Order.OderStatus.ADDED_TO_CARD){
+                  continue;
+               }else if(order.getOderStatus() == Order.OderStatus.TO_PAY){
+                   OrderDTO dto = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), (order.getCustomer().getFirstName()+order.getCustomer().getLastName()),order.getAddress(), order.getPhone(), order.getPayment_method().getDescription_payment());
+                   orderDTOS.add(dto);
+               }else{
+                   OrderDTO dto = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), (order.getCustomer().getFirstName()+order.getCustomer().getLastName()), (order.getEmployee().getFirstName()+order.getEmployee().getLastName()),order.getAddress(), order.getPhone(), order.getPayment_method().getDescription_payment());
+                   orderDTOS.add(dto);
+               }
+           }
+
+        return new ResponseEntity<>(orderDTOS, HttpStatus.OK);
+    }
+
+
     @PostMapping(value = "/create")
     public ResponseEntity<?> createOrder(@RequestBody OrderCustomerCreatForm orderCustomerCreatForm){
         service.customer_createOder(orderCustomerCreatForm);
@@ -84,12 +102,35 @@ public class OrderController {
         service.cancelOrder(id);
         return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
     }
+    @PutMapping(value = "/changeStatus/{id}")
+    public ResponseEntity<?> changeStatus(@PathVariable(name = "id") int id, @RequestBody changeStatusDTO changeStatusDTO){
+        service.changeStatus(id, changeStatusDTO);
+        return new ResponseEntity<String>("Update successfull!", HttpStatus.OK);
+    }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getOrderById(@PathVariable(name = "id") int id){
+    @GetMapping(value = "/getOrderbyID/{id}")
+    public ResponseEntity<?> getOrderbyID(@PathVariable(name = "id") int id){
         Order order = service.getOrderById(id);
-        OrderDTO orderDTO = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), order.getCustomer().getId(), order.getEmployee().getId(), order.getPayment_method().getId());
-        return new ResponseEntity<OrderDTO>(orderDTO, HttpStatus.OK);
+        List<OrderItem> orderItems= order.getOrderItems();
+        List<OderItemDTO> oderItemDTOS = new ArrayList<>();
+        for(OrderItem orderItem : orderItems){
+            OderItemDTO dto = new OderItemDTO(orderItem.getId(),orderItem.getSell_price(), orderItem.getSubtotal(), orderItem.getQuantity(),orderItem.getOrder().getId(), orderItem.getProduct_detail_order().getId(), orderItem.getProduct_detail_order().getProduct_detail().getName(), orderItem.getProduct_detail_order().getSize(), orderItem.getProduct_detail_order().getColor(), orderItem.getProduct_detail_order().getImg_url());
+            oderItemDTOS.add(dto);
+        }
+        return new ResponseEntity<>(oderItemDTOS, HttpStatus.OK);
+    }
+    @GetMapping(value = "/getByID/{id}")
+    public ResponseEntity<?> getByID(@PathVariable(name = "id") int id){
+        Order order = service.getOrderById(id);
+             if(order.getOderStatus() == Order.OderStatus.TO_PAY){
+                OrderDTO dto = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), (order.getCustomer().getFirstName()+order.getCustomer().getLastName()),order.getAddress(), order.getPhone(), order.getPayment_method().getDescription_payment());
+                 return new ResponseEntity<>(dto, HttpStatus.OK);
+            }else{
+                OrderDTO dto = new OrderDTO(order.getId(),order.getTotal_amount(), order.getOder_date(),order.getOderStatus(), (order.getCustomer().getFirstName()+order.getCustomer().getLastName()), (order.getEmployee().getFirstName()+order.getEmployee().getLastName()),order.getAddress(), order.getPhone(), order.getPayment_method().getDescription_payment());
+                 return new ResponseEntity<>(dto, HttpStatus.OK);
+            }
+
+
     }
     @GetMapping(value = "/getCartByCustomer/{id}")
     public ResponseEntity<?> getCartByCustomerId(@PathVariable(name = "id") int id){

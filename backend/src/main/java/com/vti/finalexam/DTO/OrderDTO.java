@@ -17,12 +17,83 @@ public class OrderDTO {
     private Order.OderStatus oderStatus;
 
     private int customer_id;
-
+    private String customer_name;
+    private String employee_name;
     private int employee_id;
     private String address;
     private String phone;
+    private String payment_method;
+    private int payment_method_id;
 
-    public OrderDTO(float total_amount, Date oder_date, Order.OderStatus oderStatus, int customer_id, String address, String phone, int payment_method_id) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCustomer_name() {
+        return customer_name;
+    }
+
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
+    }
+
+    public String getEmployee_name() {
+        return employee_name;
+    }
+
+    public void setEmployee_name(String employee_name) {
+        this.employee_name = employee_name;
+    }
+
+    public String getPayment_method() {
+        return payment_method;
+    }
+
+    public void setPayment_method(String payment_method) {
+        this.payment_method = payment_method;
+    }
+
+    public OrderDTO(int id, float total_amount, Date oder_date, Order.OderStatus oderStatus, int customer_id, int employee_id, String address, String phone, int payment_method_id) {
+        this.id = id;
+        this.total_amount = total_amount;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer_id = customer_id;
+        this.employee_id = employee_id;
+        this.address = address;
+        this.phone = phone;
+        this.payment_method_id = payment_method_id;
+    }
+
+    public OrderDTO(int id, float total_amount, Date oder_date, Order.OderStatus oderStatus, String customer_name, String address, String phone, String payment_method) {
+        this.id = id;
+        this.total_amount = total_amount;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer_name = customer_name;
+        this.address = address;
+        this.phone = phone;
+        this.payment_method = payment_method;
+    }
+
+    public OrderDTO(int id, float total_amount, Date oder_date, Order.OderStatus oderStatus, String customer_name, String employee_name, String address, String phone, String payment_method) {
+        this.id = id;
+        this.total_amount = total_amount;
+        this.oder_date = oder_date;
+        this.oderStatus = oderStatus;
+        this.customer_name = customer_name;
+        this.employee_name = employee_name;
+        this.address = address;
+        this.phone = phone;
+        this.payment_method = payment_method;
+    }
+
+    public OrderDTO(int id, float total_amount, Date oder_date, Order.OderStatus oderStatus, int customer_id, String address, String phone, int payment_method_id) {
+        this.id = id;
         this.total_amount = total_amount;
         this.oder_date = oder_date;
         this.oderStatus = oderStatus;
@@ -48,7 +119,7 @@ public class OrderDTO {
         this.phone = phone;
     }
 
-    private int payment_method_id;
+
 
     public float getTotal_amount() {
         return total_amount;

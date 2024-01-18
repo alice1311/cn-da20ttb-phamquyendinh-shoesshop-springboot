@@ -81,7 +81,7 @@ public class Order implements Serializable {
     }
 
     public enum OderStatus {
-        ADDED_TO_CARD, TO_PAY, TO_RECEIVE, COMPLETED, CANCELED;
+        ADDED_TO_CARD, TO_PAY, TO_RECEIVE, COMPLETED, CANCELED, FEEDBACK_COMPLETED;
     }
 
     public Order(float total_amount, Date oder_date, OderStatus oderStatus, Customer customer) {

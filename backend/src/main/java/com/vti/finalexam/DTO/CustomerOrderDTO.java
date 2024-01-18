@@ -7,6 +7,7 @@ import java.util.Date;
 public class CustomerOrderDTO {
     private int idOrder;
     private Order.OderStatus oderStatus;
+    private String checkFeedback;
     private Date orderDate;
     private String paymentName;
     private int totalQuantity;
@@ -18,6 +19,28 @@ public class CustomerOrderDTO {
 
     public int getIdOrder() {
         return idOrder;
+    }
+
+    public String getCheckFeedback() {
+        return checkFeedback;
+    }
+
+    public void setCheckFeedback(String checkFeedback) {
+        this.checkFeedback = checkFeedback;
+    }
+
+    public CustomerOrderDTO(int idOrder, Order.OderStatus oderStatus, String checkFeedback, Date orderDate, String paymentName, int totalQuantity, float totalAmount, String img_url, String color, int subQuantity, String productName) {
+        this.idOrder = idOrder;
+        this.oderStatus = oderStatus;
+        this.checkFeedback = checkFeedback;
+        this.orderDate = orderDate;
+        this.paymentName = paymentName;
+        this.totalQuantity = totalQuantity;
+        this.totalAmount = totalAmount;
+        this.img_url = img_url;
+        this.color = color;
+        this.subQuantity = subQuantity;
+        this.productName = productName;
     }
 
     public void setIdOrder(int idOrder) {

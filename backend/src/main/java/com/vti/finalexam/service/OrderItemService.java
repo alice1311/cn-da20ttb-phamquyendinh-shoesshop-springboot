@@ -58,16 +58,34 @@ public class OrderItemService implements IOrderItemService{
         ProductDetail productDetail = productDetailRepository.getDetailById(formCreating.getProduct_detail_id());
         Product product = productDetail.getProduct_detail();
         Order order = oderRepository.getOrderById(order_id);
-        float subtotal = formCreating.getQuantity() * product.getPrice();
-        order.setTotal_amount(order.getTotal_amount() + subtotal);
-        OrderItem orderItem = new OrderItem(
-                product.getPrice(),
-                subtotal,
-                formCreating.getQuantity(),
-                order,
-                productDetail
-        );
-        repository.save(orderItem);
+        List<OrderItem> orderItems = order.getOrderItems();
+        boolean check = false;
+        for(OrderItem orderItem : orderItems){
+            if(orderItem.getProduct_detail_order().getId() == formCreating.getProduct_detail_id()){
+                orderItem.setQuantity(orderItem.getQuantity() + formCreating.getQuantity());
+                float subtotal = formCreating.getQuantity() * product.getPrice();
+                orderItem.setSubtotal(subtotal +orderItem.getSubtotal());
+                repository.save(orderItem);
+                order.setTotal_amount(order.getTotal_amount() + subtotal);
+                check = true;
+                break;
+            }
+        }
+        if(!check){
+            float subtotal = formCreating.getQuantity() * product.getPrice();
+            OrderItem orderItem = new OrderItem(
+                    product.getPrice(),
+                    subtotal,
+                    formCreating.getQuantity(),
+                    order,
+                    productDetail
+            );
+            repository.save(orderItem);
+            order.setTotal_amount(order.getTotal_amount() + subtotal);
+        }
+
+
+
     }
 
     @Override

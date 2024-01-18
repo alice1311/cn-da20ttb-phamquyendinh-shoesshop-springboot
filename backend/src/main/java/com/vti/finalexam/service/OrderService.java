@@ -1,5 +1,6 @@
 package com.vti.finalexam.service;
 
+import com.vti.finalexam.DTO.changeStatusDTO;
 import com.vti.finalexam.entity.*;
 import com.vti.finalexam.form.OrderCustomerCreatForm;
 import com.vti.finalexam.form.OrderFormCreating;
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -120,9 +122,34 @@ public class OrderService implements IOrderService{
     }
 
     @Override
+    public ArrayList<Order> getAll() {
+        return repository.findAll();
+    }
+
+    @Override
     public void cancelOrder(int id) {
         Order order = repository.getOrderById(id);
+        List<OrderItem> orderItems = order.getOrderItems();
+        for(OrderItem orderItem : orderItems) {
+            ProductDetail productDetail = productDetailRepository.getDetailById(orderItem.getProduct_detail_order().getId());
+            productDetail.setQuantity(productDetail.getQuantity() + orderItem.getQuantity());
+            productDetailRepository.save(productDetail);
+        }
         order.setOderStatus(Order.OderStatus.CANCELED);
+        repository.save(order);
+    }
+
+    @Override
+    public void changeStatus(int id, changeStatusDTO changeStatusDTO) {
+        Employee employee = employeeRepository.getEmployeeById(changeStatusDTO.getCustomer_id());
+        Order order = repository.getOrderById(id);
+        try {
+
+            order.setOderStatus(changeStatusDTO.getOderStatus());
+            order.setEmployee(employee);
+        }catch (IllegalArgumentException e) {
+
+        }
         repository.save(order);
     }
 

@@ -25,5 +25,6 @@ public interface IOderRepository extends JpaRepository<Order, Integer> {
 
     <T> Page<Order> findAll(Specification<T> where, Pageable pageable);
     ArrayList<Order> findByCustomer(Customer customer);
+    ArrayList<Order> findAll();
 
 }
