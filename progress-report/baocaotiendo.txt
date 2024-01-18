@@ -1,0 +1,13 @@
+Kế hoạch thực hiện: 
+
+Từ ngày 13/11/2023 đến ngày 19/11/2023: thực hiện đề cương chi tiết + thiết kế database
+
+Từ ngày 27/11/2023 đến 03/12/2023: thiết kế database + thiết kế api
+
+Từ ngày 11/12/2024 đến 17/12/2023: code api, xử lí api
+
+Từ ngày 25/12/2024 đến 31/12/2023: code giao diện 
+
+Từ ngày 02/01/2024 đến 07/01/2024:gọi api xử lý tính năng trang web + viết báo cáo.
+
+
